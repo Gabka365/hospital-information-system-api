@@ -1,0 +1,161 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.api\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|solutionrelative:his.api\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.api\\apiendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|solutionrelative:his.api\\apiendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.application\\repositories\\idoctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|solutionrelative:his.application\\repositories\\idoctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.application\\repositories\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|solutionrelative:his.application\\repositories\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|solutionrelative:his.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IDoctorRepository.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "RelativeDocumentMoniker": "HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "RelativeToolTip": "HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAAwA8AAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T12:25:40.361Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DoctorRepository.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\DoctorRepository.cs",
+              "RelativeDocumentMoniker": "HIS.Application\\Repositories\\DoctorRepository.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\DoctorRepository.cs",
+              "RelativeToolTip": "HIS.Application\\Repositories\\DoctorRepository.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAuwBwAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T20:33:29.389Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DoctorController.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Controllers\\DoctorController.cs",
+              "RelativeDocumentMoniker": "HIS.Api\\Controllers\\DoctorController.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Controllers\\DoctorController.cs",
+              "RelativeToolTip": "HIS.Api\\Controllers\\DoctorController.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAqwA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T15:13:21.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApiEndpoints.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\ApiEndpoints.cs",
+              "RelativeDocumentMoniker": "HIS.Api\\ApiEndpoints.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\ApiEndpoints.cs",
+              "RelativeToolTip": "HIS.Api\\ApiEndpoints.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T13:31:15.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Program.cs",
+              "RelativeDocumentMoniker": "HIS.Api\\Program.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Program.cs",
+              "RelativeToolTip": "HIS.Api\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T15:57:03.08Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 70,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 70,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
