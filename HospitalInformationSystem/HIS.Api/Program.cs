@@ -1,8 +1,11 @@
 using HIS.Application;
+using HIS.Application.Database;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" });
+var conf = builder.Configuration;
+builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" }!);
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(opts =>
@@ -13,6 +16,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
+builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 
 var app = builder.Build();
 
@@ -25,4 +29,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
+await dbInitializer.InitializeAsync();
+
 app.Run();
