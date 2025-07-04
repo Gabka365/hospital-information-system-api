@@ -105,7 +105,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Contracts\\HIS.Contracts.csproj": {
+                "projectPath": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Contracts\\HIS.Contracts.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -122,6 +126,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

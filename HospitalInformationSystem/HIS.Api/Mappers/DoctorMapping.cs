@@ -1,0 +1,53 @@
+﻿using HIS.Application.Models;
+using HIS.Contracts.Requests;
+using HIS.Contracts.Responses;
+using System.Runtime.CompilerServices;
+
+namespace HIS.Api.Mappers
+{
+    public static class DoctorMapping
+    {
+        public static Doctor MapToDoctor(this CreateDoctorRequest request)
+        {
+            return new Doctor
+            {
+                Id = Guid.NewGuid(),
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Surname = request.Surname,
+                Specialties = request.Specialties,
+                Category = request.Category,
+                Experience = request.Experience
+            }; 
+        }
+
+        public static Doctor MapToDoctor(this UpdateDoctorRequest request, Guid id)
+        {
+            return new Doctor
+            {
+                Id = id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Surname = request.Surname,
+                Specialties = request.Specialties,
+                Category = request.Category,
+                Experience = request.Experience
+            };
+        }
+
+
+        public static DoctorResponse MapToResponse(this Doctor doctor)
+        {
+            return new DoctorResponse
+            {
+                Id = doctor.Id,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                Surname= doctor.Surname,    
+                Specialties= doctor.Specialties,
+                Category = doctor.Category,
+                Experience = doctor.Experience
+            };
+        }
+    }
+}

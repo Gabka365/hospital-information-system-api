@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.api\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|solutionrelative:his.api\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.api\\apiendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|solutionrelative:his.api\\apiendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.application\\repositories\\idoctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|solutionrelative:his.application\\repositories\\idoctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.application\\repositories\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43C27A21-F80A-498F-9999-EEFFDA14BB70}|HIS.Application\\HIS.Application.csproj|solutionrelative:his.application\\repositories\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|c:\\csharp\\hospital-information-system-api\\hospitalinformationsystem\\his.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67348BA7-7382-4076-8501-6BA3102263E4}|HIS.Api\\HIS.Api.csproj|solutionrelative:his.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -14,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,16 +62,64 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IDoctorRepository.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "RelativeDocumentMoniker": "HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "RelativeToolTip": "HIS.Application\\Repositories\\IDoctorRepository.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAAwA8AAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T12:25:40.361Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DoctorRepository.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\DoctorRepository.cs",
+              "RelativeDocumentMoniker": "HIS.Application\\Repositories\\DoctorRepository.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Application\\Repositories\\DoctorRepository.cs",
+              "RelativeToolTip": "HIS.Application\\Repositories\\DoctorRepository.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAuwBwAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T20:33:29.389Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DoctorController.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Controllers\\DoctorController.cs",
+              "RelativeDocumentMoniker": "HIS.Api\\Controllers\\DoctorController.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Controllers\\DoctorController.cs",
+              "RelativeToolTip": "HIS.Api\\Controllers\\DoctorController.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAqwA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T15:13:21.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApiEndpoints.cs",
+              "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\ApiEndpoints.cs",
+              "RelativeDocumentMoniker": "HIS.Api\\ApiEndpoints.cs",
+              "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\ApiEndpoints.cs",
+              "RelativeToolTip": "HIS.Api\\ApiEndpoints.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T13:31:15.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Program.cs",
               "RelativeDocumentMoniker": "HIS.Api\\Program.cs",
               "ToolTip": "C:\\CSharp\\hospital-information-system-api\\HospitalInformationSystem\\HIS.Api\\Program.cs",
               "RelativeToolTip": "HIS.Api\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAnAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T09:46:42.718Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T15:57:03.08Z"
             }
           ]
         },

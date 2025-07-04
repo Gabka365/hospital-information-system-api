@@ -1,15 +1,21 @@
+using HIS.Application;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" });
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers()
+    .AddJsonOptions(opts =>
+    {
+        var enumConverter = new JsonStringEnumConverter();
+        opts.JsonSerializerOptions.Converters.Add(enumConverter);
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +23,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

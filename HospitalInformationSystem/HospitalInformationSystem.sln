@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIS.Api", "HIS.Api\HIS.Api.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIS.Application", "HIS.Application\HIS.Application.csproj", "{43C27A21-F80A-498F-9999-EEFFDA14BB70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIS.Contracts", "HIS.Contracts\HIS.Contracts.csproj", "{AB93BD1B-54E3-49E8-BA3E-BF342532C75C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIS.Contracts", "HIS.Contracts\HIS.Contracts.csproj", "{AB93BD1B-54E3-49E8-BA3E-BF342532C75C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
