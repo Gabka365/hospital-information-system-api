@@ -1,5 +1,6 @@
 ﻿using HIS.Api.Mappers;
 using HIS.Application.Repositories;
+using HIS.Application.Services;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Responses;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,24 +13,30 @@ namespace HIS.Api.Controllers
     [ApiController]
     public class DoctorController : ControllerBase
     {
-        private IDoctorRepository _doctorRepository;
+        private IDoctorService _doctorService;
 
-        public DoctorController(IDoctorRepository doctorRepository)
+        public DoctorController(IDoctorService doctorService)
         {
-            _doctorRepository = doctorRepository;
+            _doctorService = doctorService;
         }
 
         [HttpGet(ApiEndpoints.Doctors.Get)]
         public async Task<IActionResult> GetDoctor([FromRoute] Guid id)
         {
-            var doctor = await _doctorRepository.GetDoctorByIdAsync(id);
-            return doctor != null ? Ok(doctor.MapToResponse()) : BadRequest("Does not exist.");
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+
+            if (doctor is null)
+            {
+                return NotFound();
+            }
+            return Ok(doctor.MapToResponse());
         }
 
         [HttpGet(ApiEndpoints.Doctors.GetAll)]
         public async Task<IActionResult> GetAllDoctors()
         {
-            var doctors = await _doctorRepository.GetAllDoctorsAsync();
+            var doctors = await _doctorService.GetAllDoctorsAsync();
+
             return Ok(doctors);
         }
 
@@ -37,8 +44,12 @@ namespace HIS.Api.Controllers
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request)
         {
             var doctor = request.MapToDoctor();
-            var created = await _doctorRepository.CreateDoctorAsync(doctor);
-            var response = created.MapToResponse();
+            var isCreated = await _doctorService.CreateDoctorAsync(doctor);
+            
+            if (!isCreated)
+                return BadRequest();
+            
+            var response = doctor.MapToResponse();
             return Created($"/api/doctors/{response.Id}", response);
         }
 
@@ -46,7 +57,7 @@ namespace HIS.Api.Controllers
         public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request)
         {
             var doctor = request.MapToDoctor(id);
-            var isUpdated = await _doctorRepository.UpdateDoctorAsync(doctor);
+            var isUpdated = await _doctorService.UpdateDoctorAsync(doctor);
 
             if (!isUpdated)
             {
@@ -58,7 +69,7 @@ namespace HIS.Api.Controllers
         [HttpDelete(ApiEndpoints.Doctors.Delete)]
         public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id)
         {
-            var isDeleted = await _doctorRepository.DeleteDoctorAsync(id);
+            var isDeleted = await _doctorService.DeleteDoctorAsync(id);
 
             if (!isDeleted)
             {

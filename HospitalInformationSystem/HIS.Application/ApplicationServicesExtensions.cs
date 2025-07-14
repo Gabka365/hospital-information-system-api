@@ -1,5 +1,6 @@
 ﻿using HIS.Application.Database;
 using HIS.Application.Repositories;
+using HIS.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HIS.Application
@@ -9,6 +10,7 @@ namespace HIS.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddSingleton<IDoctorRepository, DoctorRepository>();
+            services.AddSingleton<IDoctorService, DoctorService>();
 
             return services;
         }

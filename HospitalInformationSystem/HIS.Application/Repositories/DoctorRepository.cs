@@ -1,4 +1,8 @@
-﻿using HIS.Application.Models;
+﻿using Dapper;
+using HIS.Application.Database;
+using HIS.Application.DTOs;
+using HIS.Application.Mappers;
+using HIS.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,45 +14,77 @@ namespace HIS.Application.Repositories
 {
     public class DoctorRepository : IDoctorRepository
     {
-        private List<Doctor> _doctors { get; set; } = new List<Doctor>();
+        private List<Doctor> _doctors = new List<Doctor>();
 
-        public Task<Doctor> CreateDoctorAsync(Doctor doctor)
-        {
-            _doctors.Add(doctor);
+        private MySqlConnectionFactory _mySqlConnectionFactory;
 
-            return Task.FromResult(doctor);
+        public DoctorRepository(MySqlConnectionFactory mySqlConnectionFactory) 
+        { 
+            _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public Task<bool> DeleteDoctorAsync(Guid id)
+        public async Task<bool> CreateDoctorAsync(DoctorDto doctorDto)
         {
-            var removed = _doctors.RemoveAll(x => x?.Id == id);
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync();
+            
+            var count = await connection.ExecuteAsync(new CommandDefinition(
+                """
+                insert into `HospitalInformationSystemDB`.`doctors` 
+                (id, FirstName, LastName, Surname, Category, Specialties, Experience) values (@id, 
+                @FirstName, @LastName, @Surname, @Category, @Specialties, @Experience)
+                """, doctorDto));
 
-            return removed != null ? Task.FromResult(true) : Task.FromResult(false);
+            return count > 0;
         }
 
-        public Task<List<Doctor>> GetAllDoctorsAsync()
+        public async Task<bool> DeleteDoctorAsync(Guid id)
         {
-            return Task.FromResult(_doctors);
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync();
+
+            var count = await connection.ExecuteAsync(new CommandDefinition(
+                """
+                delete from `HospitalInformationSystemDB`.`doctors` where id=@id
+                """, new { id }));
+
+            return count == 1;
         }
 
-        public Task<Doctor?> GetDoctorByIdAsync(Guid id)
+        public async Task<List<DoctorDto>> GetAllDoctorsAsync()
         {
-            var doctor = _doctors.FirstOrDefault(x => x.Id == id);
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync();
 
-            return Task.FromResult(doctor);
+            var doctorDtos = await connection.QueryAsync<DoctorDto>(
+                """
+                select * from `HospitalInformationSystemDB`.`doctors`
+                """);
+
+            return doctorDtos.ToList();
         }
 
-        public Task<bool> UpdateDoctorAsync(Doctor doctor)
+        public async Task<DoctorDto?> GetDoctorByIdAsync(Guid id)
         {
-            var updatedIndex = _doctors.FindIndex(x => x.Id == doctor.Id);
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync();
 
-            if (updatedIndex == -1)
-            {
-                return Task.FromResult(false);
-            }
+            var doctorDto = await connection.QueryAsync<DoctorDto>(
+                """
+                select * from `HospitalInformationSystemDB`.`doctors` where id=@id
+                """, new { id });
 
-            _doctors[updatedIndex] = doctor;
-            return Task.FromResult(true);
+            return doctorDto.SingleOrDefault();  
+        }
+
+        public async Task<bool> UpdateDoctorAsync(DoctorDto doctorDto)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync();
+
+            var count = await connection.ExecuteAsync(
+                """
+                update `HospitalInformationSystemDB`.`doctors`
+                set FirstName=@FirstName, LastName=@LastName, Surname=@Surname, Category=@Category, Specialties=@Specialties, Experience=@Experience 
+                where Id = @Id
+                """, doctorDto);
+
+            return count == 1;
         }
     }
 }
