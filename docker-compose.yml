@@ -1,0 +1,18 @@
+volumes:
+    datafiles:
+
+services:
+    mysqlDb:
+        image: mysql:latest
+        container_name: mysqlDb
+        ports:
+            - 3360:3306
+        volumes:
+            - datafiles:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        restart: always
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 5s
+            retries: 3

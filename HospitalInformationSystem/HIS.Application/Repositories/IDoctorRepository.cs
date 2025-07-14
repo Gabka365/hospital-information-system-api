@@ -1,4 +1,5 @@
-﻿using HIS.Application.Models;
+﻿using HIS.Application.DTOs;
+using HIS.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace HIS.Application.Repositories
 {
     public interface IDoctorRepository
     {
-        Task<Doctor?> GetDoctorByIdAsync(Guid id);
+        Task<DoctorDto?> GetDoctorByIdAsync(Guid id);
         Task<bool> DeleteDoctorAsync(Guid id);
-        Task<Doctor> CreateDoctorAsync(Doctor doctor);
-        Task<bool> UpdateDoctorAsync(Doctor doctor);
-        Task<List<Doctor>> GetAllDoctorsAsync();
+        Task<bool> CreateDoctorAsync(DoctorDto doctorDto);
+        Task<bool> UpdateDoctorAsync(DoctorDto doctor);
+        Task<List<DoctorDto>> GetAllDoctorsAsync();
     }
 }
