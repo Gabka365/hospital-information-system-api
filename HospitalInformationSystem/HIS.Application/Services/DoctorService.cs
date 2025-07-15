@@ -18,34 +18,34 @@ namespace HIS.Application.Services
             _doctorRepository = doctorRepository;
         }
 
-        public async Task<bool> CreateDoctorAsync(Doctor doctor)
+        public async Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token)
         {
             var doctorDto = doctor.MapToDoctorDto();
 
-            var isCreated = await _doctorRepository.CreateDoctorAsync(doctorDto); 
+            var isCreated = await _doctorRepository.CreateDoctorAsync(doctorDto, token); 
         
             return isCreated;
         }
 
-        public async Task<bool> DeleteDoctorAsync(Guid id)
+        public async Task<bool> DeleteDoctorAsync(Guid id, CancellationToken token)
         {
-            var isDeleted = await _doctorRepository.DeleteDoctorAsync(id);
+            var isDeleted = await _doctorRepository.DeleteDoctorAsync(id, token);
 
             return isDeleted;   
         }
 
-        public async Task<List<Doctor>> GetAllDoctorsAsync()
+        public async Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token)
         {
-            var doctorDtos = await _doctorRepository.GetAllDoctorsAsync();
+            var doctorDtos = await _doctorRepository.GetAllDoctorsAsync(token);
 
             var doctors = doctorDtos.Select(x => x.MapToDoctor());
 
             return doctors.ToList();
         }
 
-        public async Task<Doctor?> GetDoctorByIdAsync(Guid id)
+        public async Task<Doctor?> GetDoctorByIdAsync(Guid id, CancellationToken token)
         {
-            var doctorDto = await _doctorRepository.GetDoctorByIdAsync(id);
+            var doctorDto = await _doctorRepository.GetDoctorByIdAsync(id, token);
 
             if (doctorDto == null)
             {
@@ -57,11 +57,11 @@ namespace HIS.Application.Services
             return doctor;
         }
 
-        public async Task<bool> UpdateDoctorAsync(Doctor doctor)
+        public async Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token)
         {
             var doctorDto = doctor.MapToDoctorDto();
 
-            var isUpdated = await _doctorRepository.UpdateDoctorAsync(doctorDto);
+            var isUpdated = await _doctorRepository.UpdateDoctorAsync(doctorDto, token);
 
             return isUpdated;
         }

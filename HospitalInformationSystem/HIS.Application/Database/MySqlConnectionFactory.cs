@@ -17,10 +17,10 @@ namespace HIS.Application.Database
             _connectionString = connectionString;
         }
 
-        public async Task<MySqlConnection> CreateConnectionAsync()
+        public async Task<MySqlConnection> CreateConnectionAsync(CancellationToken token)
         {
             var connection = new MySqlConnection(_connectionString);
-            await connection.OpenAsync();
+            await connection.OpenAsync(token);
             return connection;
         }
     }

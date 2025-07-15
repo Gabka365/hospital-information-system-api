@@ -9,10 +9,10 @@ namespace HIS.Application.Services
 {
     public interface IDoctorService
     {
-        Task<Doctor?> GetDoctorByIdAsync(Guid id);
-        Task<bool> DeleteDoctorAsync(Guid id);
-        Task<bool> CreateDoctorAsync(Doctor doctor);
-        Task<bool> UpdateDoctorAsync(Doctor doctor);
-        Task<List<Doctor>> GetAllDoctorsAsync();
+        Task<Doctor?> GetDoctorByIdAsync(Guid id, CancellationToken token);
+        Task<bool> DeleteDoctorAsync(Guid id, CancellationToken token);
+        Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token);
+        Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token);
+        Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token);
     }
 }
