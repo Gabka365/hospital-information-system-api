@@ -21,9 +21,9 @@ namespace HIS.Api.Controllers
         }
 
         [HttpGet(ApiEndpoints.Doctors.Get)]
-        public async Task<IActionResult> GetDoctor([FromRoute] Guid id)
+        public async Task<IActionResult> GetDoctor([FromRoute] Guid id, CancellationToken token)
         {
-            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            var doctor = await _doctorService.GetDoctorByIdAsync(id, token);
 
             if (doctor is null)
             {
@@ -33,18 +33,18 @@ namespace HIS.Api.Controllers
         }
 
         [HttpGet(ApiEndpoints.Doctors.GetAll)]
-        public async Task<IActionResult> GetAllDoctors()
+        public async Task<IActionResult> GetAllDoctors(CancellationToken token)
         {
-            var doctors = await _doctorService.GetAllDoctorsAsync();
+            var doctors = await _doctorService.GetAllDoctorsAsync(token);
 
             return Ok(doctors);
         }
 
         [HttpPost(ApiEndpoints.Doctors.Create)]
-        public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request)
+        public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request, CancellationToken token)
         {
             var doctor = request.MapToDoctor();
-            var isCreated = await _doctorService.CreateDoctorAsync(doctor);
+            var isCreated = await _doctorService.CreateDoctorAsync(doctor, token);
             
             if (!isCreated)
                 return BadRequest();
@@ -54,10 +54,10 @@ namespace HIS.Api.Controllers
         }
 
         [HttpPut(ApiEndpoints.Doctors.Update)]
-        public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request)
+        public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request, CancellationToken token)
         {
             var doctor = request.MapToDoctor(id);
-            var isUpdated = await _doctorService.UpdateDoctorAsync(doctor);
+            var isUpdated = await _doctorService.UpdateDoctorAsync(doctor, token);
 
             if (!isUpdated)
             {
@@ -67,9 +67,9 @@ namespace HIS.Api.Controllers
         }
 
         [HttpDelete(ApiEndpoints.Doctors.Delete)]
-        public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id, CancellationToken token)
         {
-            var isDeleted = await _doctorService.DeleteDoctorAsync(id);
+            var isDeleted = await _doctorService.DeleteDoctorAsync(id, token);
 
             if (!isDeleted)
             {

@@ -10,10 +10,10 @@ namespace HIS.Application.Repositories
 {
     public interface IDoctorRepository
     {
-        Task<DoctorDto?> GetDoctorByIdAsync(Guid id);
-        Task<bool> DeleteDoctorAsync(Guid id);
-        Task<bool> CreateDoctorAsync(DoctorDto doctorDto);
-        Task<bool> UpdateDoctorAsync(DoctorDto doctor);
-        Task<List<DoctorDto>> GetAllDoctorsAsync();
+        Task<DoctorDto?> GetDoctorByIdAsync(Guid id, CancellationToken token);
+        Task<bool> DeleteDoctorAsync(Guid id, CancellationToken token);
+        Task<bool> CreateDoctorAsync(DoctorDto doctorDto, CancellationToken token);
+        Task<bool> UpdateDoctorAsync(DoctorDto doctor, CancellationToken token);
+        Task<List<DoctorDto>> GetAllDoctorsAsync(CancellationToken token);
     }
 }

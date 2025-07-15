@@ -16,9 +16,9 @@ namespace HIS.Application.Database
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(CancellationToken token = default)
         {
-            var connection = await _mySqlConnectionFactory.CreateConnectionAsync();
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             await connection.ExecuteAsync("""
                 create database if not exists `HospitalInformationSystemDB`
