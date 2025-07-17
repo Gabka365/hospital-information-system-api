@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIS.Contracts.Enums
+namespace HIS.Application
 {
-    public enum Category
+    internal interface IApplicationMarker
     {
-        None,
-        First,
-        Second,
-        Highest
     }
 }

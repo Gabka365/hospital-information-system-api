@@ -1,6 +1,8 @@
-﻿using HIS.Application.Database;
+﻿using FluentValidation;
+using HIS.Application.Database;
 using HIS.Application.Repositories;
 using HIS.Application.Services;
+using HIS.Application.Validators;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HIS.Application
@@ -11,6 +13,7 @@ namespace HIS.Application
         {
             services.AddSingleton<IDoctorRepository, DoctorRepository>();
             services.AddSingleton<IDoctorService, DoctorService>();
+            services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Transient);
 
             return services;
         }
