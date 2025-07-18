@@ -65,7 +65,7 @@ namespace HIS.Application.Services
 
         public async Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token)
         {
-            _doctorValidator.Validate(doctor);
+            _doctorValidator.ValidateAndThrow(doctor);
 
             var doctorDto = doctor.MapToDoctorDto();
 

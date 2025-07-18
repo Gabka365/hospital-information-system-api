@@ -1,3 +1,4 @@
+using HIS.Api.Mappers;
 using HIS.Application;
 using HIS.Application.Database;
 using System.Text.Json.Serialization;
@@ -5,7 +6,6 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var conf = builder.Configuration;
 builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" }!);
-
 
 builder.Services.AddControllers()
     .AddJsonOptions(opts =>
@@ -29,6 +29,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseMiddleware<ValidationErrorMappingMiddleware>();
 
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
 await dbInitializer.InitializeAsync();
