@@ -1,6 +1,8 @@
-﻿using HIS.Application.Mappers;
+﻿using FluentValidation;
+using HIS.Application.Mappers;
 using HIS.Application.Models;
 using HIS.Application.Repositories;
+using HIS.Application.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +13,19 @@ namespace HIS.Application.Services
 {
     public class DoctorService : IDoctorService
     {
-        private IDoctorRepository _doctorRepository;
+        private readonly IDoctorRepository _doctorRepository;
+        private readonly IValidator<Doctor> _doctorValidator;  
 
-        public DoctorService(IDoctorRepository doctorRepository) 
+        public DoctorService(IDoctorRepository doctorRepository, IValidator<Doctor> doctorValidator) 
         {
             _doctorRepository = doctorRepository;
+            _doctorValidator = doctorValidator;
         }
 
         public async Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token)
         {
+            _doctorValidator.ValidateAndThrow(doctor);
+
             var doctorDto = doctor.MapToDoctorDto();
 
             var isCreated = await _doctorRepository.CreateDoctorAsync(doctorDto, token); 
@@ -59,6 +65,8 @@ namespace HIS.Application.Services
 
         public async Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token)
         {
+            _doctorValidator.ValidateAndThrow(doctor);
+
             var doctorDto = doctor.MapToDoctorDto();
 
             var isUpdated = await _doctorRepository.UpdateDoctorAsync(doctorDto, token);
