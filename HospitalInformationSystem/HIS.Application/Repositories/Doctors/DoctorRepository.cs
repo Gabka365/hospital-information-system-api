@@ -10,21 +10,21 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIS.Application.Repositories
+namespace HIS.Application.Repositories.Doctors
 {
     public class DoctorRepository : IDoctorRepository
     {
         private MySqlConnectionFactory _mySqlConnectionFactory;
 
-        public DoctorRepository(MySqlConnectionFactory mySqlConnectionFactory) 
-        { 
+        public DoctorRepository(MySqlConnectionFactory mySqlConnectionFactory)
+        {
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
         public async Task<bool> CreateDoctorAsync(DoctorDto doctorDto, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
-            
+
             var count = await connection.ExecuteAsync(new CommandDefinition(
                 """
                 insert into `HospitalInformationSystemDB`.`doctors` 
@@ -68,7 +68,7 @@ namespace HIS.Application.Repositories
                 select * from `HospitalInformationSystemDB`.`doctors` where id=@id
                 """, new { id }, cancellationToken: token));
 
-            return doctorDto.SingleOrDefault();  
+            return doctorDto.SingleOrDefault();
         }
 
         public async Task<bool> UpdateDoctorAsync(DoctorDto doctorDto, CancellationToken token)

@@ -9,14 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIS.Application.Services
+namespace HIS.Application.Services.Doctors
 {
     public class DoctorService : IDoctorService
     {
         private readonly IDoctorRepository _doctorRepository;
-        private readonly IValidator<Doctor> _doctorValidator;  
+        private readonly IValidator<Doctor> _doctorValidator;
 
-        public DoctorService(IDoctorRepository doctorRepository, IValidator<Doctor> doctorValidator) 
+        public DoctorService(IDoctorRepository doctorRepository, IValidator<Doctor> doctorValidator)
         {
             _doctorRepository = doctorRepository;
             _doctorValidator = doctorValidator;
@@ -28,8 +28,8 @@ namespace HIS.Application.Services
 
             var doctorDto = doctor.MapToDoctorDto();
 
-            var isCreated = await _doctorRepository.CreateDoctorAsync(doctorDto, token); 
-        
+            var isCreated = await _doctorRepository.CreateDoctorAsync(doctorDto, token);
+
             return isCreated;
         }
 
@@ -37,7 +37,7 @@ namespace HIS.Application.Services
         {
             var isDeleted = await _doctorRepository.DeleteDoctorAsync(id, token);
 
-            return isDeleted;   
+            return isDeleted;
         }
 
         public async Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token)
@@ -58,7 +58,7 @@ namespace HIS.Application.Services
                 return null;
             }
 
-            var doctor = doctorDto.MapToDoctor(); 
+            var doctor = doctorDto.MapToDoctor();
 
             return doctor;
         }

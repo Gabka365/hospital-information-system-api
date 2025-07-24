@@ -1,7 +1,8 @@
 ﻿using HIS.Api.Mappers;
 using HIS.Application.Repositories;
-using HIS.Application.Services;
+using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
+using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
