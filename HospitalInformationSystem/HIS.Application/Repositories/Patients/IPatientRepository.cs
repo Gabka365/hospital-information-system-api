@@ -1,4 +1,5 @@
 ﻿using HIS.Application.Models;
+using HIS.Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace HIS.Application.Repositories.Patients
 {
     public interface IPatientRepository
     {
-        Task<Patient> GetPatientAsync(Guid id, CancellationToken token);
-        Task<List<Patient>> GetAllPatientsAsync(CancellationToken token);
-        Task<Patient> CreatePatientAsync(Patient patient, CancellationToken token);
-        Task<Patient> UpdatePatientAsync(Patient patient, CancellationToken token);
+        Task<PatientDTO> GetPatientAsync(Guid id, CancellationToken token);
+        Task<List<PatientDTO>?> GetAllPatientsAsync(CancellationToken token);
+        Task<PatientDTO> CreatePatientAsync(PatientDTO patientDto, CancellationToken token);
+        Task<PatientDTO> UpdatePatientAsync(PatientDTO patientDto, CancellationToken token);
         Task<bool> DeletePatientAsync(Guid id, CancellationToken token);
     }
 }

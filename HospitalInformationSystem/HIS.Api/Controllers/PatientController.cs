@@ -2,6 +2,7 @@
 using HIS.Contracts.Requests.Patients;
 using Microsoft.AspNetCore.Mvc;
 using HIS.Application.Services.Patients;
+using HIS.Application.DTOs;
 
 namespace HIS.Api.Controllers
 {
@@ -20,7 +21,9 @@ namespace HIS.Api.Controllers
         {
             var patient = await _patientService.GetPatientAsync(id, token);
 
-            return Ok();
+            var response = patient.MapToResponse();
+
+            return Ok(response);
         }
 
         [HttpGet(ApiEndpoints.Patients.GetAll)]
@@ -28,34 +31,32 @@ namespace HIS.Api.Controllers
         {
             var patients = await _patientService.GetAllPatientsAsync(token);
 
-            var response = patients.MapToPatients();
-
             return Ok(patients);
         }
 
-        [HttpGet(ApiEndpoints.Patients.Create)]
+        [HttpPost(ApiEndpoints.Patients.Create)]
         public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequest request, CancellationToken token)
         {
             var patient = request.MapToPatient();
         
             var result = await _patientService.CreatePatientAsync(patient, token);
 
-            var response = patient.MapToResponse();
+            var response = result.MapToResponse();
             
             return Ok(response);
         }
 
-        [HttpGet(ApiEndpoints.Patients.Update)]
+        [HttpPut(ApiEndpoints.Patients.Update)]
         public async Task<IActionResult> UpdatePatient([FromRoute] Guid id, [FromBody] UpdatePatientRequest request, CancellationToken token)
         {
             var patient = request.MapToPatient(id);
-
-            var result = _patientService.UpdatePatientAsync(patient, token);
+            
+            var result = await _patientService.UpdatePatientAsync(patient, token);
 
             return Ok(result);
         }
 
-        [HttpGet(ApiEndpoints.Patients.Delete)]
+        [HttpDelete(ApiEndpoints.Patients.Delete)]
         public async Task<IActionResult> DeletePatient([FromRoute] Guid id, CancellationToken token)
         {
             var isDeleted = await _patientService.DeletePatientAsync(id, token);    

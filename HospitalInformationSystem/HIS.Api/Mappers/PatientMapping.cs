@@ -1,4 +1,5 @@
 ﻿using HIS.Application.Models;
+using HIS.Contracts.Enums;
 using HIS.Contracts.Requests.Patients;
 using HIS.Contracts.Responses.Patients;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,16 @@ namespace HIS.Api.Mappers
         {
             return new Patient
             {
-                Id = request.Id,
+                Id = Guid.NewGuid(),
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Surname = request.Surname,
                 Age = request.Age,
+                DiseaseList = request.DiseaseList
+                .Split(',')
+                .Select(x =>
+                (DiseaseList)Enum.Parse(typeof(DiseaseList), x))
+                .ToList()
             };
         }
 
@@ -29,6 +35,11 @@ namespace HIS.Api.Mappers
                 LastName = request.LastName,
                 Surname = request.Surname,
                 Age = request.Age,
+                DiseaseList = request.DiseaseList
+                .Split(',')
+                .Select(x =>
+                (DiseaseList)Enum.Parse(typeof(DiseaseList), x))
+                .ToList()
             };
         }
 
@@ -42,6 +53,15 @@ namespace HIS.Api.Mappers
                 Surname = patient.Surname,
                 Age = patient.Age,
                 DiseaseList = patient.DiseaseList
+            };
+        }
+
+
+        public static PatientsResponse MapToResponses(this List<Patient> patients)
+        {
+            return new PatientsResponse
+            {
+               patientsResponse = patients.Select(x => x.MapToResponse()).ToList()
             };
         }
 

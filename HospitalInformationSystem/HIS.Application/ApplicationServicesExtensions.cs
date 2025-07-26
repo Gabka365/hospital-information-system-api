@@ -2,6 +2,7 @@
 using HIS.Application.Database;
 using HIS.Application.Repositories;
 using HIS.Application.Repositories.Doctors;
+using HIS.Application.Repositories.Patients;
 using HIS.Application.Services.Doctors;
 using HIS.Application.Services.Patients;
 using HIS.Application.Validators;
@@ -15,7 +16,7 @@ namespace HIS.Application
         {
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<IDoctorService, DoctorService>();
-            services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Transient);
 

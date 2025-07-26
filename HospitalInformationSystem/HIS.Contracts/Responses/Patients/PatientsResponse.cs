@@ -9,6 +9,6 @@ namespace HIS.Contracts.Responses.Patients
 {
     public class PatientsResponse
     {
-        public IEnumerable<PatientResponse> patientResponses { get; set; }
+        public IEnumerable<PatientResponse> patientsResponse { get; set; }
     }
 }
