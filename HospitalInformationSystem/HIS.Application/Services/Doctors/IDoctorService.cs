@@ -14,5 +14,6 @@ namespace HIS.Application.Services.Doctors
         Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token);
         Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token);
         Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token);
+        Task<List<Patient>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
     }
 }

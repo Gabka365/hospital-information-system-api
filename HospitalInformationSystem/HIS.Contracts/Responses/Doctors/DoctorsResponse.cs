@@ -9,6 +9,6 @@ namespace HIS.Contracts.Responses
 {
     public class DoctorsResponse
     {
-        public required IEnumerable<DoctorResponse> DoctorResponses { get; init; }
+        public required List<DoctorResponse> DoctorResponses { get; init; }
     }
 }

@@ -26,9 +26,9 @@ namespace HIS.Application.Services.Doctors
         {
             _doctorValidator.ValidateAndThrow(doctor);
 
-            var doctorDto = doctor.MapToDoctorDto();
+            var DoctorDTO = doctor.MapToDoctorDTO();
 
-            var isCreated = await _doctorRepository.CreateDoctorAsync(doctorDto, token);
+            var isCreated = await _doctorRepository.CreateDoctorAsync(DoctorDTO, token);
 
             return isCreated;
         }
@@ -42,23 +42,23 @@ namespace HIS.Application.Services.Doctors
 
         public async Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token)
         {
-            var doctorDtos = await _doctorRepository.GetAllDoctorsAsync(token);
+            var DoctorDTOs = await _doctorRepository.GetAllDoctorsAsync(token);
 
-            var doctors = doctorDtos.Select(x => x.MapToDoctor());
+            var doctors = DoctorDTOs.Select(x => x.MapToDoctor());
 
             return doctors.ToList();
         }
 
         public async Task<Doctor?> GetDoctorByIdAsync(Guid id, CancellationToken token)
         {
-            var doctorDto = await _doctorRepository.GetDoctorByIdAsync(id, token);
+            var DoctorDTO = await _doctorRepository.GetDoctorByIdAsync(id, token);
 
-            if (doctorDto == null)
+            if (DoctorDTO == null)
             {
                 return null;
             }
 
-            var doctor = doctorDto.MapToDoctor();
+            var doctor = DoctorDTO.MapToDoctor();
 
             return doctor;
         }
@@ -67,11 +67,20 @@ namespace HIS.Application.Services.Doctors
         {
             _doctorValidator.ValidateAndThrow(doctor);
 
-            var doctorDto = doctor.MapToDoctorDto();
+            var DoctorDTO = doctor.MapToDoctorDTO();
 
-            var isUpdated = await _doctorRepository.UpdateDoctorAsync(doctorDto, token);
+            var isUpdated = await _doctorRepository.UpdateDoctorAsync(DoctorDTO, token);
 
             return isUpdated;
+        }
+
+        public async Task<List<Patient>> GetDoctorsPatientsAsync(Guid id, CancellationToken token)
+        {
+            var result = await _doctorRepository.GetDoctorsPatientsAsync(id, token);
+
+            var patients = result.Select(x => x.MapToPatient()).ToList()!;
+
+            return patients;
         }
     }
 }

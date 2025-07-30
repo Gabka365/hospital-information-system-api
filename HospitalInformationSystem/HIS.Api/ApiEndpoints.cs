@@ -14,6 +14,8 @@ namespace HIS.Api
             public const string GetAll = $"{Base}";
             public const string Update = $"{Base}/{{id:guid}}";
             public const string Delete = $"{Base}/{{id:guid}}";
+
+            public const string GetDoctorsPatients = $"{Base}/{{id:guid}}/patients";
         }
         public static class Patients
         {
@@ -24,6 +26,8 @@ namespace HIS.Api
             public const string GetAll = $"{Base}";
             public const string Update = $"{Base}/{{id:guid}}";
             public const string Delete = $"{Base}/{{id:guid}}";
+
+            public const string GetPatientsDoctors = $"{Base}/{{id:guid}}/doctors";
         }
     }
 }

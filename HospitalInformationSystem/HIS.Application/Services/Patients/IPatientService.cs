@@ -14,5 +14,6 @@ namespace HIS.Application.Services.Patients
         Task<Patient> CreatePatientAsync(Patient patient, CancellationToken token);
         Task<Patient> UpdatePatientAsync(Patient patient, CancellationToken token);
         Task<bool> DeletePatientAsync(Guid id, CancellationToken token);
+        Task<List<Doctor>> GetPatientsDoctorsAsync(Guid id, CancellationToken token);
     }
 }

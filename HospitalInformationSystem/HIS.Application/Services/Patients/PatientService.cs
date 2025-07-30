@@ -74,5 +74,14 @@ namespace HIS.Application.Services.Patients
 
             return isDeleted;
         }
+
+        public async Task<List<Doctor>> GetPatientsDoctorsAsync(Guid id, CancellationToken token)
+        {
+            var doctorsDtos = await _patientRepository.GetPatientsDoctors(id, token);
+
+            var doctors = doctorsDtos.Select(x => x.MapToDoctor());
+
+            return doctors.ToList();
+        }
     }
 }

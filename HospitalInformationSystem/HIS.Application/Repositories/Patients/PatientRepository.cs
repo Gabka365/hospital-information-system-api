@@ -97,5 +97,20 @@ namespace HIS.Application.Repositories.Patients
 
             return result == 1 ? true : false;  
         }
+
+        public async Task<List<DoctorDTO>> GetPatientsDoctors(Guid id, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition("""
+                select d.*
+                from `HospitalInformationSystemDB`.`patients` p
+                inner join `HospitalInformationSystemDB`.`patientsdoctors` pd on pd.PatientId = p.Id
+                inner join `HospitalInformationSystemDB`.`doctors` d on pd.DoctorId = d.Id  
+                where p.Id = @id
+                """, new { id }, cancellationToken: token));
+
+            return result.ToList();
+        }
     }
 }

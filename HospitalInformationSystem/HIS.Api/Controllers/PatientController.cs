@@ -63,5 +63,15 @@ namespace HIS.Api.Controllers
 
             return Ok(isDeleted);
         }
+
+        [HttpGet(ApiEndpoints.Patients.GetPatientsDoctors)]
+        public async Task<IActionResult> GetPatientsDoctors([FromRoute] Guid id, CancellationToken token)
+        {
+            var result = await _patientService.GetPatientsDoctorsAsync(id, token);
+
+            var response = result.MapToResponses();
+
+            return Ok(response);
+        }
     }
 }
