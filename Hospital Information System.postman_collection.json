@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "a13d6f46-6480-415d-93e7-b1b0b4c2aff1",
+		"name": "Hospital Information System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46287958",
+		"_collection_link": "https://maksimpotapnev.postman.co/workspace/Maksim-Potapnev's-Workspace~7bab4a26-cd80-4425-8d69-cb96b4acefcc/collection/46287958-a13d6f46-6480-415d-93e7-b1b0b4c2aff1?action=share&source=collection_link&creator=46287958"
+	},
+	"item": [
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "CreateDoctor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Bob\",\r\n  \"lastName\": \"Potapnev\",\r\n  \"surname\": \"Ivanovich\",\r\n  \"specialties\": [\"Therapist\", \"Cardiologist\"],\r\n  \"category\": 2,\r\n  \"experience\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/doctors",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDoctor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/doctors/1ad9db83-3271-4aba-965d-026b60e58ce5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								"1ad9db83-3271-4aba-965d-026b60e58ce5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllDoctors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/doctors/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDoctor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Ivan\",\r\n  \"lastName\": \"Potapnev\",\r\n  \"surname\": \"Ivanovich\",\r\n  \"specialties\": [\"Therapist\", \"Cardiologist\"],\r\n  \"category\": 2,\r\n  \"experience\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/doctors/e19080c4-d31a-4a91-88f1-3cc84203b157",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								"e19080c4-d31a-4a91-88f1-3cc84203b157"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteDoctor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5050/api/doctors/b6724912-00e0-41c7-b4bd-ff1a3ccad3a9",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"doctors",
+								"b6724912-00e0-41c7-b4bd-ff1a3ccad3a9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "CreatePatient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Andreevich\",\r\n    \"Age\": \"38\",\r\n    \"DiseaseList\": \"Covid19,Influenza\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/patients",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePatient",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Ivanovich\",\r\n    \"Age\": \"28\",\r\n    \"DiseaseList\": \"Covid19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/patients/a5565de0-37ea-40ee-851c-788b9730be0e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"a5565de0-37ea-40ee-851c-788b9730be0e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPatient",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/patients/a5565de0-37ea-40ee-851c-788b9730be0e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"a5565de0-37ea-40ee-851c-788b9730be0e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllPatients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Ivanovich\",\r\n    \"Age\": \"38\",\r\n    \"DiseaseList\": \"Covid19\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/patients/a5565de0-37ea-40ee-851c-788b9730be0e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"a5565de0-37ea-40ee-851c-788b9730be0e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletePatient",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Ivanovich\",\r\n    \"Age\": \"38\",\r\n    \"DiseaseList\": \"Covid19\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/patients/a5565de0-37ea-40ee-851c-788b9730be0e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"a5565de0-37ea-40ee-851c-788b9730be0e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://localhost:5050",
+			"type": "default"
+		}
+	]
+}

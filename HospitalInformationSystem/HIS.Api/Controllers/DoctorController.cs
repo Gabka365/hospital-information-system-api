@@ -1,7 +1,11 @@
-﻿using HIS.Api.Mappers;
+﻿using Dapper;
+using HIS.Api.Mappers;
+using HIS.Application.Database;
+using HIS.Application.DTOs;
 using HIS.Application.Repositories;
-using HIS.Application.Services;
+using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
+using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +80,16 @@ namespace HIS.Api.Controllers
                 return NotFound();
             }
             return Ok();
+        }
+
+        [HttpGet(ApiEndpoints.Doctors.GetDoctorsPatients)]
+        public async Task<ActionResult> GetDoctorsPatients(Guid id, CancellationToken token)
+        {
+            var result = await _doctorService.GetDoctorsPatientsAsync(id, token);
+
+            var response = result.MapToResponses();
+
+            return Ok(response);
         }
     }
 }

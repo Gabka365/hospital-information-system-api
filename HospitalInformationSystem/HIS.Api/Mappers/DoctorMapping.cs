@@ -1,6 +1,8 @@
 ﻿using HIS.Application.Models;
 using HIS.Contracts.Requests;
+using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
+using HIS.Contracts.Responses.Doctors;
 using System.Runtime.CompilerServices;
 
 namespace HIS.Api.Mappers
@@ -48,6 +50,11 @@ namespace HIS.Api.Mappers
                 Category = doctor.Category,
                 Experience = doctor.Experience
             };
+        }
+
+        public static DoctorsResponse MapToResponses(this List<Doctor> doctors)
+        {
+            return new DoctorsResponse { DoctorResponses = doctors.Select(x => x.MapToResponse()).ToList()};
         }
     }
 }

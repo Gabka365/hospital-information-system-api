@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIS.Application.Services
+namespace HIS.Application.Services.Doctors
 {
     public interface IDoctorService
     {
@@ -14,5 +14,6 @@ namespace HIS.Application.Services
         Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token);
         Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token);
         Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token);
+        Task<List<Patient>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
     }
 }

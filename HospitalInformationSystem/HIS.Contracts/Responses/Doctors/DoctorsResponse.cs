@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HIS.Contracts.Responses.Doctors;
 
 namespace HIS.Contracts.Responses
 {
     public class DoctorsResponse
     {
-        public required IEnumerable<DoctorResponse> DoctorResponses { get; init; }
+        public required List<DoctorResponse> DoctorResponses { get; init; }
     }
 }

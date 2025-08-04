@@ -26,13 +26,34 @@ namespace HIS.Application.Database
 
             await connection.ExecuteAsync("""
                 create table if not exists `HospitalInformationSystemDB`.`doctors` (
-                Id CHAR(36) NOT NULL PRIMARY KEY,
+                Id CHAR(36) not null primary key,
                 FirstName CHAR(100),
                 LastName CHAR(100),
                 Surname CHAR(100),
                 Experience INT,
                 Specialties CHAR(255),
                 Category CHAR(100)
+                )
+                """);
+
+            await connection.ExecuteAsync("""
+                create table if not exists `HospitalInformationSystemDB`.`patients` (
+                Id CHAR(36) not null primary key,
+                FirstName CHAR(100),
+                LastName CHAR(100),
+                Surname CHAR(100),
+                Age INT,
+                DiseaseList CHAR(100)
+                )
+                """);
+
+            await connection.ExecuteAsync("""
+                create table if not exists `HospitalInformationSystemDB`.`patientsdoctors` (
+                PatientId CHAR(36) not null,
+                DoctorId CHAR(36) not null,
+                primary key (PatientId, DoctorId),
+                foreign key (PatientId) references `HospitalInformationSystemDB`.`patients`(Id),
+                foreign key (DoctorId) references `HospitalInformationSystemDB`.`doctors`(Id)
                 )
                 """);
         }

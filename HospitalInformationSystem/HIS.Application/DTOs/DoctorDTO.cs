@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Application.DTOs
 {
-    public class DoctorDto
+    public class DoctorDTO
     {
         public required Guid Id { get; init; }
         public required string FirstName { get; set; }

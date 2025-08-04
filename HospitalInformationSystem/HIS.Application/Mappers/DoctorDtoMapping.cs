@@ -10,11 +10,11 @@ using HIS.Contracts.Enums;
 
 namespace HIS.Application.Mappers
 {
-    public static class DoctorDtoMapping
+    public static class DoctorDTOMapping
     {
-        public static DoctorDto MapToDoctorDto(this Doctor doctor)
+        public static DoctorDTO MapToDoctorDTO(this Doctor doctor)
         {
-            return new DoctorDto
+            return new DoctorDTO
             {
                 Id = doctor.Id,
                 FirstName = doctor.FirstName,
@@ -26,9 +26,9 @@ namespace HIS.Application.Mappers
             };
         }
 
-        public static Doctor MapToDoctor(this DoctorDto doctorDto)
+        public static Doctor MapToDoctor(this DoctorDTO DoctorDTO)
         {
-            var specs = doctorDto.Specialties.Split(',');
+            var specs = DoctorDTO.Specialties.Split(',');
             var especs = new List<Speciality>();
 
             foreach (var spec in specs)
@@ -39,17 +39,17 @@ namespace HIS.Application.Mappers
             }
 
             var categ = new Category();
-            Enum.TryParse(doctorDto.Category, out categ);
+            Enum.TryParse(DoctorDTO.Category, out categ);
 
             return new Doctor
             {
-                Id = doctorDto.Id,
-                FirstName = doctorDto.FirstName,
-                LastName = doctorDto.LastName,
-                Surname = doctorDto.Surname,
+                Id = DoctorDTO.Id,
+                FirstName = DoctorDTO.FirstName,
+                LastName = DoctorDTO.LastName,
+                Surname = DoctorDTO.Surname,
                 Specialties = especs,
                 Category = categ,
-                Experience = doctorDto.Experience
+                Experience = DoctorDTO.Experience
             };
         }
     }
