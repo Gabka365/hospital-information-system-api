@@ -1,18 +1,28 @@
-﻿using HIS.Contracts.Requests.Tokens;
+﻿using HIS.Api.Mappers;
+using HIS.Application.Services.Auth;
+using HIS.Contracts.Requests.Auth;
+using HIS.Contracts.Requests.Tokens;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace HIS.Api.Controllers
 {
     [ApiController]
-    public class IdentityController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private const string TokenSecret = "ForTheLoveOfGodStoreAndLoadThisSecurely";
         private static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(8);
+        private IAuthService _authService;
+
+        public AuthController(IAuthService authService) 
+        { 
+            _authService = authService;
+        }
 
         [HttpPost("token")]
         public IActionResult Index([FromBody]TokenGenerationRequest request)
@@ -55,6 +65,25 @@ namespace HIS.Api.Controllers
             var jwt = tokenHandler.WriteToken(token);
 
             return Ok(jwt);
+        }
+
+
+        [HttpPost(ApiEndpoints.Auth.Register)]
+        public async Task<IActionResult> Register([FromBody] UserRequest request, CancellationToken token)
+        {
+            var user = request.MapToUser();
+
+            var loggedUser = await _authService.RegisterUserAsync(user, token);
+
+            return Ok(loggedUser);
+        }
+
+        [HttpPost(ApiEndpoints.Auth.Login)]
+        public IActionResult Login([FromBody] UserRequest request, CancellationToken token)
+        {
+            var user = request.MapToUser();
+
+            return Ok();
         }
     }
 }
