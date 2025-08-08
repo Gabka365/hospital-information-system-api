@@ -35,13 +35,12 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
-
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIS.Application.Models
+namespace HIS.Contracts.Responses.Auth
 {
-    public class User
+    public class UserResponse
     {
-        public Guid Id { get; set; }
+        public required Guid Id { get; init; }
         public required string UserName { get; init; }
         public required string Password { get; init; }
     }

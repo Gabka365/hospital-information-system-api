@@ -9,8 +9,8 @@ namespace HIS.Application.Services.Auth
 {
     public interface IAuthService
     {
-        Task<User> RegisterUserAsync(User user, CancellationToken token);
+        Task<User?> RegisterUserAsync(User user, CancellationToken token);
 
-        Task<bool> LoginUserAsync(User user, CancellationToken token);
+        Task<User?> LoginUserAsync(User user, CancellationToken token);
     }
 }

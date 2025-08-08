@@ -14,9 +14,19 @@ namespace HIS.Application.Mappers
         {
             return new UserDTO
             {
-                UserId = user.UserId,
+                Id = user.Id,
                 UserName = user.UserName,
                 HashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password)
+            };
+        }
+
+        public static User MapToUser(this UserDTO userDto)
+        {
+            return new User
+            {
+                Id = userDto.Id,
+                UserName = userDto.UserName,
+                Password = userDto.HashedPassword
             };
         }
     }

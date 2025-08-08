@@ -25,6 +25,14 @@ namespace HIS.Application.Database
                 """);
 
             await connection.ExecuteAsync("""
+                create table if not exists `HospitalInformationSystemDB`.`users` (
+                Id CHAR(36) not null primary key,
+                UserName CHAR(100) not null,
+                HashedPassword CHAR(100) not null
+                )
+                """);
+
+            await connection.ExecuteAsync("""
                 create table if not exists `HospitalInformationSystemDB`.`doctors` (
                 Id CHAR(36) not null primary key,
                 FirstName CHAR(100),
@@ -32,7 +40,8 @@ namespace HIS.Application.Database
                 Surname CHAR(100),
                 Experience INT,
                 Specialties CHAR(255),
-                Category CHAR(100)
+                Category CHAR(100),
+                foreign key (Id) references `HospitalInformationSystemDB`.`users`(Id)
                 )
                 """);
 
@@ -43,7 +52,8 @@ namespace HIS.Application.Database
                 LastName CHAR(100),
                 Surname CHAR(100),
                 Age INT,
-                DiseaseList CHAR(100)
+                DiseaseList CHAR(100),
+                foreign key (Id) references `HospitalInformationSystemDB`.`users`(Id)
                 )
                 """);
 
@@ -56,6 +66,7 @@ namespace HIS.Application.Database
                 foreign key (DoctorId) references `HospitalInformationSystemDB`.`doctors`(Id)
                 )
                 """);
+
         }
     }
 }
