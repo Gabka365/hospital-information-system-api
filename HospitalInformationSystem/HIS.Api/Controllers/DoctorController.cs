@@ -7,6 +7,7 @@ using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
@@ -14,6 +15,7 @@ using System.Runtime.Intrinsics.Arm;
 
 namespace HIS.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     public class DoctorController : ControllerBase
     {
@@ -36,6 +38,7 @@ namespace HIS.Api.Controllers
             return Ok(doctor.MapToResponse());
         }
 
+        [Authorize(AuthConstants.TrustedMemberPolicy)]
         [HttpGet(ApiEndpoints.Doctors.GetAll)]
         public async Task<IActionResult> GetAllDoctors(CancellationToken token)
         {
@@ -44,6 +47,7 @@ namespace HIS.Api.Controllers
             return Ok(doctors);
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpPost(ApiEndpoints.Doctors.Create)]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request, CancellationToken token)
         {
@@ -57,6 +61,7 @@ namespace HIS.Api.Controllers
             return Created($"/api/doctors/{response.Id}", response);
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpPut(ApiEndpoints.Doctors.Update)]
         public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request, CancellationToken token)
         {
@@ -70,6 +75,7 @@ namespace HIS.Api.Controllers
             return Ok(doctor.MapToResponse());
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpDelete(ApiEndpoints.Doctors.Delete)]
         public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id, CancellationToken token)
         {
@@ -81,6 +87,7 @@ namespace HIS.Api.Controllers
             }
             return Ok();
         }
+
 
         [HttpGet(ApiEndpoints.Doctors.GetDoctorsPatients)]
         public async Task<ActionResult> GetDoctorsPatients(Guid id, CancellationToken token)

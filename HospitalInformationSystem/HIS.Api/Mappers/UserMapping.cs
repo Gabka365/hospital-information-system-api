@@ -21,7 +21,8 @@ namespace HIS.Api.Mappers
             return new User
             {
                 UserName = request.UserName,
-                Password = request.Password
+                Password = request.Password,
+                Trusted = request.Trusted
             };
         }
 

@@ -79,17 +79,23 @@ namespace HIS.Application.Services.Auth
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new("Id", user.Id.ToString())
+                new("Id", user.Id.ToString()),
+                new("UserName", user.UserName)
             };
 
-            var tokenDecriptor = new SecurityTokenDescriptor
+            if (Convert.ToBoolean(user.Trusted))
+            {
+                claims.Add(new("Trusted", "true"));
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(TimeSpan.FromHours(8)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var jwt = tokenHandler.CreateToken(tokenDecriptor);
+            var jwt = tokenHandler.CreateToken(tokenDescriptor);
 
             var jwtString = tokenHandler.WriteToken(jwt);
 

@@ -3,9 +3,11 @@ using HIS.Contracts.Requests.Patients;
 using Microsoft.AspNetCore.Mvc;
 using HIS.Application.Services.Patients;
 using HIS.Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HIS.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     public class PatientController : ControllerBase
     {
@@ -34,6 +36,7 @@ namespace HIS.Api.Controllers
             return Ok(patients);
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpPost(ApiEndpoints.Patients.Create)]
         public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequest request, CancellationToken token)
         {
@@ -46,6 +49,7 @@ namespace HIS.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpPut(ApiEndpoints.Patients.Update)]
         public async Task<IActionResult> UpdatePatient([FromRoute] Guid id, [FromBody] UpdatePatientRequest request, CancellationToken token)
         {
@@ -56,6 +60,7 @@ namespace HIS.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpDelete(ApiEndpoints.Patients.Delete)]
         public async Task<IActionResult> DeletePatient([FromRoute] Guid id, CancellationToken token)
         {

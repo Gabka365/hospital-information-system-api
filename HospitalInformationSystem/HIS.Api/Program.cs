@@ -1,3 +1,4 @@
+using HIS.Api;
 using HIS.Api.Mappers;
 using HIS.Application;
 using HIS.Application.Database;
@@ -31,8 +32,19 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(conf["Jwt:Key"]!)),
         ValidateIssuerSigningKey = true,
-        ValidateLifetime = true
+        ValidateLifetime = true,
+        ValidateAudience = false,
+        ValidateIssuer = false
     };
+});
+
+builder.Services.AddAuthorization(x =>
+{
+    x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType, 
+        AuthConstants.AdminUserName));
+    x.AddPolicy(AuthConstants.TrustedMemberPolicy, p => p.RequireAssertion(c =>
+        c.User.HasClaim(x => x is { Type: AuthConstants.TrustedClaimType, Value: "true" }))); 
+        // || c.User.HasClaim(x => x is { Type: AuthConstants.UserNameClaimType, Value: AuthConstants.AdminUserName })));
 });
 
 builder.Services.AddAuthorization();
