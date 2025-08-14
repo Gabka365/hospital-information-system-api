@@ -11,6 +11,6 @@ namespace HIS.Application.Models
         public Guid Id { get; set; }
         public required string UserName { get; init; }
         public required string Password { get; init; }
-        public string Trusted { get; set; } = string.Empty;
+        public required string Email { get; init; }
     }
 }

@@ -36,9 +36,10 @@ namespace HIS.Api.Controllers
         [HttpPost(ApiEndpoints.Auth.Login)]
         public async Task<IActionResult> Login([FromBody] UserRequest request, CancellationToken token)
         {
+            var customClaims = request.CustomClaims;
             var user = request.MapToLoggedUser();
 
-            var loggedUser = await _authService.LoginUserAsync(user, token);
+            var loggedUser = await _authService.LoginUserAsync(user, customClaims, token);
 
             if (loggedUser == null)
             {

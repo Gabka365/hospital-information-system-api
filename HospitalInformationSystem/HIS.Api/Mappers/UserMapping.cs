@@ -12,7 +12,8 @@ namespace HIS.Api.Mappers
             {
                 Id = Guid.NewGuid(),
                 UserName = request.UserName,
-                Password = request.Password
+                Password = request.Password,
+                Email = request.Email,
             };
         }
 
@@ -22,7 +23,7 @@ namespace HIS.Api.Mappers
             {
                 UserName = request.UserName,
                 Password = request.Password,
-                Trusted = request.Trusted
+                Email = request.Email
             };
         }
 
@@ -32,7 +33,8 @@ namespace HIS.Api.Mappers
             {
                 Id = user.Id,
                 UserName = user.UserName,
-                Password = user.Password
+                Password = user.Password,
+                Email = user.Email
             };
         }
     }

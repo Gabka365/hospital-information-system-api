@@ -48,16 +48,14 @@ namespace HIS.Application.Services.Auth
                 throw new Exception("User with this content data cannot be registered");
             }
 
-            var loggedUser = await LoginUserAsync(user, token);
-
-            return loggedUser;
+            return user;
         }
 
-        public async Task<User?> LoginUserAsync(User user, CancellationToken token)
+        public async Task<User?> LoginUserAsync(User user, Dictionary<string, object> customCliams, CancellationToken token)
         {
-            //_validator.ValidateAndThrow(user);
+            _validator.ValidateAndThrow(user);
 
-            var userDto = await _authRepository.GetUserAsync(user.UserName, token);
+            var userDto = await _authRepository.GetUserAsync(user.Email, token);
 
             if (userDto == null)
             {
@@ -80,12 +78,23 @@ namespace HIS.Application.Services.Auth
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new("Id", user.Id.ToString()),
-                new("UserName", user.UserName)
+                new("UserName", user.UserName),
+                new("Email", user.Email)
             };
 
-            if (Convert.ToBoolean(user.Trusted))
+            foreach (var customClaim in customCliams)
             {
-                claims.Add(new("Trusted", "true"));
+                var jsonElement = (JsonElement)customClaim.Value;
+                var valueType = jsonElement.ValueKind switch
+                {
+                    JsonValueKind.True => ClaimValueTypes.Boolean,
+                    JsonValueKind.False => ClaimValueTypes.Boolean,
+                    JsonValueKind.Number => ClaimValueTypes.Double,
+                    _ => ClaimValueTypes.String
+                };
+
+                var claim = new Claim(customClaim.Key, customClaim.Value.ToString()!, valueType);
+                claims.Add(claim);
             }
 
             var tokenDescriptor = new SecurityTokenDescriptor

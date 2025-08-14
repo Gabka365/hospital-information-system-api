@@ -24,8 +24,8 @@ namespace HIS.Application.Repositories.Auth
 
             var result = await connection.ExecuteAsync(new CommandDefinition("""
                 insert into `HospitalInformationSystemDB`.`users` 
-                (Id, UserName, HashedPassword) values 
-                (@Id, @UserName, @HashedPassword)
+                (Id, UserName, HashedPassword, Email) values 
+                (@Id, @UserName, @HashedPassword, @Email)
                 """, userDto, cancellationToken: token));
 
             if (result != 1)
@@ -36,26 +36,15 @@ namespace HIS.Application.Repositories.Auth
             return userDto;
         }
 
-        public async Task<UserDTO?> GetUserAsync(string UserName, CancellationToken token)
+        public async Task<UserDTO?> GetUserAsync(string email, CancellationToken token)
         {
             var connection = await _connector.CreateConnectionAsync(token);
 
             var result = await connection.QueryAsync<UserDTO>(new CommandDefinition("""
-                select UserName, HashedPassword from `HospitalInformationSystemDB`.`users` where UserName=@UserName
-                """, new { UserName }, cancellationToken: token));
+                select UserName, HashedPassword, Email from `HospitalInformationSystemDB`.`users` where Email=@Email
+                """, new { email }, cancellationToken: token));
 
             return result.SingleOrDefault();
-        }
-
-        public async Task<bool> VerifyUserExistingAsync(string hashedPassword, CancellationToken token)
-        {
-            var connection = await _connector.CreateConnectionAsync(token);
-
-            var result = await connection.QueryAsync<UserDTO>(new CommandDefinition("""
-                select * from `HospitalInformationSystemDB`.`users` where HashedPassword = @hashedPassword
-                """, new { hashedPassword }, cancellationToken: token));
-
-            return result.Count() == 1;
         }
     }
 }

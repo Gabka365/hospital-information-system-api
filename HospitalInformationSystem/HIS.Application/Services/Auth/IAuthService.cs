@@ -11,6 +11,6 @@ namespace HIS.Application.Services.Auth
     {
         Task<User?> RegisterUserAsync(User user, CancellationToken token);
 
-        Task<User?> LoginUserAsync(User user, CancellationToken token);
+        Task<User?> LoginUserAsync(User user, Dictionary<string, object> userClaims, CancellationToken token);
     }
 }

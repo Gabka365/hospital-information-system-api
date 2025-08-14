@@ -11,5 +11,6 @@ namespace HIS.Application.DTOs
         public Guid Id { get; set; }
         public required string UserName { get; init; }
         public required string HashedPassword { get; init; }
+        public required string Email { get; init; }
     }
 }

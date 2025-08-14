@@ -28,7 +28,8 @@ namespace HIS.Application.Database
                 create table if not exists `HospitalInformationSystemDB`.`users` (
                 Id CHAR(36) not null primary key,
                 UserName CHAR(100) not null,
-                HashedPassword CHAR(100) not null
+                HashedPassword CHAR(100) not null,
+                Email CHAR(100) not null unique
                 )
                 """);
 

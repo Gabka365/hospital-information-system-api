@@ -8,7 +8,7 @@
 
         public const string UserNameClaimType = "UserName";
 
-        public const string TrustedClaimType = "Trusted";
+        public const string TrustedClaimType = "trusted";
 
         public const string AdminUserName = "admin";
     }

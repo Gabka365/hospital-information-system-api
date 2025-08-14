@@ -16,7 +16,8 @@ namespace HIS.Application.Mappers
             {
                 Id = user.Id,
                 UserName = user.UserName,
-                HashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password)
+                HashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password),
+                Email = user.Email
             };
         }
 
@@ -26,7 +27,8 @@ namespace HIS.Application.Mappers
             {
                 Id = userDto.Id,
                 UserName = userDto.UserName,
-                Password = userDto.HashedPassword
+                Password = userDto.HashedPassword,
+                Email = userDto.Email
             };
         }
     }

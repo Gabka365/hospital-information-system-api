@@ -12,9 +12,9 @@ namespace HIS.Application.Validators
     {
         public UserValidator()
         {
-            RuleFor(x => x.Id).NotNull().NotEmpty();
             RuleFor(x => x.UserName).NotNull().NotEmpty();
             RuleFor(x => x.Password).NotNull().NotEmpty();
+            RuleFor(x => x.Email).NotNull().NotEmpty();
         }
     }
 }

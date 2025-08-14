@@ -10,6 +10,7 @@ namespace HIS.Contracts.Requests.Auth
     {
         public required string UserName { get; init; }
         public required string Password { get; init; }
-        public string Trusted {  get; set; } = string.Empty;
+        public required string Email { get; init; }
+        public Dictionary<string, object> CustomClaims { get; set; } = new();
     }
 }
