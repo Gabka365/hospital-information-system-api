@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "a13d6f46-6480-415d-93e7-b1b0b4c2aff1",
+		"_postman_id": "e7610cd8-4cb2-46a3-b413-c4f39e2eca50",
 		"name": "Hospital Information System",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "46287958",
-		"_collection_link": "https://maksimpotapnev.postman.co/workspace/Maksim-Potapnev's-Workspace~7bab4a26-cd80-4425-8d69-cb96b4acefcc/collection/46287958-a13d6f46-6480-415d-93e7-b1b0b4c2aff1?action=share&source=collection_link&creator=46287958"
+		"_collection_link": "https://maksimpotapnev.postman.co/workspace/Maksim-Potapnev's-Workspace~7bab4a26-cd80-4425-8d69-cb96b4acefcc/collection/46287958-e7610cd8-4cb2-46a3-b413-c4f39e2eca50?action=share&source=collection_link&creator=46287958"
 	},
 	"item": [
 		{
@@ -257,6 +257,56 @@
 								"api",
 								"patients",
 								"a5565de0-37ea-40ee-851c-788b9730be0e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "RegisterUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UserName\": \"Maksim\"\r\n    \"Password\": \"root\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UserName\": \"admin\",\r\n    \"Password\": \"root\",\r\n    \"Trusted\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
 							]
 						}
 					},
