@@ -2,6 +2,7 @@
 {
     public class AuthConstants
     {
+
         public const string AdminPolicy = "AdminPolicy";
 
         public const string TrustedMemberPolicy = "TrustedMemberPolicy";
