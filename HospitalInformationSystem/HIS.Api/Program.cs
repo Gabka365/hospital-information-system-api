@@ -1,3 +1,4 @@
+using HIS.Api.Auth;
 using HIS.Api.Mappers;
 using HIS.Application;
 using HIS.Application.Database;

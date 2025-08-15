@@ -3,6 +3,8 @@ using HIS.Contracts.Requests.Patients;
 using Microsoft.AspNetCore.Mvc;
 using HIS.Application.Services.Patients;
 using HIS.Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using HIS.Api.Auth;
 
 namespace HIS.Api.Controllers
 {

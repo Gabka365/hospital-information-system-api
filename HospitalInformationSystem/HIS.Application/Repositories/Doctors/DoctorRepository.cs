@@ -21,7 +21,7 @@ namespace HIS.Application.Repositories.Doctors
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token)
+        public async Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -35,10 +35,10 @@ namespace HIS.Application.Repositories.Doctors
             return count > 0;
         }
 
-        public async Task<bool> DeleteDoctorAsync(Guid id, CancellationToken token)
+        public async Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
-
+            
             var count = await connection.ExecuteAsync(new CommandDefinition(
                 """
                 delete from `HospitalInformationSystemDB`.`doctors` where id=@id
@@ -47,7 +47,7 @@ namespace HIS.Application.Repositories.Doctors
             return count == 1;
         }
 
-        public async Task<List<DoctorDTO>> GetAllDoctorsAsync(CancellationToken token)
+        public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -56,22 +56,35 @@ namespace HIS.Application.Repositories.Doctors
                 select * from `HospitalInformationSystemDB`.`doctors`
                 """, cancellationToken: token));
 
+            var result = await connection.QueryAsync(new CommandDefinition("""
+            select d.*, round(avg(r.rating), 1) as rating, myr.rating as userrating
+            from doctors d 
+            left join ratings r on d.Id = r.DoctorId
+            left join ratings myr on d.id = myr.DoctorId and myr.userid = @userId
+            group by id, userrating
+            """, new { userId }, cancellationToken: token));
+
             return DoctorDTOs.ToList();
         }
 
-        public async Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, CancellationToken token)
+        public async Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var DoctorDTO = await connection.QueryAsync<DoctorDTO>(new CommandDefinition(
                 """
-                select * from `HospitalInformationSystemDB`.`doctors` where id=@id
-                """, new { id }, cancellationToken: token));
+                select d.*, round(avg(r.rating), 1) as rating, myr.rating as userrating 
+                from `HospitalInformationSystemDB`.`doctors` d 
+                left join ratings r on d.Id = r.DoctorId
+                left join ratings myr on d.Id=myr.DoctorId and myr.UserId=@userId 
+                where id=@id
+                group by id, userrating
+                """, new { id, userId }, cancellationToken: token));
 
             return DoctorDTO.SingleOrDefault();
         }
 
-        public async Task<bool> UpdateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token)
+        public async Task<bool> UpdateDoctorAsync(DoctorDTO DoctorDTO, Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 

@@ -22,36 +22,36 @@ namespace HIS.Application.Services.Doctors
             _doctorValidator = doctorValidator;
         }
 
-        public async Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token)
+        public async Task<bool> CreateDoctorAsync(Doctor doctor, Guid userId, CancellationToken token)
         {
             _doctorValidator.ValidateAndThrow(doctor);
 
             var DoctorDTO = doctor.MapToDoctorDTO();
 
-            var isCreated = await _doctorRepository.CreateDoctorAsync(DoctorDTO, token);
+            var isCreated = await _doctorRepository.CreateDoctorAsync(DoctorDTO, userId, token);
 
             return isCreated;
         }
 
-        public async Task<bool> DeleteDoctorAsync(Guid id, CancellationToken token)
+        public async Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token)
         {
-            var isDeleted = await _doctorRepository.DeleteDoctorAsync(id, token);
+            var isDeleted = await _doctorRepository.DeleteDoctorAsync(id, userId, token);
 
             return isDeleted;
         }
 
-        public async Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken token)
+        public async Task<List<Doctor>> GetAllDoctorsAsync(Guid userId, CancellationToken token)
         {
-            var DoctorDTOs = await _doctorRepository.GetAllDoctorsAsync(token);
+            var DoctorDTOs = await _doctorRepository.GetAllDoctorsAsync(userId, token);
 
             var doctors = DoctorDTOs.Select(x => x.MapToDoctor());
 
             return doctors.ToList();
         }
 
-        public async Task<Doctor?> GetDoctorByIdAsync(Guid id, CancellationToken token)
+        public async Task<Doctor?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token)
         {
-            var DoctorDTO = await _doctorRepository.GetDoctorByIdAsync(id, token);
+            var DoctorDTO = await _doctorRepository.GetDoctorByIdAsync(id, userId, token);
 
             if (DoctorDTO == null)
             {
@@ -63,13 +63,13 @@ namespace HIS.Application.Services.Doctors
             return doctor;
         }
 
-        public async Task<bool> UpdateDoctorAsync(Doctor doctor, CancellationToken token)
+        public async Task<bool> UpdateDoctorAsync(Doctor doctor, Guid userId, CancellationToken token)
         {
             _doctorValidator.ValidateAndThrow(doctor);
 
             var DoctorDTO = doctor.MapToDoctorDTO();
 
-            var isUpdated = await _doctorRepository.UpdateDoctorAsync(DoctorDTO, token);
+            var isUpdated = await _doctorRepository.UpdateDoctorAsync(DoctorDTO, userId, token);
 
             return isUpdated;
         }

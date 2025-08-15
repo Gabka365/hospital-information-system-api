@@ -56,6 +56,15 @@ namespace HIS.Application.Database
                 foreign key (DoctorId) references `HospitalInformationSystemDB`.`doctors`(Id)
                 )
                 """);
+
+            await connection.ExecuteAsync("""
+                create table if not exists `HospitalInformationSystemDB`.`ratings` (
+                UserId CHAR(36) not null references `HospitalInformationSystemDB`.`users`(Id),
+                DoctorId CHAR(36) not null references `HospitalInformationSystemDB`.`doctors`(Id),
+                Rating INT not null,
+                primary key (UserId, DoctorId))  
+                """);
+
         }
     }
 }
