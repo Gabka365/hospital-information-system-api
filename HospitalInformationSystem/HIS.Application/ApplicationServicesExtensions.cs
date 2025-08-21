@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using HIS.Application.Database;
 using HIS.Application.Repositories;
+using HIS.Application.Repositories.Auth;
 using HIS.Application.Repositories.Doctors;
 using HIS.Application.Repositories.Patients;
 using HIS.Application.Repositories.Ratings;

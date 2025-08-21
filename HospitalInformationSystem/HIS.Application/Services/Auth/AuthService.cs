@@ -79,7 +79,7 @@ namespace HIS.Application.Services.Auth
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new("UserId", userDto.Id.ToString()),
+                new("Id", user.Id.ToString()),
                 new("UserName", user.UserName),
                 new("Email", user.Email)
             };
