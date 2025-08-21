@@ -11,9 +11,11 @@ namespace HIS.Application.Services.Doctors
     {
         Task<Doctor?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token);
         Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token);
-        Task<bool> CreateDoctorAsync(Doctor doctor, Guid userId, CancellationToken token);
+        Task<bool> CreateDoctorAsync(Doctor doctor, CancellationToken token);
         Task<bool> UpdateDoctorAsync(Doctor doctor, Guid userId, CancellationToken token);
         Task<List<Doctor>> GetAllDoctorsAsync(Guid userId, CancellationToken token);
         Task<List<Patient>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
+        Task<Guid> GetUserIdByEmail(string email, CancellationToken token);
+        Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token);
     }
 }

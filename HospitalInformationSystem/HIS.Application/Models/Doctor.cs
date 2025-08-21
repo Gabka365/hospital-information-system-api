@@ -13,6 +13,8 @@ namespace HIS.Application.Models
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Surname { get; set; }
+        public float? Rating { get; set; }
+        public int? UserRating { get; set; }
         public required List<Speciality> Specialties { get; init; }
         public required Category Category { get; init; }
         public required int Experience { get; set; }

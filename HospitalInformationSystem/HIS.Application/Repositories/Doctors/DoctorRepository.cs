@@ -21,10 +21,11 @@ namespace HIS.Application.Repositories.Doctors
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, Guid userId, CancellationToken token)
+        public async Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
+            
             var count = await connection.ExecuteAsync(new CommandDefinition(
                 """
                 insert into `HospitalInformationSystemDB`.`doctors` 
@@ -111,6 +112,33 @@ namespace HIS.Application.Repositories.Doctors
                 """, new { id }, cancellationToken: token));
 
             return result.ToList();
+        }
+
+
+        public async Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.QueryAsync<PatientDTO>(new CommandDefinition("""
+                select *
+                from `HospitalInformationSystemDB`.`doctors` d
+                where d.Id = @id
+                """, new { id }, cancellationToken: token));
+
+            return result.Count() == 1;
+        }
+
+        public async Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.ExecuteAsync(new CommandDefinition("""
+                insert into `HospitalInformationSystemDB`.`patientsdoctors` (PatientId, DoctorId)
+                values (@PatientId, @DoctorId)
+                """, new { PatientId, DoctorId }, cancellationToken: token));
+
+            return result == 1;
+
         }
     }
 }

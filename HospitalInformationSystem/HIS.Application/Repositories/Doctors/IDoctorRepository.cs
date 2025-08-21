@@ -12,9 +12,11 @@ namespace HIS.Application.Repositories
     {
         Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token);
         Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token);
-        Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, Guid userId, CancellationToken token);
+        Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token);
         Task<bool> UpdateDoctorAsync(DoctorDTO doctor, Guid userId, CancellationToken token);
         Task<List<DoctorDTO>> GetAllDoctorsAsync(Guid userId, CancellationToken token);
         Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
+        Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token);
+        Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token);
     }
 }

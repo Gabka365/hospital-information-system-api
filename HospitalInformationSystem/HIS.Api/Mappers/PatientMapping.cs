@@ -9,11 +9,11 @@ namespace HIS.Api.Mappers
 {
     public static class PatientMapping 
     {
-        public static Patient MapToPatient(this CreatePatientRequest request)
+        public static Patient MapToPatient(this CreatePatientRequest request, Guid specifiedUserId)
         {
             return new Patient
             {
-                Id = Guid.NewGuid(),
+                Id = specifiedUserId,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Surname = request.Surname,

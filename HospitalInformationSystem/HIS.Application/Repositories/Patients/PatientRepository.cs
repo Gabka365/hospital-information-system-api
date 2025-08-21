@@ -112,5 +112,30 @@ namespace HIS.Application.Repositories.Patients
 
             return result.ToList();
         }
+
+        public async Task<bool> IsPatientExistAsync(Guid id, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition("""
+                select *
+                from `HospitalInformationSystemDB`.`patients` p
+                where p.Id = @id
+                """, new { id }, cancellationToken: token));
+
+            return result.Count() == 1;
+        }
+
+        public async Task<bool> AddDoctorForPatientAsync(Guid DoctorId, Guid PatientId, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.ExecuteAsync(new CommandDefinition("""
+                insert into `HospitalInformationSystemDB`.`patientsdoctors` (DoctorId, PatientId)
+                values (@DoctorId, @PatientId)
+                """, new { DoctorId, PatientId }, cancellationToken: token));
+
+            return result == 1;
+        }
     }
 }

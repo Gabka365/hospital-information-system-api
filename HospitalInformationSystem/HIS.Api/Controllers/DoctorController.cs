@@ -4,6 +4,8 @@ using HIS.Api.Mappers;
 using HIS.Application.Database;
 using HIS.Application.DTOs;
 using HIS.Application.Repositories;
+using HIS.Application.Repositories.Auth;
+using HIS.Application.Services.Auth;
 using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.Arm;
 
 namespace HIS.Api.Controllers
@@ -21,8 +24,8 @@ namespace HIS.Api.Controllers
     public class DoctorController : ControllerBase
     {
         private IDoctorService _doctorService;
-
-        public DoctorController(IDoctorService doctorService)
+        
+        public DoctorController(IDoctorService doctorService, IAuthRepository authRepository)
         {
             _doctorService = doctorService;
         }
@@ -54,9 +57,11 @@ namespace HIS.Api.Controllers
         [HttpPost(ApiEndpoints.Doctors.Create)]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request, CancellationToken token)
         {
-            var userId = HttpContext.GetUserId();
-            var doctor = request.MapToDoctor();
-            var isCreated = await _doctorService.CreateDoctorAsync(doctor, userId, token);
+            var specifiedUserId = await _doctorService.GetUserIdByEmail(request.Email, token);
+
+            var doctor = request.MapToDoctor(specifiedUserId);
+
+            var isCreated = await _doctorService.CreateDoctorAsync(doctor, token);
             
             if (!isCreated)
                 return BadRequest();
@@ -104,6 +109,15 @@ namespace HIS.Api.Controllers
             var response = result.MapToResponses();
 
             return Ok(response);
+        }
+
+        [Authorize(AuthConstants.AdminPolicy)]
+        [HttpGet(ApiEndpoints.Doctors.AddPatientForDoctor)]
+        public async Task<ActionResult> AddPatientForDoctor(Guid PatientId, Guid DoctorId, CancellationToken token)
+        {
+            var result = await _doctorService.AddPatientForDoctorAsync(PatientId, DoctorId, token);
+
+            return Ok(result);
         }
     }
 }
