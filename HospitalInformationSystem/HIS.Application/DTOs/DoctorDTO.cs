@@ -16,5 +16,7 @@ namespace HIS.Application.DTOs
         public required string Specialties { get; init; }
         public required string Category { get; init; }
         public required int Experience { get; set; }
+        public float? Rating { get; set; }
+        public int UserRating { get; set; }
     }
 }

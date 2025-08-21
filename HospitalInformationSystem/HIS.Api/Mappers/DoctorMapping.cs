@@ -48,7 +48,9 @@ namespace HIS.Api.Mappers
                 Surname= doctor.Surname,    
                 Specialties= doctor.Specialties,
                 Category = doctor.Category,
-                Experience = doctor.Experience
+                Experience = doctor.Experience,
+                Rating = doctor.Rating,
+                UserRating = doctor.UserRating
             };
         }
 

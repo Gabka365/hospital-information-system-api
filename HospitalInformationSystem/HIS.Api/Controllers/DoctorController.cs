@@ -75,14 +75,12 @@ namespace HIS.Api.Controllers
         public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
-            var doctor = request.MapToDoctor(id);
-            var isUpdated = await _doctorService.UpdateDoctorAsync(doctor, userId, token);
 
-            if (!isUpdated)
-            {
-                return NotFound();
-            }
-            return Ok(doctor.MapToResponse());
+            var doctor = request.MapToDoctor(id);
+            var updatedDoctor = await _doctorService.UpdateDoctorAsync(doctor, userId, token);
+            var response = updatedDoctor.MapToResponse();   
+            
+            return Ok(response);
         }
 
         [Authorize(AuthConstants.AdminPolicy)]

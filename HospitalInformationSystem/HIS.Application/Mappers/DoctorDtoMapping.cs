@@ -49,7 +49,9 @@ namespace HIS.Application.Mappers
                 Surname = DoctorDTO.Surname,
                 Specialties = especs,
                 Category = categ,
-                Experience = DoctorDTO.Experience
+                Experience = DoctorDTO.Experience,
+                Rating = DoctorDTO.Rating,
+                UserRating = DoctorDTO.UserRating
             };
         }
     }

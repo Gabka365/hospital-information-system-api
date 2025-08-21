@@ -4,6 +4,7 @@ using HIS.Application.Models;
 using HIS.Application.Repositories;
 using HIS.Application.Repositories.Auth;
 using HIS.Application.Repositories.Patients;
+using HIS.Application.Repositories.Ratings;
 using HIS.Application.Validators;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,16 @@ namespace HIS.Application.Services.Doctors
     {
         private readonly IDoctorRepository _doctorRepository;
         private readonly IPatientRepository _patientRepository;
+        private readonly IRatingsRepository _ratingsRepository;
         private readonly IValidator<Doctor> _doctorValidator;
         private readonly IAuthRepository _authRepository;
 
-        public DoctorService(IDoctorRepository doctorRepository, IPatientRepository patientRepository, IValidator<Doctor> doctorValidator, IAuthRepository authRepository)
+        public DoctorService(IDoctorRepository doctorRepository, IPatientRepository patientRepository, 
+            IRatingsRepository ratingsRepository, IValidator<Doctor> doctorValidator, IAuthRepository authRepository)
         {
             _doctorRepository = doctorRepository;
             _patientRepository = patientRepository;
+            _ratingsRepository = ratingsRepository;
             _doctorValidator = doctorValidator;
             _authRepository = authRepository;
         }
@@ -69,15 +73,19 @@ namespace HIS.Application.Services.Doctors
             return doctor;
         }
 
-        public async Task<bool> UpdateDoctorAsync(Doctor doctor, Guid userId, CancellationToken token)
+        public async Task<Doctor> UpdateDoctorAsync(Doctor doctor, Guid userId, CancellationToken token)
         {
             _doctorValidator.ValidateAndThrow(doctor);
 
-            var DoctorDTO = doctor.MapToDoctorDTO();
+            var doctorDTO = doctor.MapToDoctorDTO();
+            var updatedDoctorDto = await _doctorRepository.UpdateDoctorAsync(doctorDTO, userId, token);
+            var ratings = await _ratingsRepository.GetRatingAsync(doctor.Id, userId, token);
 
-            var isUpdated = await _doctorRepository.UpdateDoctorAsync(DoctorDTO, userId, token);
+            var updatedDoctor = updatedDoctorDto.MapToDoctor();
+            updatedDoctor.Rating = ratings.Rating;
+            updatedDoctor.UserRating = ratings.UserRating;
 
-            return isUpdated;
+            return updatedDoctor;
         }
 
         public async Task<List<Patient>> GetDoctorsPatientsAsync(Guid id, CancellationToken token)
