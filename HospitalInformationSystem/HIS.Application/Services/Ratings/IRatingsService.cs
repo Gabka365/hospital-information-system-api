@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Application.Services.Ratings
 {
-    public interface IRatingService
+    public interface IRatingsService
     {
         Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid iuserId, CancellationToken token = default);
 

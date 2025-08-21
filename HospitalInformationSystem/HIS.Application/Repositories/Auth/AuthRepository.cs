@@ -44,8 +44,6 @@ namespace HIS.Application.Repositories.Auth
                 select Id, UserName, HashedPassword, Email from `HospitalInformationSystemDB`.`users` where Email=@Email
                 """, new { email }, cancellationToken: token));
 
-
-
             return result.SingleOrDefault();
         }
     }

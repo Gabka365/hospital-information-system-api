@@ -8,11 +8,11 @@ namespace HIS.Api.Controllers
 {
     public class RatingsController : ControllerBase
     {
-        private readonly IRatingService _ratingService;
+        private readonly IRatingsService _ratingsService;
 
-        public RatingsController(IRatingService ratingService)
+        public RatingsController(IRatingsService ratingsService)
         {
-            _ratingService = ratingService;
+            _ratingsService = ratingsService;
         }
 
         [Authorize]

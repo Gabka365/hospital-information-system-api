@@ -24,8 +24,8 @@ namespace HIS.Application
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IRatingRepository, RatingRepository>();
-            services.AddScoped<IRatingService, RatingService>();
+            services.AddScoped<IRatingsRepository, RatingsRepository>();
+            services.AddScoped<IRatingsService, RatingsService>();
             services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Transient);
 
             return services;

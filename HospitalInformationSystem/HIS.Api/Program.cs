@@ -1,5 +1,4 @@
 using HIS.Api.Auth;
-using HIS.Api;
 using HIS.Api.Mappers;
 using HIS.Application;
 using HIS.Application.Database;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
-
 
 
 var builder = WebApplication.CreateBuilder(args);

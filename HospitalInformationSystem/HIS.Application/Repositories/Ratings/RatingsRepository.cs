@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Application.Repositories.Ratings
 {
-    public class RatingRepository : IRatingRepository
+    public class RatingsRepository : IRatingsRepository
     {
         public Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken cancellationToken = default)
         {

@@ -1,4 +1,5 @@
 ﻿using HIS.Application.Models;
+using HIS.Application.Repositories.Ratings;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace HIS.Application.Services.Ratings
 {
-    public class RatingService : IRatingService
+    public class RatingsService : IRatingsService
     {
-        private readonly IRatingService _ratingService;
+        private readonly IRatingsRepository _ratingsRepository;
 
-        public RatingService(IRatingService ratingService)
+        public RatingsService(IRatingsRepository ratingsRepository)
         {
-            _ratingService = ratingService;
+            _ratingsRepository = ratingsRepository;
         }
 
         public Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default)
