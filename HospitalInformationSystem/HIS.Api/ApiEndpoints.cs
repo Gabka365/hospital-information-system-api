@@ -21,15 +21,7 @@ namespace HIS.Api
 
             public const string Rate = $"{Base}/{{id:guid}}/ratings";
             public const string DeleteRating = $"{Base}/{{id:guid}}/ratings";
-        }
-
-        public static class Ratings
-        {
-            private const string Base = $"{ApiBase}/ratings";
-
-            public const string GetUserRatings = $"{Base}/me";
-
-            public const string DeleteRatings = $"{Base}/{{id:guid}}/delete";
+            public const string GetUserRatingsForDoctor = $"{Base}/me";
         }
 
         public static class Patients

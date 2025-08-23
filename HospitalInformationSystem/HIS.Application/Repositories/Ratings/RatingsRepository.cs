@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using HIS.Application.Database;
 using HIS.Application.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,19 @@ namespace HIS.Application.Repositories.Ratings
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-
-        public Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var deletedRows = await connection.ExecuteAsync(new CommandDefinition("""
+                delete from `HospitalInformationSystemDB`.`ratings` r
+                where r.DoctorId = @doctorId and r.UserId = @userId
+                """, new {doctorId, userId}, cancellationToken: token));
+
+            return deletedRows == 1;
         }
 
-        public async Task<float?> GetRatingAsync(Guid doctorId, CancellationToken token = default)
+        public async Task<float?> GetRatingAsync(Guid doctorId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -38,7 +45,7 @@ namespace HIS.Application.Repositories.Ratings
             return result.Value;
         }
 
-        public async Task<(float? Rating, int? UserRating)> GetRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default)
+        public async Task<(float? Rating, int? UserRating)> GetRatingAsync(Guid doctorId, Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -57,14 +64,34 @@ namespace HIS.Application.Repositories.Ratings
             return (result.Item1, result.Item2);
         }
 
-        public Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var ratings = await connection.QueryAsync<DoctorRating>(new CommandDefinition("""
+                select d.Id, r.Rating, d.FirstName, d.LastName, d.Surname 
+                from HospitalInformationSystemDB.doctors as d
+                inner join HospitalInformationSystemDB.ratings as r 
+                on d.Id = r.DoctorId and r.UserId = @userId
+                """, new {userId}, cancellationToken: token));
+
+            return ratings;
         }
 
-        public Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token = default)
+        public async Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var updatedRows = await connection.ExecuteAsync(new CommandDefinition("""
+                insert into `HospitalInformationSystemDB`.`ratings` (UserId, DoctorId, Rating)
+                values (@userId, @doctorId, @rating)
+                on duplicate key update
+                    UserId = @userId,
+                    DoctorId = @doctorId,
+                    Rating = @rating
+                """, new {doctorId, rating, userId}, cancellationToken: token));
+
+            return updatedRows == 1;
         }
     }
 }

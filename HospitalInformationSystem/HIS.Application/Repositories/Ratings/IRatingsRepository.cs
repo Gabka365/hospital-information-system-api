@@ -9,14 +9,14 @@ namespace HIS.Application.Repositories.Ratings
 {
     public interface IRatingsRepository
     {
-        Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token = default);
+        Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token);
 
-        Task<float?> GetRatingAsync(Guid doctorId, CancellationToken token = default);
+        Task<float?> GetRatingAsync(Guid doctorId, CancellationToken token);
 
-        Task<(float? Rating, int? UserRating)> GetRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default);
+        Task<(float? Rating, int? UserRating)> GetRatingAsync(Guid doctorId, Guid userId, CancellationToken token);
 
-        Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken cancellationToken = default);
+        Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token);
 
-        Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken cancellationToken);
     }
 }

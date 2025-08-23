@@ -1,4 +1,5 @@
 ﻿using HIS.Api.Auth;
+using HIS.Api.Mappers;
 using HIS.Application.Services.Ratings;
 using HIS.Contracts.Requests.Ratings;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HIS.Api.Controllers
 {
+    [Authorize]
     public class RatingsController : ControllerBase
     {
         private readonly IRatingsService _ratingsService;
@@ -15,26 +17,36 @@ namespace HIS.Api.Controllers
             _ratingsService = ratingsService;
         }
 
-        [Authorize]
         [HttpPut(ApiEndpoints.Doctors.Rate)]
         public async Task<IActionResult> RateDoctor([FromRoute] Guid id, [FromBody] RateDoctorRequest request, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var userId = HttpContext.GetUserId();
+
+            var isRated = await _ratingsService.RateDoctorAsync(id, request.Rating, userId, token);
+
+            return isRated ? Ok() : NotFound(); 
         }
 
-        [Authorize]
-        [HttpPut(ApiEndpoints.Ratings.DeleteRatings)]
+        [HttpDelete(ApiEndpoints.Doctors.DeleteRating)]
         public async Task<IActionResult> DeleteRating([FromRoute] Guid id, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var userId = HttpContext.GetUserId();
+
+            var isDeleted = await _ratingsService.DeleteRatingAsync(id, userId, token);
+
+            return isDeleted ? Ok() : NotFound();
         }
 
-        [Authorize]
-        [HttpPut(ApiEndpoints.Ratings.GetUserRatings)]
+        [HttpGet(ApiEndpoints.Doctors.GetUserRatingsForDoctor)]
         public async Task<IActionResult> GetUserRatings(CancellationToken token = default)
         {
-            throw new NotImplementedException();
-        }
+            var userId = HttpContext.GetUserId();
 
+            var userRatings = await _ratingsService.GetRatingsForUserAsync(userId, token);
+
+            var response = userRatings.MapToRatingsResponse();
+
+            return Ok(response);
+        }
     }
 }

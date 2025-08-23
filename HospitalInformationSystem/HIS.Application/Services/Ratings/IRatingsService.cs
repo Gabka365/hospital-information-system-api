@@ -9,10 +9,10 @@ namespace HIS.Application.Services.Ratings
 {
     public interface IRatingsService
     {
-        Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid iuserId, CancellationToken token = default);
+        Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token = default);
 
         Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default);
 
-        Task<IEnumerable<DoctorRating>> GetRatingsRotUserAsync(Guid userId, CancellationToken token = default);
+        Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken token = default);
     }
 }

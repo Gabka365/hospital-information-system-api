@@ -1,4 +1,6 @@
-﻿using HIS.Application.Models;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using HIS.Application.Models;
 using HIS.Application.Repositories.Ratings;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -18,19 +20,35 @@ namespace HIS.Application.Services.Ratings
             _ratingsRepository = ratingsRepository;
         }
 
-        public Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default)
+        public async Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            return await _ratingsRepository.DeleteRatingAsync(doctorId, userId, token);
         }
 
-        public Task<IEnumerable<DoctorRating>> GetRatingsRotUserAsync(Guid userId, CancellationToken token = default)
+        public async Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            var ratings = await _ratingsRepository.GetRatingsForUserAsync(userId, token);
+
+            return ratings;
         }
 
-        public Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid iuserId, CancellationToken token = default)
+        public async Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            if (rating > 10 || rating < 0) 
+            {
+                throw new ValidationException("Error with validation has been occured.", new[]
+                {
+                    new ValidationFailure
+                    {
+                        PropertyName = nameof(rating),
+                        ErrorMessage = $"Incorrect rating number. Number can be only less than 10 and more than 0."
+                    }
+                });
+            }
+
+            var isRated = await _ratingsRepository.RateDoctorAsync(doctorId, rating, userId, token);
+            
+            return isRated;
         }
     }
 }
