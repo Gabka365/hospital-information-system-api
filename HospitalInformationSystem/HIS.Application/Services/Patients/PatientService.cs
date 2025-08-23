@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HIS.Application.Repositories.Auth;
+using HIS.Application.Repositories;
 
 namespace HIS.Application.Services.Patients
 {
@@ -15,11 +17,16 @@ namespace HIS.Application.Services.Patients
     {
         private readonly PatientValidator _patientValidator;
         private readonly IPatientRepository _patientRepository;
+        private readonly IDoctorRepository _doctorRepository;
+        private readonly IAuthRepository _authRepository;
 
-        public PatientService(PatientValidator patientValidator, IPatientRepository patientRepository)
+        public PatientService(PatientValidator patientValidator, IPatientRepository patientRepository, 
+            IDoctorRepository doctorRepository, IAuthRepository authRepository)
         {
             _patientValidator = patientValidator;
             _patientRepository = patientRepository;
+            _doctorRepository = doctorRepository;
+            _authRepository = authRepository;
         }
 
         public async Task<Patient> GetPatientAsync(Guid id, CancellationToken token)
@@ -82,6 +89,37 @@ namespace HIS.Application.Services.Patients
             var doctors = doctorsDtos.Select(x => x.MapToDoctor());
 
             return doctors.ToList();
+        }
+
+        public async Task<Guid> GetUserIdByEmail(string email, CancellationToken token)
+        {
+            var specifiedUser = await _authRepository.GetUserAsync(email, token);
+
+            if (specifiedUser == null)
+                throw new InvalidDataException($"No one concurrence with this email: {email}");
+
+            return specifiedUser.Id;
+        }
+
+        public async Task<bool> AddDoctorForPatientAsync(Guid DoctorId, Guid PatientId, CancellationToken token)
+        {
+            var specifiedDoctor = await _doctorRepository.IsDoctorExistAsync(DoctorId, token);
+
+            if (!specifiedDoctor)
+            {
+                throw new InvalidDataException($"Not correct doctorID: {DoctorId}");
+            }
+
+            var specifiedPatient = await _patientRepository.IsPatientExistAsync(PatientId, token);
+
+            if (!specifiedPatient)
+            {
+                throw new InvalidDataException($"Not correct patientID: {PatientId}");
+            }
+
+            var result = await _patientRepository.AddDoctorForPatientAsync(DoctorId, PatientId, token);
+
+            return result;
         }
     }
 }

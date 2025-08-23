@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using HIS.Application.Services.Patients;
 using HIS.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using HIS.Api.Auth;
 
 namespace HIS.Api.Controllers
 {
@@ -40,7 +41,9 @@ namespace HIS.Api.Controllers
         [HttpPost(ApiEndpoints.Patients.Create)]
         public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequest request, CancellationToken token)
         {
-            var patient = request.MapToPatient();
+            var specifiedUserId = await _patientService.GetUserIdByEmail(request.Email, token);
+
+            var patient = request.MapToPatient(specifiedUserId);
         
             var result = await _patientService.CreatePatientAsync(patient, token);
 
@@ -78,5 +81,25 @@ namespace HIS.Api.Controllers
 
             return Ok(response);
         }
+
+        [Authorize(AuthConstants.AdminPolicy)]
+        [HttpGet(ApiEndpoints.Patients.AddDoctorForPatient)]
+        public async Task<IActionResult> AddDoctorForPatient([FromRoute] Guid DoctorId, [FromRoute] Guid PatientId, CancellationToken token)
+        {
+            var result = await _patientService.AddDoctorForPatientAsync(DoctorId, PatientId, token);
+
+            return Ok(result);  
+        }
+
+        [HttpGet(ApiEndpoints.Patients.AddDoctorForCurrentUser)]
+        public async Task<IActionResult> AddDoctorForCurrentUser([FromRoute] Guid id, CancellationToken token)
+        {
+            var result = await _patientService.GetPatientsDoctorsAsync(id, token);
+
+            var response = result.MapToResponses();
+
+            return Ok(response);
+        }
+
     }
 }

@@ -9,11 +9,11 @@ namespace HIS.Api.Mappers
 {
     public static class DoctorMapping
     {
-        public static Doctor MapToDoctor(this CreateDoctorRequest request)
+        public static Doctor MapToDoctor(this CreateDoctorRequest request, Guid specifiedUserId)
         {
             return new Doctor
             {
-                Id = Guid.NewGuid(),
+                Id = specifiedUserId,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Surname = request.Surname,
@@ -48,7 +48,9 @@ namespace HIS.Api.Mappers
                 Surname= doctor.Surname,    
                 Specialties= doctor.Specialties,
                 Category = doctor.Category,
-                Experience = doctor.Experience
+                Experience = doctor.Experience,
+                Rating = doctor.Rating,
+                UserRating = doctor.UserRating
             };
         }
 

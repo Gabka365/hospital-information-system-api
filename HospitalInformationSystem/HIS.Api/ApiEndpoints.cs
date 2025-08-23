@@ -16,7 +16,14 @@ namespace HIS.Api
             public const string Delete = $"{Base}/{{id:guid}}";
 
             public const string GetDoctorsPatients = $"{Base}/{{id:guid}}/patients";
+            public const string AddPatientForDoctor = $"{Base}/add/patient/{{PatientId:guid}}/doctor/{{DoctorId:guid}}";
+            public const string AddPatientForCurrentUser = $"{Base}/add/{{id:guid}}";
+
+            public const string Rate = $"{Base}/{{id:guid}}/ratings";
+            public const string DeleteRating = $"{Base}/{{id:guid}}/ratings";
+            public const string GetUserRatingsForDoctor = $"{Base}/me";
         }
+
         public static class Patients
         {
             private const string Base = $"{ApiBase}/patients";
@@ -28,6 +35,8 @@ namespace HIS.Api
             public const string Delete = $"{Base}/{{id:guid}}";
 
             public const string GetPatientsDoctors = $"{Base}/{{id:guid}}/doctors";
+            public const string AddDoctorForPatient = $"{Base}/add/doctor/{{DoctorId:guid}}/patient/{{PatientId:guid}}";
+            public const string AddDoctorForCurrentUser = $"{Base}/add/{{id:guid}}";
         }
 
         public static class Auth

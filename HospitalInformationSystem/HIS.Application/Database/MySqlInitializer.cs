@@ -68,6 +68,15 @@ namespace HIS.Application.Database
                 )
                 """);
 
+            await connection.ExecuteAsync("""
+                create table if not exists `HospitalInformationSystemDB`.`ratings` (
+                UserId CHAR(36),
+                DoctorId CHAR(36),
+                Rating INT not null,
+                foreign key (UserId) references `HospitalInformationSystemDB`.`users`(Id),
+                foreign key (DoctorId) references `HospitalInformationSystemDB`.`doctors`(Id),
+                primary key (UserId, DoctorId))  
+                """);
         }
     }
 }

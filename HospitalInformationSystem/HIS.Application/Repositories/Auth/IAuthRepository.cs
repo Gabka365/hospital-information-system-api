@@ -10,6 +10,6 @@ namespace HIS.Application.Repositories.Auth
     public interface IAuthRepository
     {
         Task<UserDTO> CreateUserAsync (UserDTO userDto, CancellationToken token);
-        Task<UserDTO?> GetUserAsync(string UserName, CancellationToken token);
+        Task<UserDTO?> GetUserAsync(string email, CancellationToken token);
     }
 }

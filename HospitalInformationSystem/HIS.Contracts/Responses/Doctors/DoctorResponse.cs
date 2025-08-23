@@ -16,5 +16,7 @@ namespace HIS.Contracts.Responses.Doctors
         public required List<Speciality> Specialties { get; init; }
         public required Category Category { get; init; }
         public required int Experience { get; init; }
+        public float? Rating { get; init; }
+        public int? UserRating { get; init; }
     }
 }

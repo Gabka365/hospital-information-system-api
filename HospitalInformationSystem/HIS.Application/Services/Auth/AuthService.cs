@@ -69,6 +69,8 @@ namespace HIS.Application.Services.Auth
                 return null;
             }
 
+            user.Id = userDto.Id;
+
             var tokenSecret = _configuration["Jwt:Key"]!;
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -77,7 +79,7 @@ namespace HIS.Application.Services.Auth
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new("Id", user.Id.ToString()),
+                new("UserId", user.Id.ToString()),
                 new("UserName", user.UserName),
                 new("Email", user.Email)
             };

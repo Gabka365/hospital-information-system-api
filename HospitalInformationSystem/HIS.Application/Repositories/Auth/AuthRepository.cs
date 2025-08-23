@@ -41,7 +41,7 @@ namespace HIS.Application.Repositories.Auth
             var connection = await _connector.CreateConnectionAsync(token);
 
             var result = await connection.QueryAsync<UserDTO>(new CommandDefinition("""
-                select UserName, HashedPassword, Email from `HospitalInformationSystemDB`.`users` where Email=@Email
+                select Id, UserName, HashedPassword, Email from `HospitalInformationSystemDB`.`users` where Email=@Email
                 """, new { email }, cancellationToken: token));
 
             return result.SingleOrDefault();

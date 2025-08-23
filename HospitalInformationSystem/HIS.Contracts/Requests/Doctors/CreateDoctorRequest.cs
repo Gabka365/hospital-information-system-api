@@ -16,5 +16,6 @@ namespace HIS.Contracts.Requests.Doctors
         public required List<Speciality> Specialties { get; init; }
         public required Category Category { get; init; }
         public required int Experience { get; init; }
+        public required string Email { get; init; }
     }
 }

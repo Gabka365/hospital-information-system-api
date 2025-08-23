@@ -8,10 +8,11 @@ namespace HIS.Contracts.Requests.Patients
 {
     public class CreatePatientRequest
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Surname { get; set; }
-        public int Age { get; set; }
-        public string DiseaseList { get; set; }
+        public required string FirstName { get; init; }
+        public required string LastName { get; init; }
+        public required string Surname { get; init; }
+        public required int Age { get; init; }
+        public required string DiseaseList { get; init; }
+        public required string Email { get; init; }
     }
 }
