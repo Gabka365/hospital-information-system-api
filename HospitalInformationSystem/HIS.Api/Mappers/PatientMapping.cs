@@ -65,5 +65,15 @@ namespace HIS.Api.Mappers
             };
         }
 
+
+        public static GetAllPatientsOptions MapToOptions(this GetAllPatientsRequest request)
+        {
+            return new GetAllPatientsOptions
+            {
+                LastName = request.LastName,
+                Age = request.Age
+            };
+        }
+
     }
 }

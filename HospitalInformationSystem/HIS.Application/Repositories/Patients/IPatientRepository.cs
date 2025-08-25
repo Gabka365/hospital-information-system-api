@@ -11,7 +11,7 @@ namespace HIS.Application.Repositories.Patients
     public interface IPatientRepository
     {
         Task<PatientDTO> GetPatientAsync(Guid id, CancellationToken token);
-        Task<List<PatientDTO>?> GetAllPatientsAsync(CancellationToken token);
+        Task<List<PatientDTO>?> GetAllPatientsAsync(GetAllPatientsOptions options, CancellationToken token);
         Task<PatientDTO> CreatePatientAsync(PatientDTO patientDto, CancellationToken token);
         Task<PatientDTO> UpdatePatientAsync(PatientDTO patientDto, CancellationToken token);
         Task<bool> DeletePatientAsync(Guid id, CancellationToken token);

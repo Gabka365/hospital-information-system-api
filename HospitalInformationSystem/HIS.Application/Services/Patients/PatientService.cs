@@ -16,14 +16,16 @@ namespace HIS.Application.Services.Patients
     public class PatientService : IPatientService
     {
         private readonly PatientValidator _patientValidator;
+        private readonly GetAllPatientsOptionsValidator _getAllPatientsOptionsValidator;
         private readonly IPatientRepository _patientRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IAuthRepository _authRepository;
 
-        public PatientService(PatientValidator patientValidator, IPatientRepository patientRepository, 
-            IDoctorRepository doctorRepository, IAuthRepository authRepository)
+        public PatientService(PatientValidator patientValidator, GetAllPatientsOptionsValidator getAllPatientsOptionsValidator, 
+            IPatientRepository patientRepository, IDoctorRepository doctorRepository, IAuthRepository authRepository)
         {
             _patientValidator = patientValidator;
+            _getAllPatientsOptionsValidator = getAllPatientsOptionsValidator;
             _patientRepository = patientRepository;
             _doctorRepository = doctorRepository;
             _authRepository = authRepository;
@@ -38,9 +40,11 @@ namespace HIS.Application.Services.Patients
             return patient;
         }
 
-        public async Task<List<Patient>> GetAllPatientsAsync(CancellationToken token)
+        public async Task<List<Patient>> GetAllPatientsAsync(GetAllPatientsOptions options, CancellationToken token)
         {
-            var patientDtos = await _patientRepository.GetAllPatientsAsync(token);
+            _getAllPatientsOptionsValidator.ValidateAndThrow(options);   
+
+            var patientDtos = await _patientRepository.GetAllPatientsAsync(options, token);
 
             var patients = patientDtos
                 .Select(x => x.MapToPatient())

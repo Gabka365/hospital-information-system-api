@@ -12,7 +12,7 @@ namespace HIS.Api.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private IPatientService _patientService;
+        private readonly IPatientService _patientService;
 
         public PatientController(IPatientService patientService)
         {
@@ -29,10 +29,14 @@ namespace HIS.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize(AuthConstants.AdminPolicy)]
         [HttpGet(ApiEndpoints.Patients.GetAll)]
-        public async Task<IActionResult> GetAllPatients(CancellationToken token)
+        public async Task<IActionResult> GetAllPatients([FromQuery] GetAllPatientsRequest request, CancellationToken token)
         {
-            var patients = await _patientService.GetAllPatientsAsync(token);
+            var options = request
+                .MapToOptions();
+            
+            var patients = await _patientService.GetAllPatientsAsync(options, token);
 
             return Ok(patients);
         }
