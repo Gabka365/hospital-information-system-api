@@ -50,14 +50,14 @@ namespace HIS.Api.Controllers
             var userId = HttpContext.GetUserId();
 
             var options = request
-                .MaoToOptions()
+                .MapToOptions()
                 .WithUser(userId);
 
             var doctors = await _doctorService.GetAllDoctorsAsync(options, token);
 
+            var response = doctors.MapToResponses();
 
-
-            return Ok(doctors);
+            return Ok(response);
         }
 
         [Authorize(AuthConstants.AdminPolicy)]

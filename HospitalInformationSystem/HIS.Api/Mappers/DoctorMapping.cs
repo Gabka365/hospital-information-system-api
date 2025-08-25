@@ -59,7 +59,7 @@ namespace HIS.Api.Mappers
             return new DoctorsResponse { DoctorResponses = doctors.Select(x => x.MapToResponse()).ToList()};
         }
 
-        public static GetAllDoctorsOptions MaoToOptions(this GetAllDoctorsRequest request)
+        public static GetAllDoctorsOptions MapToOptions(this GetAllDoctorsRequest request)
         {
             return new GetAllDoctorsOptions
             { 

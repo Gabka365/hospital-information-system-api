@@ -12,7 +12,9 @@ namespace HIS.Application.Validators
     {
         public GetAllPatientsOptionsValidator() 
         {
-            RuleFor(x => x.Age > 20 && x.Age < 100);
+            RuleFor(x => x.Age)
+                .Must(x => x.Value > 20 && x.Value < 100)
+                .WithErrorCode("406");
         }
     }
 }

@@ -38,7 +38,9 @@ namespace HIS.Api.Controllers
             
             var patients = await _patientService.GetAllPatientsAsync(options, token);
 
-            return Ok(patients);
+            var response = patients.MapToResponses();
+
+            return Ok(response);
         }
 
         [Authorize(AuthConstants.AdminPolicy)]
