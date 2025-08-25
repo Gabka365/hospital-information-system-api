@@ -58,5 +58,24 @@ namespace HIS.Api.Mappers
         {
             return new DoctorsResponse { DoctorResponses = doctors.Select(x => x.MapToResponse()).ToList()};
         }
+
+        public static GetAllDoctorsOptions MaoToOptions(this GetAllDoctorsRequest request)
+        {
+            return new GetAllDoctorsOptions
+            { 
+                FirstName = request.FirstName,
+                LastName = request.LastName,    
+                Surname = request.Surname,
+                Specialties = request.Specialties,
+                Category = request.Category,
+                Experience = request.Experience
+            };
+        }
+
+        public static GetAllDoctorsOptions WithUser(this GetAllDoctorsOptions options, Guid userId)
+        {
+            options.UserId = userId;
+            return options; 
+        }
     }
 }

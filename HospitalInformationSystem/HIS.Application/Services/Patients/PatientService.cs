@@ -16,12 +16,12 @@ namespace HIS.Application.Services.Patients
     public class PatientService : IPatientService
     {
         private readonly PatientValidator _patientValidator;
-        private readonly GetAllPatientsOptionsValidator _getAllPatientsOptionsValidator;
+        private readonly IValidator<GetAllPatientsOptions> _getAllPatientsOptionsValidator;
         private readonly IPatientRepository _patientRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IAuthRepository _authRepository;
 
-        public PatientService(PatientValidator patientValidator, GetAllPatientsOptionsValidator getAllPatientsOptionsValidator, 
+        public PatientService(PatientValidator patientValidator, IValidator<GetAllPatientsOptions> getAllPatientsOptionsValidator, 
             IPatientRepository patientRepository, IDoctorRepository doctorRepository, IAuthRepository authRepository)
         {
             _patientValidator = patientValidator;

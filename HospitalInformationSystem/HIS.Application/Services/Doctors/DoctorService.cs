@@ -20,15 +20,18 @@ namespace HIS.Application.Services.Doctors
         private readonly IPatientRepository _patientRepository;
         private readonly IRatingsRepository _ratingsRepository;
         private readonly IValidator<Doctor> _doctorValidator;
+        private readonly IValidator<GetAllDoctorsOptions> _getAllDoctorsOptionsValidator;
         private readonly IAuthRepository _authRepository;
 
         public DoctorService(IDoctorRepository doctorRepository, IPatientRepository patientRepository, 
-            IRatingsRepository ratingsRepository, IValidator<Doctor> doctorValidator, IAuthRepository authRepository)
+             IRatingsRepository ratingsRepository, IValidator<Doctor> doctorValidator, 
+             IValidator<GetAllDoctorsOptions> getAllDoctorsOptionsValidator, IAuthRepository authRepository)
         {
             _doctorRepository = doctorRepository;
             _patientRepository = patientRepository;
             _ratingsRepository = ratingsRepository;
             _doctorValidator = doctorValidator;
+            _getAllDoctorsOptionsValidator = getAllDoctorsOptionsValidator;
             _authRepository = authRepository;
         }
 
@@ -50,11 +53,13 @@ namespace HIS.Application.Services.Doctors
             return isDeleted;
         }
 
-        public async Task<List<Doctor>> GetAllDoctorsAsync(Guid userId, CancellationToken token)
+        public async Task<List<Doctor>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token)
         {
-            var DoctorDTOs = await _doctorRepository.GetAllDoctorsAsync(userId, token);
+            _getAllDoctorsOptionsValidator.ValidateAndThrow(options);
 
-            var doctors = DoctorDTOs.Select(x => x.MapToDoctor());
+            var doctorDTOs = await _doctorRepository.GetAllDoctorsAsync(options, token);
+
+            var doctors = doctorDTOs.Select(x => x.MapToDoctor());
 
             return doctors.ToList();
         }

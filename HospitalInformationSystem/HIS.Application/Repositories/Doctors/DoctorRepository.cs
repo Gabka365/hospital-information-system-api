@@ -49,17 +49,30 @@ namespace HIS.Application.Repositories.Doctors
             return count == 1;
         }
 
-        public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Guid userId, CancellationToken token)
+        public async Task<List<DoctorDTO>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            options.FirstName = "%" + options.FirstName + "%";
+            options.LastName = "%" + options.LastName + "%";
+            options.Surname = "%" + options.Surname + "%";
+            options.Specialties = "%" + options.Specialties + "%";
+            options.Category = "%" + options.Category + "%";
+            
 
             var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition("""
                 select d.*, round(avg(r.Rating), 1) as Rating, myr.Rating as UserRating
                 from `HospitalInformationSystemDB`.`doctors` d 
                 left join `HospitalInformationSystemDB`.`ratings` r on d.Id = r.DoctorId
-                left join `HospitalInformationSystemDB`.`ratings` myr on d.Id = myr.DoctorId and myr.UserId = @userId 
+                left join `HospitalInformationSystemDB`.`ratings` myr on d.Id = myr.DoctorId and myr.UserId = @UserId 
+                where (@FirstName is null or d.FirstName like @FirstName)
+                and (@LastName is null or d.LastName like @LastName)
+                and (@Surname is null or d.Surname like @Surname)
+                and (@Specialties is null or d.Specialties like @Specialties)
+                and (@Category is null or d.Category like @Category)
+                and (@Experience is null or d.Experience=@Experience)
                 group by d.Id
-                """, new { userId }, cancellationToken: token));
+                """, options, cancellationToken: token));
 
             return result.ToList();
         }

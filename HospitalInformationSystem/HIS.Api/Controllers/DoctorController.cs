@@ -45,10 +45,17 @@ namespace HIS.Api.Controllers
 
         [Authorize(AuthConstants.TrustedMemberPolicy)]
         [HttpGet(ApiEndpoints.Doctors.GetAll)]
-        public async Task<IActionResult> GetAllDoctors(CancellationToken token)
+        public async Task<IActionResult> GetAllDoctors([FromQuery]GetAllDoctorsRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
-            var doctors = await _doctorService.GetAllDoctorsAsync(userId, token);
+
+            var options = request
+                .MaoToOptions()
+                .WithUser(userId);
+
+            var doctors = await _doctorService.GetAllDoctorsAsync(options, token);
+
+
 
             return Ok(doctors);
         }

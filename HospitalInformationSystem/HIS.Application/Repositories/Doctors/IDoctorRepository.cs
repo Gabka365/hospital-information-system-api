@@ -14,7 +14,7 @@ namespace HIS.Application.Repositories
         Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token);
         Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token);
         Task<DoctorDTO> UpdateDoctorAsync(DoctorDTO doctor, Guid userId, CancellationToken token);
-        Task<List<DoctorDTO>> GetAllDoctorsAsync(Guid userId, CancellationToken token);
+        Task<List<DoctorDTO>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token);
         Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
         Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token);
         Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token);
