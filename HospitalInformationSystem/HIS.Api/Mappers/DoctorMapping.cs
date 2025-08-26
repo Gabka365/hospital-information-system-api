@@ -62,13 +62,16 @@ namespace HIS.Api.Mappers
         public static GetAllDoctorsOptions MapToOptions(this GetAllDoctorsRequest request)
         {
             return new GetAllDoctorsOptions
-            { 
+            {
                 FirstName = request.FirstName,
-                LastName = request.LastName,    
+                LastName = request.LastName,
                 Surname = request.Surname,
                 Specialties = request.Specialties,
                 Category = request.Category,
-                Experience = request.Experience
+                Experience = request.Experience,
+                SortField = request.SortBy?.Trim('+', '-'),
+                SortOrder = request.SortBy == null ? SortOrder.Unsorted :
+                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
             };
         }
 

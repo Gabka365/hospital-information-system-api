@@ -53,6 +53,13 @@ namespace HIS.Application.Repositories.Doctors
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
+            var orderClause = string.Empty;
+
+            if (options.SortField is not null)
+            {
+                orderClause = $", d.{options.SortField} order by d.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}";
+            }
+
             options.FirstName = "%" + options.FirstName + "%";
             options.LastName = "%" + options.LastName + "%";
             options.Surname = "%" + options.Surname + "%";
@@ -60,7 +67,7 @@ namespace HIS.Application.Repositories.Doctors
             options.Category = "%" + options.Category + "%";
             
 
-            var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition("""
+            var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition($"""
                 select d.*, round(avg(r.Rating), 1) as Rating, myr.Rating as UserRating
                 from `HospitalInformationSystemDB`.`doctors` d 
                 left join `HospitalInformationSystemDB`.`ratings` r on d.Id = r.DoctorId
@@ -71,7 +78,7 @@ namespace HIS.Application.Repositories.Doctors
                 and (@Specialties is null or d.Specialties like @Specialties)
                 and (@Category is null or d.Category like @Category)
                 and (@Experience is null or d.Experience=@Experience)
-                group by d.Id
+                group by d.Id{orderClause}
                 """, options, cancellationToken: token));
 
             return result.ToList();
