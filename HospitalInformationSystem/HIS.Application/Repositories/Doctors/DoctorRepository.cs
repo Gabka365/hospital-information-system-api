@@ -72,9 +72,29 @@ namespace HIS.Application.Repositories.Doctors
                 and (@Category is null or d.Category like @Category)
                 and (@Experience is null or d.Experience=@Experience)
                 group by d.Id{orderClause}
+                limit @PageSize
+                offset @PageOffset
                 """, options, cancellationToken: token));
 
             return result.ToList();
+        }
+
+        public async Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var count = await connection.QuerySingleAsync<int>(new CommandDefinition($"""
+                select count(*)
+                from `HospitalInformationSystemDB`.`doctors` d 
+                where (@FirstName is null or d.FirstName like @FirstName)
+                and (@LastName is null or d.LastName like @LastName)
+                and (@Surname is null or d.Surname like @Surname)
+                and (@Specialties is null or d.Specialties like @Specialties)
+                and (@Category is null or d.Category like @Category)
+                and (@Experience is null or d.Experience=@Experience)
+                """, options, cancellationToken: token));
+
+            return count;
         }
 
         public async Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token)

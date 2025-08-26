@@ -83,9 +83,7 @@ namespace HIS.Api.Controllers
         {
             var result = await _patientService.GetPatientsDoctorsAsync(id, token);
 
-            var response = result.MapToResponses();
-
-            return Ok(response);
+            throw new NotImplementedException();
         }
 
         [Authorize(AuthConstants.AdminPolicy)]
@@ -102,9 +100,7 @@ namespace HIS.Api.Controllers
         {
             var result = await _patientService.GetPatientsDoctorsAsync(id, token);
 
-            var response = result.MapToResponses();
-
-            return Ok(response);
+            throw new NotImplementedException();    
         }
 
     }

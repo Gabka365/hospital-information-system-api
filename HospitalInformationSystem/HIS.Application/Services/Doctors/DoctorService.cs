@@ -64,6 +64,16 @@ namespace HIS.Application.Services.Doctors
             return doctors.ToList();
         }
 
+        public async Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token)
+        {
+            _getAllDoctorsOptionsValidator.ValidateAndThrow(options);
+
+            var doctorsCount = await _doctorRepository.GetDoctorsCountAsync(options, token);
+
+            return doctorsCount;
+        }
+
+
         public async Task<Doctor?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token)
         {
             var DoctorDTO = await _doctorRepository.GetDoctorByIdAsync(id, userId, token);

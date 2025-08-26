@@ -55,7 +55,9 @@ namespace HIS.Api.Controllers
 
             var doctors = await _doctorService.GetAllDoctorsAsync(options, token);
 
-            var response = doctors.MapToResponses();
+            var doctorsCount = await _doctorService.GetDoctorsCountAsync(options, token);
+
+            var response = doctors.MapToResponses(request.Page, request.PageSize, doctorsCount);
 
             return Ok(response);
         }

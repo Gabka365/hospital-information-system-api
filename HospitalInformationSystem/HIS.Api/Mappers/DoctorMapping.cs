@@ -56,9 +56,15 @@ namespace HIS.Api.Mappers
             };
         }
 
-        public static DoctorsResponse MapToResponses(this List<Doctor> doctors)
+        public static DoctorsResponse MapToResponses(this List<Doctor> doctors, int page, int pageSize, int doctorsCount)
         {
-            return new DoctorsResponse { DoctorResponses = doctors.Select(x => x.MapToResponse()).ToList()};
+            return new DoctorsResponse 
+            {
+                Items = doctors.Select(x => x.MapToResponse()),
+                Page = page,
+                PageSize = pageSize,
+                Total = doctorsCount
+            };
         }
 
         public static GetAllDoctorsOptions MapToOptions(this GetAllDoctorsRequest request)
@@ -73,7 +79,9 @@ namespace HIS.Api.Mappers
                 Experience = request.Experience,
                 SortField = request.SortBy?.Trim('+', '-'),
                 SortOrder = request.SortBy == null ? SortOrder.Unsorted :
-                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
+                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending,
+                Page = request.Page,
+                PageSize = request.PageSize
             };
 
             options.FirstName = "%" + options.FirstName + "%";
