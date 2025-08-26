@@ -56,6 +56,8 @@ namespace HIS.Application.Repositories.Patients
                 and (@Surname is null or p.Surname like @Surname) 
                 and (@DiseaseList is null or p.DiseaseList like @DiseaseList) 
                 {orderClause}
+                limit @PageSize
+                offset @PageOffset
                 """, options, cancellationToken: token));
 
             if (result == null)
@@ -150,6 +152,22 @@ namespace HIS.Application.Repositories.Patients
                 """, new { DoctorId, PatientId }, cancellationToken: token));
 
             return result == 1;
+        }
+
+        public async Task<int> GetPatientsCountAsync(GetAllPatientsOptions options, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var count = await connection.QuerySingleAsync<int>(new CommandDefinition("""
+                select count(*) from `HospitalInformationSystemDB`.`patients` p
+                where (@Age is null or p.Age = @Age) 
+                and (@FirstName is null or p.FirstName like @FirstName) 
+                and (@LastName is null or p.LastName like @LastName) 
+                and (@Surname is null or p.Surname like @Surname) 
+                and (@DiseaseList is null or p.DiseaseList like @DiseaseList) 
+                """, options, cancellationToken: token));
+
+            return count;
         }
     }
 }

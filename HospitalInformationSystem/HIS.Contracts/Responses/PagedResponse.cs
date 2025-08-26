@@ -13,6 +13,5 @@ namespace HIS.Contracts.Responses
         public required int Page { get; init; }
         public required int Total { get; init; }
         public bool HasNextPage => Total > (Page * PageSize);
-
     }
 }

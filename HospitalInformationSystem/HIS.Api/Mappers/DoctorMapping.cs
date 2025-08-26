@@ -67,6 +67,15 @@ namespace HIS.Api.Mappers
             };
         }
 
+
+        public static PatientsResponseWithoutPagination MapToResponses(this List<Doctor> doctors)
+        {
+            return new PatientsResponseWithoutPagination
+            {
+                doctorsResponse = doctors.Select(x => x.MapToResponse()),
+            };
+        }
+
         public static GetAllDoctorsOptions MapToOptions(this GetAllDoctorsRequest request)
         {
             var options = new GetAllDoctorsOptions

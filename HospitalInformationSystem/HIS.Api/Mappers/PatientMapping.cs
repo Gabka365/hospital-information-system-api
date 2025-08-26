@@ -57,11 +57,22 @@ namespace HIS.Api.Mappers
         }
 
 
-        public static PatientsResponse MapToResponses(this List<Patient> patients)
+        public static PatientsResponse MapToResponses(this List<Patient> patients, int page, int pageSize, int patientsCount)
         {
             return new PatientsResponse
             {
-               patientsResponse = patients.Select(x => x.MapToResponse()).ToList()
+               Items = patients.Select(x => x.MapToResponse()),
+               Page = page,
+               PageSize = pageSize,
+               Total = patientsCount
+            };
+        }
+
+        public static PatientsResponseWithoutPagination MapToResponses(this List<Patient> patients)
+        {
+            return new PatientsResponseWithoutPagination
+            {
+                patientsResponse = patients.Select(x => x.MapToResponse()),
             };
         }
 
@@ -77,7 +88,9 @@ namespace HIS.Api.Mappers
                 Age = request.Age,
                 SortField = request.SortBy?.Trim('+', '-'),
                 SortOrder = request.SortBy == null ? SortOrder.Unsorted :
-                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
+                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending,
+                Page = request.Page,
+                PageSize = request.PageSize,
             };
 
             options.FirstName = "%" + options.FirstName + "%";

@@ -53,6 +53,15 @@ namespace HIS.Application.Services.Patients
             return patients;
         }
 
+        public async Task<int> GetPatientsCountAsync(GetAllPatientsOptions options, CancellationToken token)
+        {
+            _getAllPatientsOptionsValidator.ValidateAndThrow(options);
+
+            var count = await _patientRepository.GetPatientsCountAsync(options, token);
+
+            return count;
+        }
+
         public async Task<Patient> CreatePatientAsync(Patient patient, CancellationToken token)
         {
             _patientValidator.ValidateAndThrow(patient);
