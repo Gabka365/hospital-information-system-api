@@ -36,13 +36,23 @@ namespace HIS.Application.Repositories.Patients
             return result;
         }
 
-        public async Task<List<PatientDTO>?> GetAllPatientsAsync(CancellationToken token)
+        public async Task<List<PatientDTO>?> GetAllPatientsAsync(GetAllPatientsOptions options, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
+            options.FirstName = "%" + options.FirstName + "%";
+            options.LastName = "%" + options.LastName + "%";
+            options.Surname = "%" + options.Surname + "%";
+            options.DiseaseList = "%" + options.DiseaseList + "%";
+
             var result = await connection.QueryAsync<PatientDTO>(new CommandDefinition("""
-                select * from `HospitalInformationSystemDB`.`patients`
-                """, cancellationToken: token));
+                select * from `HospitalInformationSystemDB`.`patients` p
+                where (@Age is null or p.Age = @Age) 
+                and (@FirstName is null or p.FirstName like @FirstName) 
+                and (@LastName is null or p.LastName like @LastName) 
+                and (@Surname is null or p.Surname like @Surname) 
+                and (@DiseaseList is null or p.DiseaseList like @DiseaseList) 
+                """, options, cancellationToken: token));
 
             if (result == null)
             {
