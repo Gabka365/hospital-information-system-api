@@ -68,7 +68,7 @@ namespace HIS.Api.Mappers
 
         public static GetAllPatientsOptions MapToOptions(this GetAllPatientsRequest request)
         {
-            return new GetAllPatientsOptions
+            var options = new GetAllPatientsOptions
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -76,9 +76,16 @@ namespace HIS.Api.Mappers
                 DiseaseList = request.DiseaseList,
                 Age = request.Age,
                 SortField = request.SortBy?.Trim('+', '-'),
-                SortOrder = request.SortBy == null ? SortOrder.Unsorted : 
+                SortOrder = request.SortBy == null ? SortOrder.Unsorted :
                     request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
             };
+
+            options.FirstName = "%" + options.FirstName + "%";
+            options.LastName = "%" + options.LastName + "%";
+            options.Surname = "%" + options.Surname + "%";
+            options.DiseaseList = "%" + options.DiseaseList + "%";
+
+            return options;
         }
 
     }

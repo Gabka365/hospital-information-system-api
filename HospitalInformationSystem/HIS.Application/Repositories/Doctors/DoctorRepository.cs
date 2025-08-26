@@ -60,13 +60,6 @@ namespace HIS.Application.Repositories.Doctors
                 orderClause = $", d.{options.SortField} order by d.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}";
             }
 
-            options.FirstName = "%" + options.FirstName + "%";
-            options.LastName = "%" + options.LastName + "%";
-            options.Surname = "%" + options.Surname + "%";
-            options.Specialties = "%" + options.Specialties + "%";
-            options.Category = "%" + options.Category + "%";
-            
-
             var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition($"""
                 select d.*, round(avg(r.Rating), 1) as Rating, myr.Rating as UserRating
                 from `HospitalInformationSystemDB`.`doctors` d 

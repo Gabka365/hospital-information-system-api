@@ -48,11 +48,6 @@ namespace HIS.Application.Repositories.Patients
                 orderClause = $"order by p.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}";
             }
 
-            options.FirstName = "%" + options.FirstName + "%";
-            options.LastName = "%" + options.LastName + "%";
-            options.Surname = "%" + options.Surname + "%";
-            options.DiseaseList = "%" + options.DiseaseList + "%";
-
             var result = await connection.QueryAsync<PatientDTO>(new CommandDefinition($"""
                 select * from `HospitalInformationSystemDB`.`patients` p
                 where (@Age is null or p.Age = @Age) 

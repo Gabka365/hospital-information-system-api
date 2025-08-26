@@ -4,6 +4,7 @@ using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
 using HIS.Contracts.Responses.Doctors;
+using Microsoft.Extensions.Options;
 using System.Runtime.CompilerServices;
 
 namespace HIS.Api.Mappers
@@ -62,7 +63,7 @@ namespace HIS.Api.Mappers
 
         public static GetAllDoctorsOptions MapToOptions(this GetAllDoctorsRequest request)
         {
-            return new GetAllDoctorsOptions
+            var options = new GetAllDoctorsOptions
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -74,6 +75,14 @@ namespace HIS.Api.Mappers
                 SortOrder = request.SortBy == null ? SortOrder.Unsorted :
                     request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
             };
+
+            options.FirstName = "%" + options.FirstName + "%";
+            options.LastName = "%" + options.LastName + "%";
+            options.Surname = "%" + options.Surname + "%";
+            options.Specialties = "%" + options.Specialties + "%";
+            options.Category = "%" + options.Category + "%";
+
+            return options;
         }
 
         public static GetAllDoctorsOptions WithUser(this GetAllDoctorsOptions options, Guid userId)
