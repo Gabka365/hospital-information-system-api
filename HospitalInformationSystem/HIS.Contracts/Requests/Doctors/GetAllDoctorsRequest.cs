@@ -8,11 +8,12 @@ namespace HIS.Contracts.Requests.Doctors
 {
     public class GetAllDoctorsRequest
     {
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Surname { get; set; }
-        public int? Experience { get; set; }
-        public string? Specialties { get; set; }
-        public string? Category { get; set; }
+        public string? FirstName { get; init; }
+        public string? LastName { get; init; }
+        public string? Surname { get; init; }
+        public int? Experience { get; init; }
+        public string? Specialties { get; init; }
+        public string? Category { get; init; }
+        public string? SortBy { get; init; }
     }
 }

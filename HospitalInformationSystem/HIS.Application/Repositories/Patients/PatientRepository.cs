@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using HIS.Contracts.Enums;
 
 namespace HIS.Application.Repositories.Patients
 {
@@ -40,18 +42,20 @@ namespace HIS.Application.Repositories.Patients
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
-            options.FirstName = "%" + options.FirstName + "%";
-            options.LastName = "%" + options.LastName + "%";
-            options.Surname = "%" + options.Surname + "%";
-            options.DiseaseList = "%" + options.DiseaseList + "%";
+            var orderClause = string.Empty;
+            if (options.SortField is not null)
+            {
+                orderClause = $"order by p.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}";
+            }
 
-            var result = await connection.QueryAsync<PatientDTO>(new CommandDefinition("""
+            var result = await connection.QueryAsync<PatientDTO>(new CommandDefinition($"""
                 select * from `HospitalInformationSystemDB`.`patients` p
                 where (@Age is null or p.Age = @Age) 
                 and (@FirstName is null or p.FirstName like @FirstName) 
                 and (@LastName is null or p.LastName like @LastName) 
                 and (@Surname is null or p.Surname like @Surname) 
                 and (@DiseaseList is null or p.DiseaseList like @DiseaseList) 
+                {orderClause}
                 """, options, cancellationToken: token));
 
             if (result == null)

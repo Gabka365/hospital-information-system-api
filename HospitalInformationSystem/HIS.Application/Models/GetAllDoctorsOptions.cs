@@ -1,8 +1,10 @@
-﻿using System;
+﻿using HIS.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 
 namespace HIS.Application.Models
 {
@@ -15,5 +17,7 @@ namespace HIS.Application.Models
         public int? Experience { get; set; }
         public string? Specialties { get; set; }
         public string? Category { get; set; }
+        public string? SortField { get; set; }
+        public SortOrder? SortOrder {  get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace HIS.Contracts.Requests.Patients
         public string? Surname { get; set; }
         public string? DiseaseList { get; set; }
         public int? Age { get; set; }
+        public string? SortBy { get; set; }
     }
 }

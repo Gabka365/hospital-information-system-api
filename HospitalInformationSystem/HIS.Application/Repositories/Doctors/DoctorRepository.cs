@@ -3,6 +3,7 @@ using HIS.Application.Database;
 using HIS.Application.DTOs;
 using HIS.Application.Mappers;
 using HIS.Application.Models;
+using HIS.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
@@ -53,14 +54,13 @@ namespace HIS.Application.Repositories.Doctors
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
-            options.FirstName = "%" + options.FirstName + "%";
-            options.LastName = "%" + options.LastName + "%";
-            options.Surname = "%" + options.Surname + "%";
-            options.Specialties = "%" + options.Specialties + "%";
-            options.Category = "%" + options.Category + "%";
-            
+            var orderClause = string.Empty;
+            if (options.SortField is not null)
+            {
+                orderClause = $", d.{options.SortField} order by d.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}";
+            }
 
-            var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition("""
+            var result = await connection.QueryAsync<DoctorDTO>(new CommandDefinition($"""
                 select d.*, round(avg(r.Rating), 1) as Rating, myr.Rating as UserRating
                 from `HospitalInformationSystemDB`.`doctors` d 
                 left join `HospitalInformationSystemDB`.`ratings` r on d.Id = r.DoctorId
@@ -71,7 +71,7 @@ namespace HIS.Application.Repositories.Doctors
                 and (@Specialties is null or d.Specialties like @Specialties)
                 and (@Category is null or d.Category like @Category)
                 and (@Experience is null or d.Experience=@Experience)
-                group by d.Id
+                group by d.Id{orderClause}
                 """, options, cancellationToken: token));
 
             return result.ToList();

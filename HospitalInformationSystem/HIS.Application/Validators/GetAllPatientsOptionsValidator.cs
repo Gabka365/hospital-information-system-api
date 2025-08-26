@@ -10,6 +10,8 @@ namespace HIS.Application.Validators
 {
     public class GetAllPatientsOptionsValidator : AbstractValidator<GetAllPatientsOptions>
     {
+        private readonly string[] AcceptedParameters = { "LastName", "Age" };
+
         public GetAllPatientsOptionsValidator() 
         {
             RuleFor(x => x.Age)
@@ -17,6 +19,11 @@ namespace HIS.Application.Validators
                 .LessThanOrEqualTo(130)
                 .WithErrorCode("406")
                 .When(x => x != null);
+
+            RuleFor(x => x.SortField)
+                .Must(x => AcceptedParameters.Contains(x))
+                .When(x => x.SortField != null)
+                .WithMessage(x => $"You cannot sort by this field: {x.SortField}. Only 'LastName' and 'Age'");
         }
     }
 }

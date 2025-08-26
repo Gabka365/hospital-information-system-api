@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HIS.Contracts.Enums
+{
+    public enum SortOrder
+    {
+        Unsorted,
+        Ascending,
+        Descending
+    }
+}
