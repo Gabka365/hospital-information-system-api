@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using HIS.Contracts.Enums;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace HIS.Application.Models
         public string? Surname { get; set; }
         public string? DiseaseList { get; set; }
         public int? Age { get; set; }
+        public string? SortField { get; set; }
+        public SortOrder? SortOrder { get; set; }
     }
 }

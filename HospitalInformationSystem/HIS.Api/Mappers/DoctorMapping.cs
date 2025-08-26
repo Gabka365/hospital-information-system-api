@@ -1,4 +1,5 @@
 ﻿using HIS.Application.Models;
+using HIS.Contracts.Enums;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;

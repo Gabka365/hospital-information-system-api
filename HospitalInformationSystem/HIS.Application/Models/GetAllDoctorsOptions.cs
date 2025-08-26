@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HIS.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,5 @@ namespace HIS.Application.Models
         public string? Category { get; set; }
         public string? SortField { get; set; }
         public SortOrder? SortOrder {  get; set; }
-    }
-
-    public enum SortOrder
-    { 
-        Unsorted,
-        Ascending,
-        Descending
     }
 }

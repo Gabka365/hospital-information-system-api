@@ -74,7 +74,10 @@ namespace HIS.Api.Mappers
                 LastName = request.LastName,
                 Surname = request.Surname,
                 DiseaseList = request.DiseaseList,
-                Age = request.Age
+                Age = request.Age,
+                SortField = request.SortBy?.Trim('+', '-'),
+                SortOrder = request.SortBy == null ? SortOrder.Unsorted : 
+                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
             };
         }
 

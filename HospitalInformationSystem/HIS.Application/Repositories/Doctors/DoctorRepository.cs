@@ -3,6 +3,7 @@ using HIS.Application.Database;
 using HIS.Application.DTOs;
 using HIS.Application.Mappers;
 using HIS.Application.Models;
+using HIS.Contracts.Enums;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,6 @@ namespace HIS.Application.Repositories.Doctors
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var orderClause = string.Empty;
-
             if (options.SortField is not null)
             {
                 orderClause = $", d.{options.SortField} order by d.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}";
