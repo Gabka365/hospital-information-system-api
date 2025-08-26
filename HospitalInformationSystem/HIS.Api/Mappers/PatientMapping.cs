@@ -70,7 +70,10 @@ namespace HIS.Api.Mappers
         {
             return new GetAllPatientsOptions
             {
+                FirstName = request.FirstName,
                 LastName = request.LastName,
+                Surname = request.Surname,
+                DiseaseList = request.DiseaseList,
                 Age = request.Age
             };
         }
