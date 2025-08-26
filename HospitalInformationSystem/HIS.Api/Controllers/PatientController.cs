@@ -38,7 +38,9 @@ namespace HIS.Api.Controllers
             
             var patients = await _patientService.GetAllPatientsAsync(options, token);
 
-            var response = patients.MapToResponses();
+            var patientsCount = await _patientService.GetPatientsCountAsync(options, token);
+
+            var response = patients.MapToResponses(request.Page, request.PageSize, patientsCount);
 
             return Ok(response);
         }
@@ -83,8 +85,8 @@ namespace HIS.Api.Controllers
         {
             var result = await _patientService.GetPatientsDoctorsAsync(id, token);
 
-            var response = result.MapToResponses();
-
+            var response = result.MapToResponses(); 
+            
             return Ok(response);
         }
 
@@ -103,7 +105,7 @@ namespace HIS.Api.Controllers
             var result = await _patientService.GetPatientsDoctorsAsync(id, token);
 
             var response = result.MapToResponses();
-
+            
             return Ok(response);
         }
 

@@ -7,8 +7,8 @@ using HIS.Contracts.Responses.Doctors;
 
 namespace HIS.Contracts.Responses
 {
-    public class DoctorsResponse
+    public class DoctorsResponse : PagedResponse<DoctorResponse>
     {
-        public required List<DoctorResponse> DoctorResponses { get; init; }
+
     }
 }

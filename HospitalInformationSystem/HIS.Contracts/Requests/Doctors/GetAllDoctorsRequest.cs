@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Contracts.Requests.Doctors
 {
-    public class GetAllDoctorsRequest
+    public class GetAllDoctorsRequest : PagedRequest
     {
         public string? FirstName { get; init; }
         public string? LastName { get; init; }

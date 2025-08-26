@@ -19,5 +19,9 @@ namespace HIS.Application.Models
         public string? Category { get; set; }
         public string? SortField { get; set; }
         public SortOrder? SortOrder {  get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+
+        public int PageOffset => (Page - 1) * PageSize;
     }
 }

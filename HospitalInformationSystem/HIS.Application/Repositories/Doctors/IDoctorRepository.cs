@@ -18,5 +18,6 @@ namespace HIS.Application.Repositories
         Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
         Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token);
         Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token);
+        Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token);
     }
 }
