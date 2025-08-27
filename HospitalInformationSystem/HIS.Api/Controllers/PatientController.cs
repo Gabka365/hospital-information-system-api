@@ -5,6 +5,8 @@ using HIS.Application.Services.Patients;
 using HIS.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using HIS.Api.Auth;
+using HIS.Contracts.Responses;
+using System.Net;
 
 namespace HIS.Api.Controllers
 {
@@ -13,7 +15,7 @@ namespace HIS.Api.Controllers
     public class PatientController : ControllerBase
     {
         private readonly IPatientService _patientService;
-
+        
         public PatientController(IPatientService patientService)
         {
             _patientService = patientService;
@@ -31,7 +33,8 @@ namespace HIS.Api.Controllers
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpGet(ApiEndpoints.Patients.GetAll)]
-        public async Task<IActionResult> GetAllPatients([FromQuery] GetAllPatientsRequest request, CancellationToken token)
+        public async Task<IActionResult> GetAllPatients([FromQuery] GetAllPatientsRequest request, 
+            [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
             var options = request
                 .MapToOptions();
@@ -40,7 +43,9 @@ namespace HIS.Api.Controllers
 
             var patientsCount = await _patientService.GetPatientsCountAsync(options, token);
 
-            var response = patients.MapToResponses(request.Page, request.PageSize, patientsCount);
+            var response = patients
+                .MapToResponses(request.Page, request.PageSize, patientsCount, linkGenerator)
+                .AddLinksIntoResponse(request, linkGenerator);
 
             return Ok(response);
         }

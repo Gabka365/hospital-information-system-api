@@ -24,6 +24,10 @@ namespace HIS.Application.Validators
                 .Must(x => AcceptedParameters.Contains(x))
                 .When(x => x.SortField != null)
                 .WithMessage(x => $"You cannot sort by this field: {x.SortField}. Only 'LastName' and 'Age'");
+
+            RuleFor(x => x.Page)
+                .GreaterThan(0)
+                .WithMessage("You can't get the zero page");
         }
     }
 }
