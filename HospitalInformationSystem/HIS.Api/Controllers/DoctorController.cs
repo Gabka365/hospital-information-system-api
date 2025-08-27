@@ -45,7 +45,8 @@ namespace HIS.Api.Controllers
 
         [Authorize(AuthConstants.TrustedMemberPolicy)]
         [HttpGet(ApiEndpoints.Doctors.GetAll)]
-        public async Task<IActionResult> GetAllDoctors([FromQuery]GetAllDoctorsRequest request, CancellationToken token)
+        public async Task<IActionResult> GetAllDoctors([FromQuery]GetAllDoctorsRequest request, 
+            [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
 
@@ -57,7 +58,9 @@ namespace HIS.Api.Controllers
 
             var doctorsCount = await _doctorService.GetDoctorsCountAsync(options, token);
 
-            var response = doctors.MapToResponses(request.Page, request.PageSize, doctorsCount);
+            var response = doctors
+                .MapToResponses(request.Page, request.PageSize, doctorsCount)
+                .AddLinksIntoResponse(request, linkGenerator);
 
             return Ok(response);
         }
