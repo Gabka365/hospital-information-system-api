@@ -2,10 +2,13 @@ using Asp.Versioning;
 using HIS.Api;
 using HIS.Api.Auth;
 using HIS.Api.Mappers;
+using HIS.Api.Swagger;
 using HIS.Application;
 using HIS.Application.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -49,8 +52,6 @@ builder.Services.AddAuthorization(x =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddHttpContextAccessor();
@@ -60,7 +61,10 @@ builder.Services.AddApiVersioning(x =>
     x.AssumeDefaultVersionWhenUnspecified = true;
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
     x.ReportApiVersions = true;
-}).AddMvc();
+}).AddMvc().AddApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
@@ -69,7 +73,13 @@ LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        foreach (var description in app.DescribeApiVersions())
+        {
+            x.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+        }    
+    });
 }
 
 app.UseHttpsRedirection();
