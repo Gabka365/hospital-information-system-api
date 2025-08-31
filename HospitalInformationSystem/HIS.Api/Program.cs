@@ -1,3 +1,4 @@
+using HIS.Api;
 using HIS.Api.Auth;
 using HIS.Api.Mappers;
 using HIS.Application;
@@ -54,6 +55,8 @@ builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
+
 
 if (app.Environment.IsDevelopment())
 {

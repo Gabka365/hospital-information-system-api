@@ -1,13 +1,14 @@
 ﻿using HIS.Application.Models;
 using HIS.Contracts.Enums;
 using HIS.Contracts.Requests.Patients;
+using HIS.Contracts.Responses;
 using HIS.Contracts.Responses.Patients;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 
 namespace HIS.Api.Mappers
 {
-    public static class PatientMapping 
+    public static class PatientMapping
     {
         public static Patient MapToPatient(this CreatePatientRequest request, Guid specifiedUserId)
         {
@@ -57,15 +58,17 @@ namespace HIS.Api.Mappers
         }
 
 
-        public static PatientsResponse MapToResponses(this List<Patient> patients, int page, int pageSize, int patientsCount)
+        public static PatientsResponse MapToResponses(this List<Patient> patients, int page, int pageSize, int patientsCount, LinkGenerator linkGenerator)
         {
-            return new PatientsResponse
+            var response = new PatientsResponse
             {
-               Items = patients.Select(x => x.MapToResponse()),
-               Page = page,
-               PageSize = pageSize,
-               Total = patientsCount
+                Items = patients.Select(x => x.MapToResponse()),
+                Page = page,
+                PageSize = pageSize,
+                Total = patientsCount
             };
+           
+            return response;
         }
 
         public static PatientsResponseWithoutPagination MapToResponses(this List<Patient> patients)
