@@ -8,11 +8,13 @@ using HIS.Api.Auth;
 using HIS.Contracts.Responses;
 using System.Net;
 using HIS.Api;
+using Asp.Versioning;
 
 namespace HIS.Api.Controllers.V1
 {
     [Authorize]
     [ApiController]
+    [ApiVersion("1.0")]
     public class PatientController : ControllerBase
     {
         private readonly IPatientService _patientService;
@@ -45,7 +47,7 @@ namespace HIS.Api.Controllers.V1
             var patientsCount = await _patientService.GetPatientsCountAsync(options, token);
 
             var response = patients
-                .MapToResponses(request.Page, request.PageSize, patientsCount, linkGenerator)
+                .MapToResponses(request.Page, request.PageSize, patientsCount)
                 .AddLinksIntoResponse(request, linkGenerator);
 
             return Ok(response);
@@ -95,25 +97,5 @@ namespace HIS.Api.Controllers.V1
 
             return Ok(response);
         }
-
-        [Authorize(AuthConstants.AdminPolicy)]
-        [HttpGet(ApiEndpoints.Patients.AddDoctorForPatient)]
-        public async Task<IActionResult> AddDoctorForPatient([FromRoute] Guid DoctorId, [FromRoute] Guid PatientId, CancellationToken token)
-        {
-            var result = await _patientService.AddDoctorForPatientAsync(DoctorId, PatientId, token);
-
-            return Ok(result);
-        }
-
-        [HttpGet(ApiEndpoints.Patients.AddDoctorForCurrentUser)]
-        public async Task<IActionResult> AddDoctorForCurrentUser([FromRoute] Guid id, CancellationToken token)
-        {
-            var result = await _patientService.GetPatientsDoctorsAsync(id, token);
-
-            var response = result.MapToResponses();
-
-            return Ok(response);
-        }
-
     }
 }

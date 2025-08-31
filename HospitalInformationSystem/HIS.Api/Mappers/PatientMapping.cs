@@ -58,7 +58,7 @@ namespace HIS.Api.Mappers
         }
 
 
-        public static PatientsResponse MapToResponses(this List<Patient> patients, int page, int pageSize, int patientsCount, LinkGenerator linkGenerator)
+        public static PatientsResponse MapToResponses(this List<Patient> patients, int page, int pageSize, int patientsCount)
         {
             var response = new PatientsResponse
             {

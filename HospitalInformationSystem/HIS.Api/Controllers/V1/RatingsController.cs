@@ -1,4 +1,5 @@
-﻿using HIS.Api.Auth;
+﻿using Asp.Versioning;
+using HIS.Api.Auth;
 using HIS.Api.Mappers;
 using HIS.Application.Services.Ratings;
 using HIS.Contracts.Requests.Ratings;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace HIS.Api.Controllers.V1
 {
     [Authorize]
+    [ApiController]
+    [ApiVersion("1.0")]
     public class RatingsController : ControllerBase
     {
         private readonly IRatingsService _ratingsService;

@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using HIS.Api;
 using HIS.Api.Auth;
 using HIS.Api.Mappers;
@@ -53,6 +54,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddApiVersioning(x =>
+{
+    x.DefaultApiVersion = new ApiVersion(1.0);
+    x.AssumeDefaultVersionWhenUnspecified = true;
+    x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
+    x.ReportApiVersions = true;
+}).AddMvc();
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());

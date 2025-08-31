@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Asp.Versioning;
+using Dapper;
 using HIS.Api.Auth;
 using HIS.Api.Mappers;
 using HIS.Application.Database;
@@ -21,6 +22,7 @@ namespace HIS.Api.Controllers.V1
 {
     [Authorize]
     [ApiController]
+    [ApiVersion("1.0")]
     public class DoctorController : ControllerBase
     {
         private IDoctorService _doctorService;
