@@ -1,13 +1,16 @@
-﻿using HIS.Api.Auth;
+﻿using Asp.Versioning;
+using HIS.Api.Auth;
 using HIS.Api.Mappers;
 using HIS.Application.Services.Ratings;
 using HIS.Contracts.Requests.Ratings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HIS.Api.Controllers
+namespace HIS.Api.Controllers.V1
 {
     [Authorize]
+    [ApiController]
+    [ApiVersion("1.0")]
     public class RatingsController : ControllerBase
     {
         private readonly IRatingsService _ratingsService;
@@ -17,17 +20,17 @@ namespace HIS.Api.Controllers
             _ratingsService = ratingsService;
         }
 
-        [HttpPut(ApiEndpoints.Doctors.Rate)]
+        [HttpPut(ApiEndpoints.V1.Doctors.Rate)]
         public async Task<IActionResult> RateDoctor([FromRoute] Guid id, [FromBody] RateDoctorRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
 
             var isRated = await _ratingsService.RateDoctorAsync(id, request.Rating, userId, token);
 
-            return isRated ? Ok() : NotFound(); 
+            return isRated ? Ok() : NotFound();
         }
 
-        [HttpDelete(ApiEndpoints.Doctors.DeleteRating)]
+        [HttpDelete(ApiEndpoints.V1.Doctors.DeleteRating)]
         public async Task<IActionResult> DeleteRating([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -37,7 +40,7 @@ namespace HIS.Api.Controllers
             return isDeleted ? Ok() : NotFound();
         }
 
-        [HttpGet(ApiEndpoints.Doctors.GetUserRatingsForDoctor)]
+        [HttpGet(ApiEndpoints.V1.Doctors.GetUserRatingsForDoctor)]
         public async Task<IActionResult> GetUserRatings(CancellationToken token = default)
         {
             var userId = HttpContext.GetUserId();

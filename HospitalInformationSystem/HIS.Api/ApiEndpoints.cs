@@ -5,24 +5,57 @@ namespace HIS.Api
     public static class ApiEndpoints
     {
         private const string ApiBase = "/api";
-        public static class Doctors
+
+        public static class V1
         {
-            private const string Base = $"{ApiBase}/doctors";
+            private const string VersionBase = $"{ApiBase}/v1";
 
-            public const string Get = $"{Base}/{{id:guid}}";
-            public const string Create = $"{Base}";
-            public const string GetAll = $"{Base}";
-            public const string Update = $"{Base}/{{id:guid}}";
-            public const string Delete = $"{Base}/{{id:guid}}";
+            public static class Doctors
+            {
+                private const string Base = $"{VersionBase}/doctors";
 
-            public const string GetDoctorsPatients = $"{Base}/{{id:guid}}/patients";
-            public const string AddPatientForDoctor = $"{Base}/add/patient/{{PatientId:guid}}/doctor/{{DoctorId:guid}}";
-            public const string AddPatientForCurrentUser = $"{Base}/add/{{id:guid}}";
+                public const string Get = $"{Base}/{{id:guid}}";
+                public const string Create = $"{Base}";
+                public const string GetAll = $"{Base}";
+                public const string Update = $"{Base}/{{id:guid}}";
+                public const string Delete = $"{Base}/{{id:guid}}";
 
-            public const string Rate = $"{Base}/{{id:guid}}/ratings";
-            public const string DeleteRating = $"{Base}/{{id:guid}}/ratings";
-            public const string GetUserRatingsForDoctor = $"{Base}/me";
+                public const string GetDoctorsPatients = $"{Base}/{{id:guid}}/patients";
+                public const string AddPatientForDoctor = $"{Base}/add/patient/{{PatientId:guid}}/doctor/{{DoctorId:guid}}";
+                public const string AddPatientForCurrentUser = $"{Base}/add/{{id:guid}}";
+
+                public const string Rate = $"{Base}/{{id:guid}}/ratings";
+                public const string DeleteRating = $"{Base}/{{id:guid}}/ratings";
+                public const string GetUserRatingsForDoctor = $"{Base}/me";
+            }
         }
+
+        public static class V2
+        {
+            private const string VersionBase = $"{ApiBase}/v2";
+
+            public static class Doctors
+            {
+                private const string Base = $"{VersionBase}/doctors";
+
+
+                public const string Get = $"{Base}/{{id:guid}}";
+                public const string Create = $"{Base}";
+                public const string GetAll = $"{Base}";
+                public const string Update = $"{Base}/{{id:guid}}";
+                public const string Delete = $"{Base}/{{id:guid}}";
+
+                public const string GetDoctorsPatients = $"{Base}/{{id:guid}}/patients";
+                public const string AddPatientForDoctor = $"{Base}/add/patient/{{PatientId:guid}}/doctor/{{DoctorId:guid}}";
+                public const string AddPatientForCurrentUser = $"{Base}/add/{{id:guid}}";
+
+                public const string Rate = $"{Base}/{{id:guid}}/ratings";
+                public const string DeleteRating = $"{Base}/{{id:guid}}/ratings";
+                public const string GetUserRatingsForDoctor = $"{Base}/me";
+            }
+        }
+
+
 
         public static class Patients
         {

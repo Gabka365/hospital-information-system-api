@@ -1,4 +1,5 @@
-﻿using HIS.Api.Mappers;
+﻿using Asp.Versioning;
+using HIS.Api.Mappers;
 using HIS.Application.Services.Auth;
 using HIS.Contracts.Requests.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace HIS.Api.Controllers
+namespace HIS.Api.Controllers.V1
 {
     [ApiController]
+    [ApiVersion("1.0")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
