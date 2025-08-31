@@ -1,0 +1,52 @@
+﻿using Dapper;
+using HIS.Api.Auth;
+using HIS.Api.Mappers;
+using HIS.Application.Database;
+using HIS.Application.DTOs;
+using HIS.Application.Repositories;
+using HIS.Application.Repositories.Auth;
+using HIS.Application.Services.Auth;
+using HIS.Application.Services.Doctors;
+using HIS.Contracts.Requests;
+using HIS.Contracts.Requests.Doctors;
+using HIS.Contracts.Responses;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Eventing.Reader;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Intrinsics.Arm;
+
+namespace HIS.Api.Controllers
+{
+    [Authorize]
+    [ApiController]
+    public class DoctorController : ControllerBase
+    {
+        private IDoctorService _doctorService;
+        
+        public DoctorController(IDoctorService doctorService, IAuthRepository authRepository)
+        {
+            _doctorService = doctorService;
+        }
+
+        [HttpGet(ApiEndpoints.V2.Doctors.GetDoctorsPatients)]
+        public async Task<ActionResult> GetDoctorsPatients(Guid id, CancellationToken token)
+        {
+            var result = await _doctorService.GetDoctorsPatientsAsync(id, token);
+
+            var response = result.MapToResponses();
+
+            return Ok(response);
+        }
+
+        [Authorize(AuthConstants.AdminPolicy)]
+        [HttpGet(ApiEndpoints.V2.Doctors.AddPatientForDoctor)]
+        public async Task<ActionResult> AddPatientForDoctor(Guid PatientId, Guid DoctorId, CancellationToken token)
+        {
+            var result = await _doctorService.AddPatientForDoctorAsync(PatientId, DoctorId, token);
+
+            return Ok(result);
+        }
+    }
+}

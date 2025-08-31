@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace HIS.Api.Controllers
+namespace HIS.Api.Controllers.V1
 {
     [ApiController]
     public class AuthController : ControllerBase
