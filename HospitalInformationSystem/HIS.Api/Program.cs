@@ -16,16 +16,6 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var conf = builder.Configuration;
 builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" }!);
-
-
-builder.Services.AddControllers()
-    .AddJsonOptions(opts =>
-    {
-        var enumConverter = new JsonStringEnumConverter();
-        opts.JsonSerializerOptions.Converters.Add(enumConverter);
-    });
-
-
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,7 +31,6 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false
     };
 });
-
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType, 
@@ -50,10 +39,6 @@ builder.Services.AddAuthorization(x =>
         c.User.HasClaim(x => x is { Type: AuthConstants.TrustedClaimType, Value: "true" }))); 
         // || c.User.HasClaim(x => x is { Type: AuthConstants.UserNameClaimType, Value: AuthConstants.AdminUserName })));
 });
-
-builder.Services.AddAuthorization();
-builder.Services.AddApplication();
-builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddApiVersioning(x =>
 {
@@ -62,13 +47,19 @@ builder.Services.AddApiVersioning(x =>
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
     x.ReportApiVersions = true;
 }).AddMvc().AddApiExplorer();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opts =>
+    {
+        var enumConverter = new JsonStringEnumConverter();
+        opts.JsonSerializerOptions.Converters.Add(enumConverter);
+    });
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
+builder.Services.AddApplication();
+builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
-
 
 if (app.Environment.IsDevelopment())
 {
