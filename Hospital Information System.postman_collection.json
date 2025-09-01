@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "e7610cd8-4cb2-46a3-b413-c4f39e2eca50",
+		"_postman_id": "d04bfacf-9ded-4cf3-8a6c-19047250da89",
 		"name": "Hospital Information System",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "46287958",
-		"_collection_link": "https://maksimpotapnev.postman.co/workspace/Maksim-Potapnev's-Workspace~7bab4a26-cd80-4425-8d69-cb96b4acefcc/collection/46287958-e7610cd8-4cb2-46a3-b413-c4f39e2eca50?action=share&source=collection_link&creator=46287958"
+		"_collection_link": "https://maksimpotapnev.postman.co/workspace/Maksim-Potapnev's-Workspace~7bab4a26-cd80-4425-8d69-cb96b4acefcc/collection/46287958-d04bfacf-9ded-4cf3-8a6c-19047250da89?action=share&source=collection_link&creator=46287958"
 	},
 	"item": [
 		{
@@ -14,10 +14,16 @@
 					"name": "CreateDoctor",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNTg5YTJlMS1lODI4LTRmNDMtYTJlNi1iYzg4YTg3OTg3MTgiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTU3NjQ2ODEsImV4cCI6MTc1NTc5MzQ4MSwiaWF0IjoxNzU1NzY0NjgxfQ.PW0rk-bcAS9kca_M3zRds5EDchgEoQaUBb8A_hRxMiA",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Bob\",\r\n  \"lastName\": \"Potapnev\",\r\n  \"surname\": \"Ivanovich\",\r\n  \"specialties\": [\"Therapist\", \"Cardiologist\"],\r\n  \"category\": 2,\r\n  \"experience\": 20\r\n}\r\n",
+							"raw": "{\r\n  \"firstName\": \"Bob\",\r\n  \"lastName\": \"Potapnev\",\r\n  \"surname\": \"Ivanovich\",\r\n  \"specialties\": [\"Therapist\", \"Cardiologist\"],\r\n  \"category\": 2,\r\n  \"experience\": 20,\r\n  \"email\": \"doctor3@mail.by\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,16 +47,23 @@
 					"name": "GetDoctor",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMGYzYjk1MS04NmRiLTQxZWMtODBjZi1mNmE3ZmIzZTk4NDQiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTY2NDA0MzYsImV4cCI6MTc1NjY2OTIzNiwiaWF0IjoxNzU2NjQwNDM2fQ.j-yKTo73HV8NSOIsfFWbOqIeb-Ns5lKpxMr8YePx_ys",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseURL}}/api/doctors/1ad9db83-3271-4aba-965d-026b60e58ce5",
+							"raw": "{{baseURL}}/api/v1/doctors/24b1ee18-f125-49b4-893c-a181c298a62e",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
+								"v1",
 								"doctors",
-								"1ad9db83-3271-4aba-965d-026b60e58ce5"
+								"24b1ee18-f125-49b4-893c-a181c298a62e"
 							]
 						}
 					},
@@ -60,16 +73,43 @@
 					"name": "GetAllDoctors",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiYmZlMjAxMi1lMjIzLTQxYzctODJkOC01OGFkMjY2MjhiOGUiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTYzMzIzMzAsImV4cCI6MTc1NjM2MTEzMCwiaWF0IjoxNzU2MzMyMzMwfQ.xjMzJinscJTAreiqA84g4uLXdlx9MlPcGqu7lnEp30k",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseURL}}/api/doctors/",
+							"raw": "{{baseURL}}/api/doctors?SortBy=LastName&&page=1&&PageSize=2",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"doctors",
-								""
+								"doctors"
+							],
+							"query": [
+								{
+									"key": "SortBy",
+									"value": "LastName"
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "PageSize",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -79,7 +119,13 @@
 					"name": "UpdateDoctor",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyZTcwNDY0MC1iNWUyLTQ4ZTMtYmVlNS1iNWE5ZjlmOTg1OWYiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTU3ODc1NjIsImV4cCI6MTc1NTgxNjM2MiwiaWF0IjoxNzU1Nzg3NTYyfQ.o9DPsZ0Mwt184-3EfQDEQraV9WpIDi_57I2G0Uh5t9E",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"firstName\": \"Ivan\",\r\n  \"lastName\": \"Potapnev\",\r\n  \"surname\": \"Ivanovich\",\r\n  \"specialties\": [\"Therapist\", \"Cardiologist\"],\r\n  \"category\": 2,\r\n  \"experience\": 20\r\n}\r\n",
@@ -90,14 +136,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/doctors/e19080c4-d31a-4a91-88f1-3cc84203b157",
+							"raw": "{{baseURL}}/api/doctors/24b1ee18-f125-49b4-893c-a181c298a62e",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"doctors",
-								"e19080c4-d31a-4a91-88f1-3cc84203b157"
+								"24b1ee18-f125-49b4-893c-a181c298a62e"
 							]
 						}
 					},
@@ -107,9 +153,15 @@
 					"name": "DeleteDoctor",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4YTZmOTUzMC03ODBmLTRhMGQtYjkxMS1jYmVhM2VjZmVhNDIiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTU3NzAyNDYsImV4cCI6MTc1NTc5OTA0NiwiaWF0IjoxNzU1NzcwMjQ2fQ.mvXLhLPDcgnVkyw4yg91TeAoKJKyCEsePJgUygWIwf8",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "https://localhost:5050/api/doctors/b6724912-00e0-41c7-b4bd-ff1a3ccad3a9",
+							"raw": "https://localhost:5050/api/doctors/0611358d-1a7a-4ca8-9d56-c6832219420b",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -118,7 +170,158 @@
 							"path": [
 								"api",
 								"doctors",
-								"b6724912-00e0-41c7-b4bd-ff1a3ccad3a9"
+								"0611358d-1a7a-4ca8-9d56-c6832219420b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddPatientForDoctor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNjlmOWFmMy1jYmZkLTQwOTYtOTBhZS0yMzczZGEzMDFmNDIiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTY2NDE2NTEsImV4cCI6MTc1NjY3MDQ1MSwiaWF0IjoxNzU2NjQxNjUxfQ.40B7Q5hhDQnAUxSdFA6879CO-GBxuD-cxj4svL5mMwY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/doctors/add/patient/4d54f397-8657-41aa-9db8-06c11701d688/doctor/a895a57b-dde2-4a29-b0eb-e4b6235af940",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"doctors",
+								"add",
+								"patient",
+								"4d54f397-8657-41aa-9db8-06c11701d688",
+								"doctor",
+								"a895a57b-dde2-4a29-b0eb-e4b6235af940"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RateDoctor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OGZmOTUzYy1mNjllLTQ2YTEtOWI1Yy0wZjViNzMxNzVhYjMiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTU5NDU0NjgsImV4cCI6MTc1NTk3NDI2OCwiaWF0IjoxNzU1OTQ1NDY4fQ.7ngj_t6CkqE2CjfLH_VdmiyS63-N6265sS5iV6H2jCE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": \"10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/doctors/24b1ee18-f125-49b4-893c-a181c298a62e/ratings",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								"24b1ee18-f125-49b4-893c-a181c298a62e",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteRatingForDoctor",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ZmZhYTliMS0xNWRiLTRlMmEtYTZjNy0yMWQyOGVkODcyZGQiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTU5NDczNDYsImV4cCI6MTc1NTk3NjE0NiwiaWF0IjoxNzU1OTQ3MzQ2fQ.rpj7-Kbop2-IMUhGFpV0VJQ76MejH00Xtt0acvPzCCA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/doctors/a895a57b-dde2-4a29-b0eb-e4b6235af940/ratings",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								"a895a57b-dde2-4a29-b0eb-e4b6235af940",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllRatingsForMe",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMGYzYjk1MS04NmRiLTQxZWMtODBjZi1mNmE3ZmIzZTk4NDQiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTY2NDA0MzYsImV4cCI6MTc1NjY2OTIzNiwiaWF0IjoxNzU2NjQwNDM2fQ.j-yKTo73HV8NSOIsfFWbOqIeb-Ns5lKpxMr8YePx_ys",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/doctors/me",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"doctors",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDoctorsPatients",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNjE2YzEyMC0yNGUyLTRkMzUtOWQyZC01YmZhZWQ5MzAwOGYiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTY2NDE1NDksImV4cCI6MTc1NjY3MDM0OSwiaWF0IjoxNzU2NjQxNTQ5fQ.ZaWBrdYCreIVi58XGkMZA7v4Oesw9arzZaLP3TCWJg0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/doctors/a895a57b-dde2-4a29-b0eb-e4b6235af940/patients",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"doctors",
+								"a895a57b-dde2-4a29-b0eb-e4b6235af940",
+								"patients"
 							]
 						}
 					},
@@ -133,10 +336,16 @@
 					"name": "CreatePatient",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4YTZmOTUzMC03ODBmLTRhMGQtYjkxMS1jYmVhM2VjZmVhNDIiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTU3NzAyNDYsImV4cCI6MTc1NTc5OTA0NiwiaWF0IjoxNzU1NzcwMjQ2fQ.mvXLhLPDcgnVkyw4yg91TeAoKJKyCEsePJgUygWIwf8",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Andreevich\",\r\n    \"Age\": \"38\",\r\n    \"DiseaseList\": \"Covid19,Influenza\"\r\n}",
+							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Andreevich\",\r\n    \"Age\": \"38\",\r\n    \"DiseaseList\": \"Covid19,Influenza\",\r\n    \"Email\": \"patient3@mail.by\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -217,20 +426,47 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiYmZlMjAxMi1lMjIzLTQxYzctODJkOC01OGFkMjY2MjhiOGUiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTYzMzIzMzAsImV4cCI6MTc1NjM2MTEzMCwiaWF0IjoxNzU2MzMyMzMwfQ.xjMzJinscJTAreiqA84g4uLXdlx9MlPcGqu7lnEp30k",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"FirstName\": \"Gleb\",\r\n    \"LastName\": \"Potapnev\",\r\n    \"Surname\": \"Ivanovich\",\r\n    \"Age\": \"38\",\r\n    \"DiseaseList\": \"Covid19\"\r\n}"
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/patients/a5565de0-37ea-40ee-851c-788b9730be0e",
+							"raw": "{{baseURL}}/api/patients?SortBy=Age&&Page=0&&PageSize=1",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"patients",
-								"a5565de0-37ea-40ee-851c-788b9730be0e"
+								"patients"
+							],
+							"query": [
+								{
+									"key": "SortBy",
+									"value": "Age"
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "Page",
+									"value": "0"
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "PageSize",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -261,6 +497,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "AddDoctorForPatient",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMmRjYTI3MS1mYTZmLTRmZGQtOTllYy0zZmUwNTY4NGMzYmIiLCJVc2VySWQiOiIyNGIxZWUxOC1mMTI1LTQ5YjQtODkzYy1hMTgxYzI5OGE2MmUiLCJVc2VyTmFtZSI6ImFkbWluIiwiRW1haWwiOiJhZG1pbkBtYWlsLmJ5IiwiYWRtaW4iOnRydWUsInRydXN0ZWRfbWVtYmVyIjp0cnVlLCJuYmYiOjE3NTYyMjY1MjAsImV4cCI6MTc1NjI1NTMyMCwiaWF0IjoxNzU2MjI2NTIwfQ.ARuXSZUFazEWyCGGjmZIaccm9-oJzzL61BFT2Gt2HpQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/patients/add/doctor/12743f4c-de81-4cd7-8950-ce0da825023c/patient/0611358d-1a7a-4ca8-9d56-c6832219420b",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"add",
+								"doctor",
+								"12743f4c-de81-4cd7-8950-ce0da825023c",
+								"patient",
+								"0611358d-1a7a-4ca8-9d56-c6832219420b"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -268,18 +540,207 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "RegisterUser",
+					"name": "RegisterPatients",
+					"item": [
+						{
+							"name": "RegisterUserPatient1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserName\": \"Patient1\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"patient1@mail.by\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterUserPatient2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserName\": \"Patient2\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"patient2@mail.by\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterUserPatient3",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserName\": \"Patient3\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"patient3@mail.by\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RegisterDoctors",
+					"item": [
+						{
+							"name": "RegisterUserDoctor1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserName\": \"Doctor1\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"doctor1@mail.by\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterUserDoctor2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserName\": \"Doctor2\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"doctor2@mail.by\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterUserDoctor3",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserName\": \"Doctor3\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"doctor3@mail.by\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RegisterUserAdmin",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"UserName\": \"Maksim\"\r\n    \"Password\": \"root\"\r\n}",
+							"raw": "{\r\n    \"UserName\": \"admin\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"admin@mail.by\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
 						}
 					},
 					"response": []
@@ -291,7 +752,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"UserName\": \"admin\",\r\n    \"Password\": \"root\",\r\n    \"Trusted\": \"true\"\r\n}",
+							"raw": "{\r\n    \"UserName\": \"admin\",\r\n    \"Password\": \"root\",\r\n    \"Email\": \"admin@mail.by\",\r\n    \"customClaims\": {\r\n         \"admin\": true,\r\n         \"trusted_member\": true\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

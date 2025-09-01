@@ -2,6 +2,7 @@
 using HIS.Api.Mappers;
 using HIS.Application.Services.Auth;
 using HIS.Contracts.Requests.Auth;
+using HIS.Contracts.Responses.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,6 +25,7 @@ namespace HIS.Api.Controllers.V1
         }
 
         [HttpPost(ApiEndpoints.Auth.Register)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Register([FromBody] UserRequest request, CancellationToken token)
         {
             var user = request.MapToRegisterUser();
@@ -36,6 +38,7 @@ namespace HIS.Api.Controllers.V1
         }
 
         [HttpPost(ApiEndpoints.Auth.Login)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Login([FromBody] UserRequest request, CancellationToken token)
         {
             var customClaims = request.CustomClaims;

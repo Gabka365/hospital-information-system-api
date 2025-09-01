@@ -11,6 +11,8 @@ using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
+using HIS.Contracts.Responses.Auth;
+using HIS.Contracts.Responses.Doctors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,8 @@ namespace HIS.Api.Controllers.V1
         }
 
         [HttpGet(ApiEndpoints.V1.Doctors.Get)]
+        [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDoctor([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -47,6 +51,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.TrustedMemberPolicy)]
         [HttpGet(ApiEndpoints.V1.Doctors.GetAll)]
+        [ProducesResponseType(typeof(DoctorsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAllDoctors([FromQuery] GetAllDoctorsRequest request,
             [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
@@ -69,6 +75,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpPost(ApiEndpoints.V1.Doctors.Create)]
+        [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request, CancellationToken token)
         {
             var specifiedUserId = await _doctorService.GetUserIdByEmail(request.Email, token);
@@ -86,6 +94,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpPut(ApiEndpoints.V1.Doctors.Update)]
+        [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -99,6 +109,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpDelete(ApiEndpoints.V1.Doctors.Delete)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -108,7 +120,7 @@ namespace HIS.Api.Controllers.V1
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(isDeleted);
         }
     }
 }
