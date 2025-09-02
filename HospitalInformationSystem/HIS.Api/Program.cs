@@ -61,6 +61,7 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
@@ -83,6 +84,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseMiddleware<ValidationErrorMappingMiddleware>();
+app.UseResponseCaching();
 
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
 await dbInitializer.InitializeAsync();
