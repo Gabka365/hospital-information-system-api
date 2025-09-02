@@ -9,6 +9,7 @@ using HIS.Contracts.Responses;
 using System.Net;
 using HIS.Api;
 using Asp.Versioning;
+using HIS.Contracts.Responses.Patients;
 
 namespace HIS.Api.Controllers.V1
 {
@@ -25,9 +26,16 @@ namespace HIS.Api.Controllers.V1
         }
 
         [HttpGet(ApiEndpoints.Patients.Get)]
+        [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPatient([FromRoute] Guid id, CancellationToken token)
         {
             var patient = await _patientService.GetPatientAsync(id, token);
+
+            if (patient is null)
+            {
+                return NotFound();
+            }
 
             var response = patient.MapToResponse();
 
@@ -36,6 +44,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpGet(ApiEndpoints.Patients.GetAll)]
+        [ProducesResponseType(typeof(PatientsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAllPatients([FromQuery] GetAllPatientsRequest request,
             [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
@@ -55,6 +65,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpPost(ApiEndpoints.Patients.Create)]
+        [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequest request, CancellationToken token)
         {
             var specifiedUserId = await _patientService.GetUserIdByEmail(request.Email, token);
@@ -70,6 +82,8 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpPut(ApiEndpoints.Patients.Update)]
+        [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdatePatient([FromRoute] Guid id, [FromBody] UpdatePatientRequest request, CancellationToken token)
         {
             var patient = request.MapToPatient(id);
@@ -81,21 +95,18 @@ namespace HIS.Api.Controllers.V1
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpDelete(ApiEndpoints.Patients.Delete)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePatient([FromRoute] Guid id, CancellationToken token)
         {
             var isDeleted = await _patientService.DeletePatientAsync(id, token);
 
+            if (!isDeleted)
+            {
+                return NotFound();
+            }
+
             return Ok(isDeleted);
-        }
-
-        [HttpGet(ApiEndpoints.Patients.GetPatientsDoctors)]
-        public async Task<IActionResult> GetPatientsDoctors([FromRoute] Guid id, CancellationToken token)
-        {
-            var result = await _patientService.GetPatientsDoctorsAsync(id, token);
-
-            var response = result.MapToResponses();
-
-            return Ok(response);
         }
     }
 }

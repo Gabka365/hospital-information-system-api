@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Contracts.Responses.Doctors
 {
-    public class PatientsResponseWithoutPagination
+    public class DoctorsResponseWithoutPagination
     {
         public required IEnumerable<DoctorResponse> doctorsResponse { get; init; }
 

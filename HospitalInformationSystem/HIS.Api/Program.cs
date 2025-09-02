@@ -2,10 +2,13 @@ using Asp.Versioning;
 using HIS.Api;
 using HIS.Api.Auth;
 using HIS.Api.Mappers;
+using HIS.Api.Swagger;
 using HIS.Application;
 using HIS.Application.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -13,16 +16,6 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var conf = builder.Configuration;
 builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" }!);
-
-
-builder.Services.AddControllers()
-    .AddJsonOptions(opts =>
-    {
-        var enumConverter = new JsonStringEnumConverter();
-        opts.JsonSerializerOptions.Converters.Add(enumConverter);
-    });
-
-
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -38,7 +31,6 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false
     };
 });
-
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType, 
@@ -47,12 +39,6 @@ builder.Services.AddAuthorization(x =>
         c.User.HasClaim(x => x is { Type: AuthConstants.TrustedClaimType, Value: "true" }))); 
         // || c.User.HasClaim(x => x is { Type: AuthConstants.UserNameClaimType, Value: AuthConstants.AdminUserName })));
 });
-
-builder.Services.AddAuthorization();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddApplication();
-builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddApiVersioning(x =>
 {
@@ -60,16 +46,31 @@ builder.Services.AddApiVersioning(x =>
     x.AssumeDefaultVersionWhenUnspecified = true;
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
     x.ReportApiVersions = true;
-}).AddMvc();
+}).AddMvc().AddApiExplorer();
+builder.Services.AddControllers()
+    .AddJsonOptions(opts =>
+    {
+        var enumConverter = new JsonStringEnumConverter();
+        opts.JsonSerializerOptions.Converters.Add(enumConverter);
+    });
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
+builder.Services.AddApplication();
+builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        foreach (var description in app.DescribeApiVersions())
+        {
+            x.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+        }    
+    });
 }
 
 app.UseHttpsRedirection();

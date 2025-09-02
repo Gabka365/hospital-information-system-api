@@ -21,7 +21,7 @@ namespace HIS.Application.Repositories.Patients
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task<PatientDTO> GetPatientAsync(Guid id, CancellationToken token)
+        public async Task<PatientDTO?> GetPatientAsync(Guid id, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -29,11 +29,6 @@ namespace HIS.Application.Repositories.Patients
                 select * from `HospitalInformationSystemDB`.`patients`
                 where Id=@id
                 """, new { id }, cancellationToken: token));
-        
-            if (result == null)
-            {
-                throw new Exception($"Patients table hasn't been uploaded with this record.");
-            }
 
             return result;
         }

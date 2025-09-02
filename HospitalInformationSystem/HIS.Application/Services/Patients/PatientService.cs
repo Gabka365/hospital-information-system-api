@@ -31,11 +31,11 @@ namespace HIS.Application.Services.Patients
             _authRepository = authRepository;
         }
 
-        public async Task<Patient> GetPatientAsync(Guid id, CancellationToken token)
+        public async Task<Patient?> GetPatientAsync(Guid id, CancellationToken token)
         {
             var patientDto = await _patientRepository.GetPatientAsync(id, token);
         
-            Patient patient = patientDto.MapToPatient();    
+            Patient? patient = patientDto?.MapToPatient();    
 
             return patient;
         }

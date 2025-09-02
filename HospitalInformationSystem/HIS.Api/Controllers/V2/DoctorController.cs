@@ -8,6 +8,7 @@ using HIS.Application.Repositories;
 using HIS.Application.Repositories.Auth;
 using HIS.Application.Services.Auth;
 using HIS.Application.Services.Doctors;
+using HIS.Application.Services.Patients;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
@@ -33,7 +34,7 @@ namespace HIS.Api.Controllers
         }
 
         [HttpGet(ApiEndpoints.V2.Doctors.GetDoctorsPatients)]
-        public async Task<ActionResult> GetDoctorsPatients(Guid id, CancellationToken token)
+        public async Task<ActionResult> GetDoctorPatients(Guid id, CancellationToken token)
         {
             var result = await _doctorService.GetDoctorsPatientsAsync(id, token);
 
@@ -44,9 +45,33 @@ namespace HIS.Api.Controllers
 
         [Authorize(AuthConstants.AdminPolicy)]
         [HttpGet(ApiEndpoints.V2.Doctors.AddPatientForDoctor)]
-        public async Task<ActionResult> AddPatientForDoctor(Guid PatientId, Guid DoctorId, CancellationToken token)
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AddPatientForDoctor(Guid patientId, Guid doctorId, CancellationToken token)
         {
-            var result = await _doctorService.AddPatientForDoctorAsync(PatientId, DoctorId, token);
+            var result = await _doctorService.AddPatientForDoctorAsync(patientId, doctorId, token);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet(ApiEndpoints.V2.Doctors.AddPatientForCurrentUser)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddPatientForCurrentUser([FromRoute] Guid patientId, CancellationToken token)
+        {
+            var userId = HttpContext.GetUserId();
+
+            var result = await _doctorService.AddPatientForDoctorAsync(patientId, userId, token);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
 
             return Ok(result);
         }

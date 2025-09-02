@@ -25,7 +25,7 @@ namespace HIS.Application.Mappers
             };
         }
 
-        public static Patient MapToPatient(this PatientDTO patientDto)
+        public static Patient? MapToPatient(this PatientDTO patientDto)
         {
             return new Patient
             {

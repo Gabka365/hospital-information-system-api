@@ -68,9 +68,9 @@ namespace HIS.Api.Mappers
         }
 
 
-        public static PatientsResponseWithoutPagination MapToResponses(this List<Doctor> doctors)
+        public static DoctorsResponseWithoutPagination MapToResponses(this List<Doctor> doctors)
         {
-            return new PatientsResponseWithoutPagination
+            return new DoctorsResponseWithoutPagination
             {
                 doctorsResponse = doctors.Select(x => x.MapToResponse()),
             };
