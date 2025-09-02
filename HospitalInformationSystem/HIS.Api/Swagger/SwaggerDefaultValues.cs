@@ -40,7 +40,7 @@ namespace HIS.Api.Swagger
                 var description = apiDescriptor.ParameterDescriptions
                     .First(p => p.Name == parameter.Name);
 
-                parameter.Description ??= description.ModelMetadata.Description;
+                parameter.Description ??= description.ModelMetadata?.Description;
 
                 if (parameter.Schema.Default == null && description.DefaultValue != null)
                 {

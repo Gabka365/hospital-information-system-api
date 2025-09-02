@@ -9,7 +9,7 @@ namespace HIS.Application.Services.Patients
 {
     public interface IPatientService
     {
-        Task<Patient> GetPatientAsync(Guid id, CancellationToken token);
+        Task<Patient?> GetPatientAsync(Guid id, CancellationToken token);
         Task<List<Patient>> GetAllPatientsAsync(GetAllPatientsOptions options, CancellationToken token);
         Task<Patient> CreatePatientAsync(Patient patient, CancellationToken token);
         Task<Patient> UpdatePatientAsync(Patient patient, CancellationToken token);

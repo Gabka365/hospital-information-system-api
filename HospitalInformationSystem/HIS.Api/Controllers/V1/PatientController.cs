@@ -27,9 +27,15 @@ namespace HIS.Api.Controllers.V1
 
         [HttpGet(ApiEndpoints.Patients.Get)]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPatient([FromRoute] Guid id, CancellationToken token)
         {
             var patient = await _patientService.GetPatientAsync(id, token);
+
+            if (patient is null)
+            {
+                return NotFound();
+            }
 
             var response = patient.MapToResponse();
 
@@ -101,17 +107,6 @@ namespace HIS.Api.Controllers.V1
             }
 
             return Ok(isDeleted);
-        }
-
-        [HttpGet(ApiEndpoints.Patients.GetPatientsDoctors)]
-        [ProducesResponseType(typeof(PatientsResponseWithoutPagination), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPatientsDoctors([FromRoute] Guid id, CancellationToken token)
-        {
-            var result = await _patientService.GetPatientsDoctorsAsync(id, token);
-
-            var response = result.MapToResponses();
-
-            return Ok(response);
         }
     }
 }

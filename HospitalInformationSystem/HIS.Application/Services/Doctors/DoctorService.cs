@@ -122,23 +122,23 @@ namespace HIS.Application.Services.Doctors
             return specifiedUser.Id;
         }
 
-        public async Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token)
+        public async Task<bool> AddPatientForDoctorAsync(Guid patientId, Guid doctorId, CancellationToken token)
         {
-            var specifiedPatient = await _patientRepository.IsPatientExistAsync(PatientId, token);
+            var specifiedPatient = await _patientRepository.IsPatientExistAsync(patientId, token);
 
             if (!specifiedPatient)
             {
-                throw new InvalidDataException($"Not correct patientID: {PatientId}");
+                return false;
             }
 
-            var specifiedDoctor = await _doctorRepository.IsDoctorExistAsync(DoctorId, token);
+            var specifiedDoctor = await _doctorRepository.IsDoctorExistAsync(doctorId, token);
 
             if (!specifiedDoctor)
             {
-                throw new InvalidDataException($"Not correct doctorID: {DoctorId}");
+                return false;
             }
 
-            var result = await _doctorRepository.AddPatientForDoctorAsync(PatientId, DoctorId, token);
+            var result = await _doctorRepository.AddPatientForDoctorAsync(patientId, doctorId, token);
 
             return result;
         }
