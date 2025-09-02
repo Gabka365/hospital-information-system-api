@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using HIS.Api;
 using HIS.Api.Auth;
+using HIS.Api.Health;
 using HIS.Api.Mappers;
 using HIS.Api.Swagger;
 using HIS.Application;
@@ -31,6 +32,9 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false
     };
 });
+builder.Services
+    .AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.DatabaseName);
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType, 
@@ -73,6 +77,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.MapHealthChecks("_health");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
