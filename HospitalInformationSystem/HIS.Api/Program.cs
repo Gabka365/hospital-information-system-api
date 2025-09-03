@@ -7,6 +7,8 @@ using HIS.Api.Swagger;
 using HIS.Application;
 using HIS.Application.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -61,10 +63,22 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
+builder.Services.AddOutputCache(c =>
+{
+    c.AddBasePolicy(p => p.Cache());
+    c.AddPolicy("DoctorPolicy", c =>
+    {
+        c.Cache()
+        .Expire(TimeSpan.FromSeconds(60))
+        .SetVaryByQuery(new[] { "FirstName", "LastName", "Surname", "Experience", "Specialties", "Category", "SortBy" })
+        .Tag("doctors");
+    });
+    c.AddPolicy(nameof(AuthCachePolicy), AuthCachePolicy.Instance);
+});
+
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -76,15 +90,13 @@ if (app.Environment.IsDevelopment())
         }    
     });
 }
-
-app.MapHealthChecks("_health");
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapHealthChecks("_health");
+app.UseHttpsRedirection();
+app.UseOutputCache();
 app.MapControllers();
 app.UseMiddleware<ValidationErrorMappingMiddleware>();
-
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
 await dbInitializer.InitializeAsync();
-
 app.Run();
