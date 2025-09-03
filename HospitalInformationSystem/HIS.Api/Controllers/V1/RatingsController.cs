@@ -26,6 +26,7 @@ namespace HIS.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(Duration = 30, VaryByQueryKeys = new[] { "Rating" }, Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> RateDoctor([FromRoute] Guid id, [FromBody] RateDoctorRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -38,6 +39,7 @@ namespace HIS.Api.Controllers.V1
         [HttpDelete(ApiEndpoints.V1.Doctors.DeleteRating)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> DeleteRating([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -49,6 +51,7 @@ namespace HIS.Api.Controllers.V1
 
         [HttpGet(ApiEndpoints.V1.Doctors.GetUserRatingsForDoctor)]
         [ProducesResponseType(typeof(IEnumerable<DoctorRating>), StatusCodes.Status200OK)]
+        [ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetUserRatings(CancellationToken token = default)
         {
             var userId = HttpContext.GetUserId();

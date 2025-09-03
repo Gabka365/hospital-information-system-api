@@ -95,8 +95,10 @@ app.UseAuthorization();
 app.MapHealthChecks("_health");
 app.UseHttpsRedirection();
 app.UseOutputCache();
+app.UseResponseCaching();
 app.MapControllers();
 app.UseMiddleware<ValidationErrorMappingMiddleware>();
+
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
 await dbInitializer.InitializeAsync();
 app.Run();

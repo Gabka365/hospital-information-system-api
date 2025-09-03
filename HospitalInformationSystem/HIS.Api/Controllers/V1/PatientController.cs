@@ -28,6 +28,7 @@ namespace HIS.Api.Controllers.V1
         [HttpGet(ApiEndpoints.Patients.Get)]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(Duration = 30,VaryByHeader = "Accept, Accept-Encoding",Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetPatient([FromRoute] Guid id, CancellationToken token)
         {
             var patient = await _patientService.GetPatientAsync(id, token);
@@ -46,6 +47,12 @@ namespace HIS.Api.Controllers.V1
         [HttpGet(ApiEndpoints.Patients.GetAll)]
         [ProducesResponseType(typeof(PatientsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(
+            Duration = 30,
+            VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "DiseaseList", "Age", "SortBy" },
+            VaryByHeader = "Accept, Accept-Encoding",
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> GetAllPatients([FromQuery] GetAllPatientsRequest request,
             [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
@@ -67,6 +74,12 @@ namespace HIS.Api.Controllers.V1
         [HttpPost(ApiEndpoints.Patients.Create)]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(
+            Duration = 30,
+            VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "DiseaseList", "Age", "Email" },
+            VaryByHeader = "Accept, Accept-Encoding",
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequest request, CancellationToken token)
         {
             var specifiedUserId = await _patientService.GetUserIdByEmail(request.Email, token);
@@ -84,6 +97,12 @@ namespace HIS.Api.Controllers.V1
         [HttpPut(ApiEndpoints.Patients.Update)]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(
+            Duration = 30,
+            VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "DiseaseList", "Age" },
+            VaryByHeader = "Accept, Accept-Encoding",
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> UpdatePatient([FromRoute] Guid id, [FromBody] UpdatePatientRequest request, CancellationToken token)
         {
             var patient = request.MapToPatient(id);
@@ -97,6 +116,7 @@ namespace HIS.Api.Controllers.V1
         [HttpDelete(ApiEndpoints.Patients.Delete)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(Duration = 30,VaryByHeader = "Accept, Accept-Encoding",Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> DeletePatient([FromRoute] Guid id, CancellationToken token)
         {
             var isDeleted = await _patientService.DeletePatientAsync(id, token);

@@ -26,6 +26,7 @@ namespace HIS.Api.Controllers.V1
 
         [HttpPost(ApiEndpoints.Auth.Register)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+
         public async Task<IActionResult> Register([FromBody] UserRequest request, CancellationToken token)
         {
             var user = request.MapToRegisterUser();
