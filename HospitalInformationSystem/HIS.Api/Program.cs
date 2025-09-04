@@ -39,8 +39,12 @@ builder.Services
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.DatabaseName);
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType, 
+    x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType,
         AuthConstants.AdminUserName));
+
+    x.AddPolicy(AuthConstants.AdminPolicy,
+        p => p.AddRequirements(new AdminAuthRequirement(conf["ApiKey"]!)));
+
     x.AddPolicy(AuthConstants.TrustedMemberPolicy, p => p.RequireAssertion(c =>
         c.User.HasClaim(x => x is { Type: AuthConstants.TrustedClaimType, Value: "true" }))); 
         // || c.User.HasClaim(x => x is { Type: AuthConstants.UserNameClaimType, Value: AuthConstants.AdminUserName })));
@@ -63,16 +67,10 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
+builder.Services.AddScoped<ApiKeyAuthFilter>();
 builder.Services.AddOutputCache(c =>
 {
     c.AddBasePolicy(p => p.Cache());
-    c.AddPolicy("DoctorPolicy", c =>
-    {
-        c.Cache()
-        .Expire(TimeSpan.FromSeconds(60))
-        .SetVaryByQuery(new[] { "FirstName", "LastName", "Surname", "Experience", "Specialties", "Category", "SortBy" })
-        .Tag("doctors");
-    });
     c.AddPolicy(nameof(AuthCachePolicy), AuthCachePolicy.Instance);
 });
 

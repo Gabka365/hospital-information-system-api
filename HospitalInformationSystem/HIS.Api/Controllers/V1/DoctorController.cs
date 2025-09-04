@@ -22,7 +22,7 @@ using System.Runtime.Intrinsics.Arm;
 
 namespace HIS.Api.Controllers.V1
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     public class DoctorController : ControllerBase
@@ -80,6 +80,7 @@ namespace HIS.Api.Controllers.V1
         }
 
         [Authorize(AuthConstants.AdminPolicy)]
+        //[ServiceFilter(typeof(ApiKeyAuthFilter))]
         [HttpPost(ApiEndpoints.V1.Doctors.Create)]
         [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
