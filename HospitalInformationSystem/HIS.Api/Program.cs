@@ -1,11 +1,14 @@
 using Asp.Versioning;
 using HIS.Api;
 using HIS.Api.Auth;
+using HIS.Api.Health;
 using HIS.Api.Mappers;
 using HIS.Api.Swagger;
 using HIS.Application;
 using HIS.Application.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -31,10 +34,17 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false
     };
 });
+builder.Services
+    .AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.DatabaseName);
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType, 
+    x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(AuthConstants.UserNameClaimType,
         AuthConstants.AdminUserName));
+
+    x.AddPolicy(AuthConstants.AdminPolicy,
+        p => p.AddRequirements(new AdminAuthRequirement(conf["ApiKey"]!)));
+
     x.AddPolicy(AuthConstants.TrustedMemberPolicy, p => p.RequireAssertion(c =>
         c.User.HasClaim(x => x is { Type: AuthConstants.TrustedClaimType, Value: "true" }))); 
         // || c.User.HasClaim(x => x is { Type: AuthConstants.UserNameClaimType, Value: AuthConstants.AdminUserName })));
@@ -57,10 +67,16 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
+builder.Services.AddScoped<ApiKeyAuthFilter>();
+builder.Services.AddOutputCache(c =>
+{
+    c.AddBasePolicy(p => p.Cache());
+    c.AddPolicy(nameof(AuthCachePolicy), AuthCachePolicy.Instance);
+});
+
 
 var app = builder.Build();
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -72,14 +88,15 @@ if (app.Environment.IsDevelopment())
         }    
     });
 }
-
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapHealthChecks("_health");
+app.UseHttpsRedirection();
+app.UseOutputCache();
+app.UseResponseCaching();
 app.MapControllers();
 app.UseMiddleware<ValidationErrorMappingMiddleware>();
 
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
 await dbInitializer.InitializeAsync();
-
 app.Run();

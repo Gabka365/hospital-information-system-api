@@ -22,7 +22,7 @@ using System.Runtime.Intrinsics.Arm;
 
 namespace HIS.Api.Controllers.V1
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     public class DoctorController : ControllerBase
@@ -37,6 +37,7 @@ namespace HIS.Api.Controllers.V1
         [HttpGet(ApiEndpoints.V1.Doctors.Get)]
         [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetDoctor([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -53,6 +54,11 @@ namespace HIS.Api.Controllers.V1
         [HttpGet(ApiEndpoints.V1.Doctors.GetAll)]
         [ProducesResponseType(typeof(DoctorsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(
+            Duration = 30, 
+            VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "Experience", "Specialties", "Category", "SortBy" }, 
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> GetAllDoctors([FromQuery] GetAllDoctorsRequest request,
             [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
@@ -74,9 +80,15 @@ namespace HIS.Api.Controllers.V1
         }
 
         [Authorize(AuthConstants.AdminPolicy)]
+        //[ServiceFilter(typeof(ApiKeyAuthFilter))]
         [HttpPost(ApiEndpoints.V1.Doctors.Create)]
         [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(
+            Duration = 30,
+            VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "Experience", "Specialties", "Category", "Email" },
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request, CancellationToken token)
         {
             var specifiedUserId = await _doctorService.GetUserIdByEmail(request.Email, token);
@@ -96,6 +108,12 @@ namespace HIS.Api.Controllers.V1
         [HttpPut(ApiEndpoints.V1.Doctors.Update)]
         [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        [ResponseCache(
+            Duration = 30,
+            VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "Specialties", "Category", "Experience" },
+            VaryByHeader = "Accept, Accept-Encoding",
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -111,6 +129,11 @@ namespace HIS.Api.Controllers.V1
         [HttpDelete(ApiEndpoints.V1.Doctors.Delete)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(
+            Duration = 30,
+            VaryByHeader = "Accept, Accept-Encoding",
+            Location = ResponseCacheLocation.Client
+            )]
         public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
