@@ -23,7 +23,6 @@ namespace HIS.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [ApiVersion("2.0")]
     public class DoctorController : ControllerBase
     {
         private IDoctorService _doctorService;
@@ -34,7 +33,7 @@ namespace HIS.Api.Controllers
         }
 
         [HttpGet(ApiEndpoints.V2.Doctors.GetDoctorsPatients)]
-        public async Task<ActionResult> GetDoctorPatients(Guid id, CancellationToken token)
+        public async Task<ActionResult> GetDoctorPatients([FromRoute] Guid id, CancellationToken token)
         {
             var result = await _doctorService.GetDoctorsPatientsAsync(id, token);
 

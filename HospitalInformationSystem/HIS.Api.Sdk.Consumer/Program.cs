@@ -76,6 +76,15 @@ var updatedDoctor = await hisApi.UpdateDoctorAsync(createdDoctor.Id.ToString(), 
 //Delete the doctor that was created previously
 var isDoctorDeleted = await hisApi.DeleteDoctorAsync(createdDoctor.Id.ToString());
 
+////Get all patients that have doctor with this id
+//var patientsWithSpecifiedDoctor = await hisApi.GetDoctorsPatientsAsync("65a7fde3-36ab-441a-8399-3dde790bb475");
+
+////Add patient to the specified doctor
+//var isPatientAddedToDoctor = await hisApi.AddPatientForDoctorAsync("d13e717c-26ab-41c1-90be-e986c47f23e1", "17ab799c-514a-485d-97d9-3363e2e62db3");
+
+////Add patient to the current user
+//var isPatientAddedToCurrentUser = await hisApi.AddPatientForCurrentUserAsync("d13e717c-26ab-41c1-90be-e986c47f23e1");
+
 #endregion
 
 
@@ -122,5 +131,14 @@ var updatedPatient = await hisApi.UpdatePatientAsync(createdPatient.Id.ToString(
 
 //Delete the patient that was created previously
 var isPatientDeleted = await hisApi.DeletePatientAsync(createdPatient.Id.ToString());
+
+////Get all doctors that have patient with this id
+//var doctorsWithSpecifiedPatient = await hisApi.GetPatientsDoctorsAsync("13401029-9ed4-4d19-bf9b-1c87b3e78416");
+
+////Add doctor to the specified patient
+//var isDoctorAddedToPatient = await hisApi.AddDoctorForPatientAsync("65a7fde3-36ab-441a-8399-3dde790bb475", "d13e717c-26ab-41c1-90be-e986c47f23e1");
+
+////Add doctor to the current user
+//var isDoctorAddedToCurrentUser = await hisApi.AddDoctorForCurrentUserAsync("65a7fde3-36ab-441a-8399-3dde790bb475");
 
 #endregion

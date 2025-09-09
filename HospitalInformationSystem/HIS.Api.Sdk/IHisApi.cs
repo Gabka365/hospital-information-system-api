@@ -33,6 +33,15 @@ namespace HIS.Api.Sdk
         [Delete(ApiEndpoints.V1.Doctors.Delete)]
         Task<bool> DeleteDoctorAsync(string id);
 
+        [Get(ApiEndpoints.V2.Doctors.GetDoctorsPatients + "?api-version=2.0")]
+        Task<PatientsResponseWithoutPagination?> GetDoctorsPatientsAsync(string id);
+
+        [Get(ApiEndpoints.V2.Doctors.AddPatientForDoctor)]
+        Task<bool> AddPatientForDoctorAsync(string patientId, string doctorId);
+
+        [Get(ApiEndpoints.V2.Doctors.AddPatientForCurrentUser)]
+        Task<bool> AddPatientForCurrentUserAsync(string patientId);
+
         #endregion
 
 
@@ -52,6 +61,15 @@ namespace HIS.Api.Sdk
 
         [Delete(ApiEndpoints.Patients.Delete)]
         Task<bool> DeletePatientAsync(string id);
+
+        [Get(ApiEndpoints.Patients.GetPatientsDoctors)]
+        Task<DoctorsResponseWithoutPagination> GetPatientsDoctorsAsync(string id);
+
+        [Get(ApiEndpoints.Patients.AddDoctorForPatient)]
+        Task<bool> AddDoctorForPatientAsync(string doctorId, string patientId);
+
+        [Get(ApiEndpoints.Patients.AddDoctorForCurrentUser)]
+        Task<bool> AddDoctorForCurrentUserAsync(string doctorId);
 
         #endregion
     }
