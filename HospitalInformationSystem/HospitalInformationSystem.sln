@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIS.Application", "HIS.Appl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIS.Contracts", "HIS.Contracts\HIS.Contracts.csproj", "{AB93BD1B-54E3-49E8-BA3E-BF342532C75C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIS.Api.Sdk", "HIS.Api.Sdk\HIS.Api.Sdk.csproj", "{8D276BE5-F04F-441A-818F-952FC07CDBE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIS.Api.Sdk.Consumer", "HIS.Api.Sdk.Consumer\HIS.Api.Sdk.Consumer.csproj", "{824B433F-735D-433E-AD8F-E7423957EEDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{AB93BD1B-54E3-49E8-BA3E-BF342532C75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB93BD1B-54E3-49E8-BA3E-BF342532C75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB93BD1B-54E3-49E8-BA3E-BF342532C75C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D276BE5-F04F-441A-818F-952FC07CDBE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D276BE5-F04F-441A-818F-952FC07CDBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D276BE5-F04F-441A-818F-952FC07CDBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D276BE5-F04F-441A-818F-952FC07CDBE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824B433F-735D-433E-AD8F-E7423957EEDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824B433F-735D-433E-AD8F-E7423957EEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824B433F-735D-433E-AD8F-E7423957EEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824B433F-735D-433E-AD8F-E7423957EEDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
