@@ -23,6 +23,7 @@ namespace HIS.Api.Controllers
 {
     [Authorize]
     [ApiController]
+    [ApiVersion("2.0")]
     public class DoctorController : ControllerBase
     {
         private IDoctorService _doctorService;

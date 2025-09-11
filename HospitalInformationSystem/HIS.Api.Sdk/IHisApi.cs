@@ -33,14 +33,14 @@ namespace HIS.Api.Sdk
         [Delete(ApiEndpoints.V1.Doctors.Delete)]
         Task<bool> DeleteDoctorAsync(string id);
 
-        [Get(ApiEndpoints.V2.Doctors.GetDoctorsPatients + "?api-version=2.0")]
-        Task<PatientsResponseWithoutPagination?> GetDoctorsPatientsAsync(string id);
+        [Get(ApiEndpoints.V2.Doctors.GetDoctorsPatients)]
+        Task<PatientsResponseWithoutPagination?> GetDoctorsPatientsAsync(string id, [Header("Accept")] string apiVersion = "application/json;api-version=2.0");
 
         [Get(ApiEndpoints.V2.Doctors.AddPatientForDoctor)]
-        Task<bool> AddPatientForDoctorAsync(string patientId, string doctorId);
+        Task<bool> AddPatientForDoctorAsync(string patientId, string doctorId, [Header("Accept")] string apiVersion = "application/json;api-version=2.0");
 
         [Get(ApiEndpoints.V2.Doctors.AddPatientForCurrentUser)]
-        Task<bool> AddPatientForCurrentUserAsync(string patientId);
+        Task<bool> AddPatientForCurrentUserAsync(string patientId, [Header("Accept")] string apiVersion = "application/json;api-version=2.0");
 
         #endregion
 
@@ -63,13 +63,13 @@ namespace HIS.Api.Sdk
         Task<bool> DeletePatientAsync(string id);
 
         [Get(ApiEndpoints.Patients.GetPatientsDoctors)]
-        Task<DoctorsResponseWithoutPagination> GetPatientsDoctorsAsync(string id);
+        Task<DoctorsResponseWithoutPagination> GetPatientsDoctorsAsync(string id, [Header("Accept")] string apiVersion = "application/json;api-version=2.0");
 
         [Get(ApiEndpoints.Patients.AddDoctorForPatient)]
-        Task<bool> AddDoctorForPatientAsync(string doctorId, string patientId);
+        Task<bool> AddDoctorForPatientAsync(string doctorId, string patientId, [Header("Accept")] string apiVersion = "application/json;api-version=2.0");
 
         [Get(ApiEndpoints.Patients.AddDoctorForCurrentUser)]
-        Task<bool> AddDoctorForCurrentUserAsync(string doctorId);
+        Task<bool> AddDoctorForCurrentUserAsync(string doctorId, [Header("Accept")] string apiVersion = "application/json;api-version=2.0");
 
         #endregion
     }
