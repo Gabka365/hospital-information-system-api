@@ -94,7 +94,7 @@ app.MapHealthChecks("_health");
 app.UseHttpsRedirection();
 app.UseOutputCache();
 app.UseResponseCaching();
-app.MapControllers();
+//app.MapControllers();
 app.UseMiddleware<ValidationErrorMappingMiddleware>();
 
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
