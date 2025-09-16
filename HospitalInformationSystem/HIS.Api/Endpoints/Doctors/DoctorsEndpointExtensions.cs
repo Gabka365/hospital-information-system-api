@@ -6,8 +6,8 @@ namespace HIS.Api.Endpoints.Doctors
     {
          public static IEndpointRouteBuilder AddDoctorsEndpoints(this IEndpointRouteBuilder builder)
          {
+            builder.MapGetDoctor();
             //builder.MapCreateDoctor();
-            //builder.MapGetDoctor();
             //builder.MapGetAllDoctors();
             //builder.MapUpdateDoctor();
             //builder.MapDeleteDoctor();
