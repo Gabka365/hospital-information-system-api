@@ -9,7 +9,7 @@ namespace HIS.Api.Endpoints.Doctors
             builder.MapGetDoctor();
             builder.MapCreateDoctor();
             builder.MapGetAllDoctors();
-            //builder.MapUpdateDoctor();
+            builder.MapUpdateDoctor();
             //builder.MapDeleteDoctor();
             return builder;
          }
