@@ -6,7 +6,7 @@ namespace HIS.Api.Endpoints
 {
     public static class EndpointsExtensions
     {
-        public static IEndpointRouteBuilder MapApiEndpoints(this IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder AddApiEndpoints(this IEndpointRouteBuilder builder)
         {
             builder.AddDoctorsEndpoints();
             builder.AddPatientsEndpoints();

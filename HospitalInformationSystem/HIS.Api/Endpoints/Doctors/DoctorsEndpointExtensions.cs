@@ -2,12 +2,12 @@
 
 namespace HIS.Api.Endpoints.Doctors
 {
-    public static class AuthEndpointExtensions
+    public static class DoctorsEndpointExtensions
     {
          public static IEndpointRouteBuilder AddDoctorsEndpoints(this IEndpointRouteBuilder builder)
          {
             builder.MapGetDoctor();
-            //builder.MapCreateDoctor();
+            builder.MapCreateDoctor();
             //builder.MapGetAllDoctors();
             //builder.MapUpdateDoctor();
             //builder.MapDeleteDoctor();

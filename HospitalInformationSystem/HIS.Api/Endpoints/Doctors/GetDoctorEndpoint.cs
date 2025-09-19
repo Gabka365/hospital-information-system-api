@@ -14,16 +14,16 @@ namespace HIS.Api.Endpoints.Doctors
             builder.MapGet(ApiEndpoints.V1.Doctors.Get, 
                 async (Guid id, IDoctorService doctorService,
                 HttpContext context, CancellationToken token) =>
-            {
-                var userId = context.GetUserId();
-                var doctor = await doctorService.GetDoctorByIdAsync(id, userId, token);
-
-                if (doctor is null)
                 {
-                    return Results.NotFound();
-                }
-                return TypedResults.Ok(doctor.MapToResponse());
-            });
+                    var userId = context.GetUserId();
+                    var doctor = await doctorService.GetDoctorByIdAsync(id, userId, token);
+
+                    if (doctor is null)
+                    {
+                        return Results.NotFound();
+                    }
+                    return TypedResults.Ok(doctor.MapToResponse());
+                }).WithName(Name);
             return builder;
         }
     }
