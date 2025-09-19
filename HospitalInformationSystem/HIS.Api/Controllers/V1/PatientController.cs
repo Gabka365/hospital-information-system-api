@@ -10,6 +10,7 @@ using System.Net;
 using HIS.Api;
 using Asp.Versioning;
 using HIS.Contracts.Responses.Patients;
+using HIS.Contracts.Requests;
 
 namespace HIS.Api.Controllers.V1
 {
@@ -64,7 +65,9 @@ namespace HIS.Api.Controllers.V1
             var patientsCount = await _patientService.GetPatientsCountAsync(options, token);
 
             var response = patients
-                .MapToResponses(request.Page, request.PageSize, patientsCount)
+                .MapToResponses(
+                request.Page.GetValueOrDefault(PagedRequest.DefaultPage), 
+                request.PageSize.GetValueOrDefault(PagedRequest.DefaultPageSize), patientsCount)
                 .AddLinksIntoResponse(request, linkGenerator);
 
             return Ok(response);

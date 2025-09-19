@@ -73,7 +73,10 @@ namespace HIS.Api.Controllers.V1
             var doctorsCount = await _doctorService.GetDoctorsCountAsync(options, token);
 
             var response = doctors
-                .MapToResponses(request.Page, request.PageSize, doctorsCount)
+                .MapToResponses(
+                request.Page.GetValueOrDefault(PagedRequest.DefaultPage), 
+                request.PageSize.GetValueOrDefault(PagedRequest.DefaultPageSize), 
+                doctorsCount)
                 .AddLinksIntoResponse(request, linkGenerator);
 
             return Ok(response);

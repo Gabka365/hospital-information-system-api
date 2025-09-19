@@ -66,7 +66,7 @@ namespace HIS.Api
             {
                 doctorsResponse.Links.Add(new Link
                 {
-                    Href = linkGenerator.GetPathByAction(HttpContextAccessor?.HttpContext!, "GetAllDoctors", values: new GetAllDoctorsRequest
+                    Href = linkGenerator.GetPathByName(HttpContextAccessor?.HttpContext!, "GetAllDoctors", values: new GetAllDoctorsRequest
                     {
                         FirstName = request.FirstName,
                         LastName = request.LastName,
@@ -86,7 +86,7 @@ namespace HIS.Api
 
             doctorsResponse.Links.Add(new Link
             {
-                Href = linkGenerator.GetPathByAction(HttpContextAccessor?.HttpContext!, "GetAllDoctors", values: new GetAllDoctorsRequest
+                Href = linkGenerator.GetPathByName(HttpContextAccessor?.HttpContext!, "GetAllDoctors", values: new GetAllDoctorsRequest
                 {
                     FirstName = request.FirstName,
                     LastName = request.LastName,

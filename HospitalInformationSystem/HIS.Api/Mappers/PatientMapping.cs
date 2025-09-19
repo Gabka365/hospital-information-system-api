@@ -1,5 +1,6 @@
 ﻿using HIS.Application.Models;
 using HIS.Contracts.Enums;
+using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Patients;
 using HIS.Contracts.Responses;
 using HIS.Contracts.Responses.Patients;
@@ -92,8 +93,8 @@ namespace HIS.Api.Mappers
                 SortField = request.SortBy?.Trim('+', '-'),
                 SortOrder = request.SortBy == null ? SortOrder.Unsorted :
                     request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending,
-                Page = request.Page,
-                PageSize = request.PageSize,
+                Page = request.Page.GetValueOrDefault(PagedRequest.DefaultPage),
+                PageSize = request.PageSize.GetValueOrDefault(PagedRequest.DefaultPageSize),
             };
 
             options.FirstName = "%" + options.FirstName + "%";
