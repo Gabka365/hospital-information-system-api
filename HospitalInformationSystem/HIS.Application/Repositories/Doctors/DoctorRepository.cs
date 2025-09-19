@@ -41,7 +41,19 @@ namespace HIS.Application.Repositories.Doctors
         public async Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
-            
+
+            var isConnectedWithPatient = GetDoctorByIdAsync(id, userId, token) == null ? false : true;
+
+            if (!isConnectedWithPatient)
+            {
+                return false;
+            }
+
+            await connection.ExecuteAsync(new CommandDefinition(
+            """
+                delete from `HospitalInformationSystemDB`.`patientsdoctors` where DoctorId=@id
+                """, new { id }, cancellationToken: token));
+
             var count = await connection.ExecuteAsync(new CommandDefinition(
                 """
                 delete from `HospitalInformationSystemDB`.`doctors` where id=@id
