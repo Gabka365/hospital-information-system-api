@@ -6,9 +6,9 @@ namespace HIS.Api.Endpoints.Ratings
     {
          public static IEndpointRouteBuilder AddRatingsEndpoints(this IEndpointRouteBuilder builder)
          {
-            //builder.MapRateDoctor();
-            //builder.MapDeleteRating();
-            //builder.MapGetUserRatings();
+            builder.MapRateDoctor();
+            builder.MapDeleteRating();
+            builder.MapGetUserRatings();
             return builder;
          }
     }
