@@ -2,6 +2,7 @@
 using HIS.Application.Services.Patients;
 using HIS.Application.Services.Ratings;
 using HIS.Contracts.Requests.Ratings;
+using HIS.Contracts.Responses;
 
 namespace HIS.Api.Endpoints.Ratings
 {
@@ -22,6 +23,9 @@ namespace HIS.Api.Endpoints.Ratings
                     return isRated ? Results.Ok() : Results.NotFound();
 
                 })
+                .Produces(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .Produces<ValidationErrorResponse>(StatusCodes.Status404NotFound)
                 .WithName(Name);
 
             return builder;

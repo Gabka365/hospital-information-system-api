@@ -1,6 +1,7 @@
 ﻿using HIS.Api.Mappers;
 using HIS.Application.Services.Auth;
 using HIS.Contracts.Requests.Auth;
+using HIS.Contracts.Responses.Auth;
 
 namespace HIS.Api.Endpoints.Auth
 {
@@ -21,6 +22,7 @@ namespace HIS.Api.Endpoints.Auth
 
                     return TypedResults.Ok(response);
                 })
+                .Produces<UserResponse>(StatusCodes.Status200OK)
                 .WithName(Name);
 
             return builder;

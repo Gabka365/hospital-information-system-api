@@ -23,9 +23,11 @@ namespace HIS.Api.Endpoints.Patients
 
                     return TypedResults.Ok();
                 })
-                .WithName(Name)
-                .RequireAuthorization(AuthConstants.AdminPolicy);
-
+                .Produces<bool>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .RequireAuthorization(AuthConstants.AdminPolicy)
+                .WithName(Name);
+            
             return builder;
         }
     }

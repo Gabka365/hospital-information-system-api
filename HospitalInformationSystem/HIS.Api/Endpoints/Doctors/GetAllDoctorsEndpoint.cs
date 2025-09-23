@@ -3,6 +3,7 @@ using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
+using HIS.Contracts.Responses;
 using Microsoft.AspNetCore.Routing;
 
 namespace HIS.Api.Endpoints.Doctors
@@ -14,7 +15,7 @@ namespace HIS.Api.Endpoints.Doctors
         public static IEndpointRouteBuilder MapGetAllDoctors(this IEndpointRouteBuilder builder)
         {
             builder.MapGet(ApiEndpoints.V1.Doctors.GetAll,
-                async ([AsParameters] GetAllDoctorsRequest request, LinkGenerator linkGenerator, 
+                async ([AsParameters] GetAllDoctorsRequest request, LinkGenerator linkGenerator,
                 IDoctorService doctorService, HttpContext context, CancellationToken token) =>
                 {
                     var userId = context.GetUserId();
@@ -36,8 +37,11 @@ namespace HIS.Api.Endpoints.Doctors
 
                     return TypedResults.Ok(response);
                 })
-                .WithName(Name)
-                .RequireAuthorization(AuthConstants.TrustedMemberPolicy);
+                .Produces<DoctorsResponse>(StatusCodes.Status200OK)
+                .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
+                .RequireAuthorization(AuthConstants.TrustedMemberPolicy)
+                .WithName(Name);
+
             return builder;
         }
     }

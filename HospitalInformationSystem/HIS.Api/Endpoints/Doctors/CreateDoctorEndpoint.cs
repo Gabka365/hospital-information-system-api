@@ -2,6 +2,8 @@
 using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests.Doctors;
+using HIS.Contracts.Responses;
+using HIS.Contracts.Responses.Doctors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OutputCaching;
 
@@ -13,14 +15,14 @@ namespace HIS.Api.Endpoints.Doctors
 
         public static IEndpointRouteBuilder MapCreateDoctor(this IEndpointRouteBuilder builder)
         {
-            builder.MapPost(ApiEndpoints.V1.Doctors.Create, 
-                async (CreateDoctorRequest request, IDoctorService doctorService, 
-                IOutputCacheStore outputCacheStore, CancellationToken token) => 
+            builder.MapPost(ApiEndpoints.V1.Doctors.Create,
+                async (CreateDoctorRequest request, IDoctorService doctorService,
+                IOutputCacheStore outputCacheStore, CancellationToken token) =>
                 {
                     var specifiedUserId = await doctorService.GetUserIdByEmail(request.Email, token);
 
                     var doctor = request.MapToDoctor(specifiedUserId);
-                    
+
                     var isCreated = await doctorService.CreateDoctorAsync(doctor, token);
 
                     if (!isCreated)
@@ -32,9 +34,11 @@ namespace HIS.Api.Endpoints.Doctors
 
                     return TypedResults.Created(ApiEndpoints.V1.Doctors.Create, response);
                 })
-                .WithName(Name)
-                .RequireAuthorization(AuthConstants.AdminPolicy);
-
+                .Produces<DoctorResponse>(StatusCodes.Status200OK)
+                .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
+                .RequireAuthorization(AuthConstants.AdminPolicy)
+                .WithName(Name);
+            
             return builder;
         }
     }

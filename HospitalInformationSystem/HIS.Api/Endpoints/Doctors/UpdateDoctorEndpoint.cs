@@ -3,6 +3,8 @@ using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
+using HIS.Contracts.Responses;
+using HIS.Contracts.Responses.Doctors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OutputCaching;
 
@@ -26,8 +28,10 @@ namespace HIS.Api.Endpoints.Doctors
 
                     return TypedResults.Ok(response);
                 })
-                .WithName(Name)
-                .RequireAuthorization(AuthConstants.AdminPolicy);
+                .Produces<DoctorResponse>(StatusCodes.Status200OK)
+                .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
+                .RequireAuthorization(AuthConstants.AdminPolicy)
+                .WithName(Name);
 
             return builder;
         }

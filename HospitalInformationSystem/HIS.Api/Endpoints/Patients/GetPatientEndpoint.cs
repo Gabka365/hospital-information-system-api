@@ -2,6 +2,7 @@
 using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Application.Services.Patients;
+using HIS.Contracts.Responses.Patients;
 
 namespace HIS.Api.Endpoints.Patients
 {
@@ -23,7 +24,10 @@ namespace HIS.Api.Endpoints.Patients
                     }
 
                     return TypedResults.Ok(doctor.MapToResponse());
-                }).WithName(Name);
+                })
+                .Produces<PatientResponse>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .WithName(Name);
 
 
             return builder;

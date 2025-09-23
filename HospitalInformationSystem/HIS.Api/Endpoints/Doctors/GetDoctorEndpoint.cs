@@ -1,6 +1,7 @@
 ﻿using HIS.Api.Auth;
 using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
+using HIS.Contracts.Responses.Doctors;
 using System.Runtime.CompilerServices;
 
 namespace HIS.Api.Endpoints.Doctors
@@ -23,7 +24,11 @@ namespace HIS.Api.Endpoints.Doctors
                         return Results.NotFound();
                     }
                     return TypedResults.Ok(doctor.MapToResponse());
-                }).WithName(Name);
+                })
+                .Produces<DoctorResponse>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .WithName(Name);
+
             return builder;
         }
     }

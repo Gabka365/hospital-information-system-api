@@ -1,5 +1,6 @@
 ﻿using HIS.Api.Auth;
 using HIS.Api.Mappers;
+using HIS.Application.Models;
 using HIS.Application.Services.Ratings;
 
 namespace HIS.Api.Endpoints.Ratings
@@ -22,6 +23,7 @@ namespace HIS.Api.Endpoints.Ratings
 
                     return TypedResults.Ok(response);
                 })
+                .Produces<IEnumerable<DoctorRating>>(StatusCodes.Status200OK)
                 .WithName(Name);
 
             return builder;

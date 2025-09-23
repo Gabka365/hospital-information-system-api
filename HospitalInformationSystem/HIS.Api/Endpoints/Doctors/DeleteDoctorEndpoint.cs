@@ -1,5 +1,7 @@
 ﻿using HIS.Api.Auth;
 using HIS.Application.Services.Doctors;
+using HIS.Contracts.Responses;
+using HIS.Contracts.Responses.Doctors;
 
 namespace HIS.Api.Endpoints.Doctors
 {
@@ -23,8 +25,10 @@ namespace HIS.Api.Endpoints.Doctors
 
                     return TypedResults.Ok();
                 })
-                .WithName(Name)
-                .RequireAuthorization(AuthConstants.AdminPolicy);
+                .Produces<bool>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .RequireAuthorization(AuthConstants.AdminPolicy)
+                .WithName(Name);
 
             return builder;
         }

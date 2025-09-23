@@ -20,6 +20,8 @@ namespace HIS.Api.Endpoints.Ratings
 
                     return isRated ? Results.Ok() : Results.NotFound();
                 })
+                .Produces(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
                 .WithName(Name);
 
             return builder;
