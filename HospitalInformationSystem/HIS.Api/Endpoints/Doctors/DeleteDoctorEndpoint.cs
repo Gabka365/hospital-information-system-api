@@ -22,7 +22,10 @@ namespace HIS.Api.Endpoints.Doctors
                     }
 
                     return TypedResults.Ok();
-                }).WithName(Name);
+                })
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.AdminPolicy);
+
             return builder;
         }
     }

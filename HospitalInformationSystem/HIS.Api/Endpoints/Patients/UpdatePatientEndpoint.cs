@@ -1,4 +1,5 @@
-﻿using HIS.Api.Mappers;
+﻿using HIS.Api.Auth;
+using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Application.Services.Patients;
 using HIS.Contracts.Requests;
@@ -24,7 +25,8 @@ namespace HIS.Api.Endpoints.Patients
 
                     return TypedResults.Ok(result.MapToResponse());
                 })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.AdminPolicy);
 
             return builder;
         }

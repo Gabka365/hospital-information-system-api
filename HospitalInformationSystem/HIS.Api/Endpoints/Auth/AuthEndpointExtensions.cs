@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using HIS.Api.Endpoints.Auth;
+using System.Runtime.CompilerServices;
 
 namespace HIS.Api.Endpoints.Doctors
 {
@@ -6,8 +7,8 @@ namespace HIS.Api.Endpoints.Doctors
     {
          public static IEndpointRouteBuilder AddAuthEndpoints(this IEndpointRouteBuilder builder)
          {
-            //builder.MapRegister();
-            //builder.MapLogin();
+            builder.MapRegister();
+            builder.MapLogin();
             return builder;
          }
     }

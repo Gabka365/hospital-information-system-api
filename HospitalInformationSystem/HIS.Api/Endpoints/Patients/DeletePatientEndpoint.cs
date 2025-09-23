@@ -23,7 +23,8 @@ namespace HIS.Api.Endpoints.Patients
 
                     return TypedResults.Ok();
                 })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.AdminPolicy);
 
             return builder;
         }

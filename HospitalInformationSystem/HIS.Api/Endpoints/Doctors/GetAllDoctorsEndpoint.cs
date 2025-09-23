@@ -35,7 +35,9 @@ namespace HIS.Api.Endpoints.Doctors
                         .AddLinksIntoResponse(request, linkGenerator);
 
                     return TypedResults.Ok(response);
-                }).WithName(Name);
+                })
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.TrustedMemberPolicy);
             return builder;
         }
     }

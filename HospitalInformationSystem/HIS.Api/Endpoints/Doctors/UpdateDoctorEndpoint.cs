@@ -26,7 +26,8 @@ namespace HIS.Api.Endpoints.Doctors
 
                     return TypedResults.Ok(response);
                 })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.AdminPolicy);
 
             return builder;
         }

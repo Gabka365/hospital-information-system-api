@@ -1,4 +1,5 @@
-﻿using HIS.Api.Mappers;
+﻿using HIS.Api.Auth;
+using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Contracts.Requests.Doctors;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -31,7 +32,8 @@ namespace HIS.Api.Endpoints.Doctors
 
                     return TypedResults.Created(ApiEndpoints.V1.Doctors.Create, response);
                 })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.AdminPolicy);
 
             return builder;
         }
