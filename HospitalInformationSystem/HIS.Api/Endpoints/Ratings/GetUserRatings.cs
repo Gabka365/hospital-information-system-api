@@ -24,7 +24,9 @@ namespace HIS.Api.Endpoints.Ratings
                     return TypedResults.Ok(response);
                 })
                 .Produces<IEnumerable<DoctorRating>>(StatusCodes.Status200OK)
-                .WithName(Name);
+                .WithName(Name)
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
 
             return builder;
         }

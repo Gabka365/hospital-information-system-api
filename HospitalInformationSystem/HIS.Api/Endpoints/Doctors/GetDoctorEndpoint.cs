@@ -12,7 +12,7 @@ namespace HIS.Api.Endpoints.Doctors
 
         public static IEndpointRouteBuilder MapGetDoctor(this IEndpointRouteBuilder builder)
         {
-            builder.MapGet(ApiEndpoints.V1.Doctors.Get, 
+            builder.MapGet(ApiEndpoints.V1.Doctors.Get,
                 async (Guid id, IDoctorService doctorService,
                 HttpContext context, CancellationToken token) =>
                 {
@@ -27,7 +27,9 @@ namespace HIS.Api.Endpoints.Doctors
                 })
                 .Produces<DoctorResponse>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
-                .WithName(Name);
+                .WithName($"{Name}V1")
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
 
             return builder;
         }

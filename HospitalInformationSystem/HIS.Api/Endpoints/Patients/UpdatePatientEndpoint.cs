@@ -30,8 +30,10 @@ namespace HIS.Api.Endpoints.Patients
                 .Produces<PatientsResponse>(StatusCodes.Status200OK)
                 .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
                 .RequireAuthorization(AuthConstants.AdminPolicy)
-                .WithName(Name);
-    
+                .WithName(Name)
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
+
             return builder;
         }
     }

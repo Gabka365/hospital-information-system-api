@@ -37,7 +37,9 @@ namespace HIS.Api.Endpoints.Doctors
                 .Produces<DoctorResponse>(StatusCodes.Status200OK)
                 .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
                 .RequireAuthorization(AuthConstants.AdminPolicy)
-                .WithName(Name);
+                .WithName($"{Name}V1")
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
             
             return builder;
         }

@@ -26,8 +26,10 @@ namespace HIS.Api.Endpoints.Patients
                 .Produces<bool>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .RequireAuthorization(AuthConstants.AdminPolicy)
-                .WithName(Name);
-            
+                .WithName(Name)
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
+
             return builder;
         }
     }

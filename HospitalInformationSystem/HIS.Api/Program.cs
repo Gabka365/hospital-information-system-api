@@ -80,6 +80,9 @@ builder.Services.AddOutputCache(c =>
 
 
 var app = builder.Build();
+
+app.CreateApiVersionSet();
+
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
 if (app.Environment.IsDevelopment())
 {

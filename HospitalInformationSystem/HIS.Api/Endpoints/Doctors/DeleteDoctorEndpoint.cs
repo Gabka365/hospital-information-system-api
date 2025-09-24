@@ -28,7 +28,9 @@ namespace HIS.Api.Endpoints.Doctors
                 .Produces<bool>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .RequireAuthorization(AuthConstants.AdminPolicy)
-                .WithName(Name);
+                .WithName($"{Name}V1")
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
 
             return builder;
         }
