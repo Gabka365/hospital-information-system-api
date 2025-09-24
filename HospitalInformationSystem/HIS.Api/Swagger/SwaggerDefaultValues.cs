@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Text.Json;
 
 namespace HIS.Api.Swagger
@@ -42,7 +43,10 @@ namespace HIS.Api.Swagger
 
                 parameter.Description ??= description.ModelMetadata?.Description;
 
-                if (parameter.Schema.Default == null && description.DefaultValue != null)
+                if (parameter.Schema.Default == null 
+                    && description.DefaultValue != null
+                    && description.DefaultValue is not DBNull
+                    && description.ModelMetadata is { } modelMetadata)
                 {
                     var json = JsonSerializer.Serialize(
                         description.DefaultValue,

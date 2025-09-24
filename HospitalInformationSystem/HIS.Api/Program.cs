@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using HIS.Api;
 using HIS.Api.Auth;
+using HIS.Api.Endpoints;
 using HIS.Api.Health;
 using HIS.Api.Mappers;
 using HIS.Api.Swagger;
@@ -56,13 +57,16 @@ builder.Services.AddApiVersioning(x =>
     x.AssumeDefaultVersionWhenUnspecified = true;
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
     x.ReportApiVersions = true;
-}).AddMvc().AddApiExplorer();
-builder.Services.AddControllers()
-    .AddJsonOptions(opts =>
-    {
-        var enumConverter = new JsonStringEnumConverter();
-        opts.JsonSerializerOptions.Converters.Add(enumConverter);
-    });
+}).AddApiExplorer();
+
+builder.Services.AddEndpointsApiExplorer();
+
+//builder.Services.AddControllers()
+//    .AddJsonOptions(opts =>
+//    {
+//        var enumConverter = new JsonStringEnumConverter();
+//        opts.JsonSerializerOptions.Converters.Add(enumConverter);
+//    });
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
@@ -76,6 +80,9 @@ builder.Services.AddOutputCache(c =>
 
 
 var app = builder.Build();
+
+app.CreateApiVersionSet();
+
 LinksEditor.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
 if (app.Environment.IsDevelopment())
 {
@@ -94,7 +101,8 @@ app.MapHealthChecks("_health");
 app.UseHttpsRedirection();
 app.UseOutputCache();
 app.UseResponseCaching();
-app.MapControllers();
+//app.MapControllers();
+app.AddApiEndpoints();
 app.UseMiddleware<ValidationErrorMappingMiddleware>();
 
 var dbInitializer = app.Services.GetRequiredService<MySqlInitializer>();
