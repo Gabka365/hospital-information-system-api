@@ -11,6 +11,8 @@ namespace HIS.Api.Endpoints.Patients
             builder.MapGetAllPatients();
             builder.MapUpdatePatient();
             builder.MapDeletePatient();
+            
+
             return builder;
          }
     }

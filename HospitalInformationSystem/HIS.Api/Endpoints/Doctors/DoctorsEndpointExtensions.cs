@@ -11,7 +11,10 @@ namespace HIS.Api.Endpoints.Doctors
             builder.MapGetAllDoctors();
             builder.MapUpdateDoctor();
             builder.MapDeleteDoctor();
-
+            builder.MapGetDoctorsPatients();
+            builder.MapAddPatientForDoctor();
+            builder.MapAddPatientForCurrentUser();
+            
             return builder;
          }
     }
