@@ -2,6 +2,7 @@
 using HIS.Application.Services.Doctors;
 using HIS.Contracts.Responses;
 using HIS.Contracts.Responses.Doctors;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HIS.Api.Endpoints.Doctors
 {
@@ -30,7 +31,13 @@ namespace HIS.Api.Endpoints.Doctors
                 .RequireAuthorization(AuthConstants.AdminPolicy)
                 .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
-                .HasApiVersion(1.0);
+                .HasApiVersion(1.0)
+                .WithMetadata(new ResponseCacheAttribute
+                {
+                    Duration = 30,
+                    VaryByHeader = "Accept, Accept-Encoding",
+                    Location = ResponseCacheLocation.Client
+                });
 
             return builder;
         }

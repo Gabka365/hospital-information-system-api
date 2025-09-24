@@ -5,6 +5,7 @@ using HIS.Application.Services.Patients;
 using HIS.Contracts.Requests.Patients;
 using HIS.Contracts.Responses;
 using HIS.Contracts.Responses.Patients;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace HIS.Api.Endpoints.Patients
@@ -37,9 +38,16 @@ namespace HIS.Api.Endpoints.Patients
                 .Produces<PatientsResponse>(StatusCodes.Status200OK)
                 .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
                 .RequireAuthorization(AuthConstants.AdminPolicy)
-                .WithName(Name)
+                .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
-                .HasApiVersion(1.0);
+                .HasApiVersion(1.0)
+                .WithMetadata(new ResponseCacheAttribute
+                {
+                    Duration = 30,
+                    VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "DiseaseList", "Age", "Email" },
+                    VaryByHeader = "Accept, Accept-Encoding",
+                    Location = ResponseCacheLocation.Client
+                });
 
             return builder;
         }

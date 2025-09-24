@@ -5,6 +5,7 @@ using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses;
 using HIS.Contracts.Responses.Doctors;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace HIS.Api.Endpoints.Doctors
@@ -39,8 +40,14 @@ namespace HIS.Api.Endpoints.Doctors
                 .RequireAuthorization(AuthConstants.AdminPolicy)
                 .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
-                .HasApiVersion(1.0);
-            
+                .HasApiVersion(1.0)
+                .WithMetadata(new ResponseCacheAttribute
+                {
+                    Duration = 30,
+                    VaryByQueryKeys = new[] { "FirstName", "LastName", "Surname", "Experience", "Specialties", "Category", "Email" },
+                    Location = ResponseCacheLocation.Client
+                });
+
             return builder;
         }
     }

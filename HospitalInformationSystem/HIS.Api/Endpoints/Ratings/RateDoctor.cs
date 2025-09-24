@@ -3,6 +3,7 @@ using HIS.Application.Services.Patients;
 using HIS.Application.Services.Ratings;
 using HIS.Contracts.Requests.Ratings;
 using HIS.Contracts.Responses;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HIS.Api.Endpoints.Ratings
 {
@@ -26,9 +27,15 @@ namespace HIS.Api.Endpoints.Ratings
                 .Produces(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .Produces<ValidationErrorResponse>(StatusCodes.Status404NotFound)
-                .WithName(Name)
+                .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
-                .HasApiVersion(1.0);
+                .HasApiVersion(1.0)
+                .WithMetadata(new ResponseCacheAttribute
+                {
+                    Duration = 30,
+                    VaryByQueryKeys = new[] { "Rating" },
+                    Location = ResponseCacheLocation.Client
+                });
 
             return builder;
         }

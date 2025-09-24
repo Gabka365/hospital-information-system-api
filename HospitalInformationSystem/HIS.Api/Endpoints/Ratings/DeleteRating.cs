@@ -1,6 +1,7 @@
 ﻿using HIS.Api.Auth;
 using HIS.Application.Services.Ratings;
 using HIS.Contracts.Requests.Ratings;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HIS.Api.Endpoints.Ratings
 {
@@ -22,9 +23,15 @@ namespace HIS.Api.Endpoints.Ratings
                 })
                 .Produces(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
-                .WithName(Name)
+                .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
-                .HasApiVersion(1.0);
+                .HasApiVersion(1.0)
+                .WithMetadata(new ResponseCacheAttribute
+                {
+                    Duration = 30,
+                    VaryByHeader = "Accept, Accept-Encoding",
+                    Location = ResponseCacheLocation.Client
+                });
 
             return builder;
         }

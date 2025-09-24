@@ -3,6 +3,7 @@ using HIS.Api.Mappers;
 using HIS.Application.Services.Doctors;
 using HIS.Application.Services.Patients;
 using HIS.Contracts.Responses.Patients;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HIS.Api.Endpoints.Patients
 {
@@ -27,9 +28,15 @@ namespace HIS.Api.Endpoints.Patients
                 })
                 .Produces<PatientResponse>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
-                .WithName(Name)
+                .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
-                .HasApiVersion(1.0);
+                .HasApiVersion(1.0)
+                .WithMetadata(new ResponseCacheAttribute
+                {
+                    Duration = 30,
+                    VaryByHeader = "Accept, Accept-Encoding",
+                    Location = ResponseCacheLocation.Client
+                });
 
 
             return builder;

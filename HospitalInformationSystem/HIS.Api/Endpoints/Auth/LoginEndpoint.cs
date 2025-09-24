@@ -33,8 +33,11 @@ namespace HIS.Api.Endpoints.Auth
                     return TypedResults.Ok(response);
                 })
                 .Produces<UserResponse>(StatusCodes.Status200OK)
-                .WithName(Name);
-            
+                .WithName($"{Name}V1")
+                .WithApiVersionSet(ApiVersioning.VersionSet)
+                .HasApiVersion(1.0);
+
+
             return builder;
         }
     }
