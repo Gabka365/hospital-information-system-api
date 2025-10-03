@@ -1,4 +1,5 @@
-﻿using HIS.Api.Tests.Integration.Helpers;
+﻿using FluentAssertions;
+using HIS.Api.Tests.Integration.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections;
@@ -11,30 +12,28 @@ using System.Threading.Tasks;
 
 namespace HIS.Api.Tests.Integration
 {
-    public class DoctorTests : IAsyncLifetime, IDisposable
+    public class DoctorTests : IClassFixture<WebApplicationFactory<IApiMarker>>, IAsyncLifetime, IDisposable
     {
+        private readonly HttpClient _httpClient;
 
-        public DoctorTests() 
+        public DoctorTests(WebApplicationFactory<IApiMarker> appFactory) 
         { 
-        
+            _httpClient = appFactory.CreateClient();
         }
 
-        [Theory(Skip = "This doesnt work at the moment")]
+        [Theory]
         [MemberData(nameof(Data))]
         //[ClassData(typeof(ClassData))]
         public async Task Get_ReturnsNotFound_WhenDoctorDoesNotExist(string id)
         {
-            // Arrange
-            var factory = new WebApplicationFactory<Program>();
-            var client = factory.CreateClient();
-            client.DefaultRequestHeaders.Authorization = 
-                new AuthenticationHeaderValue("Bearer", AuthHelper.GenerateToken());
+            _httpClient.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", AuthHelper.GenerateToken());
 
             // Act
-            var response = await client.GetAsync($"/api/v1/doctors/{id}");
-            
+            var response =  await _httpClient.GetAsync($"/api/v1/doctors/{id}");
+
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         public Task InitializeAsync()

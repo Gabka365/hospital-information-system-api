@@ -31,13 +31,14 @@ namespace HIS.Api.Endpoints.Doctors
                 .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
                 .HasApiVersion(1.0)
+                .RequireAuthorization()
                 .WithMetadata(new ResponseCacheAttribute
                 {
                     Duration = 30,
                     VaryByHeader = "Accept, Accept-Encoding",
                     Location = ResponseCacheLocation.Client
                 });
-
+            
             return builder;
         }
     }
