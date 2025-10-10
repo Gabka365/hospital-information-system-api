@@ -96,7 +96,12 @@ namespace HIS.Api.Controllers.V1
         {
             var specifiedUserId = await _doctorService.GetUserIdByEmail(request.Email, token);
 
-            var doctor = request.MapToDoctor(specifiedUserId);
+            if (specifiedUserId is null)
+            {
+                return BadRequest();
+            }
+
+            var doctor = request.MapToDoctor((Guid)specifiedUserId);
 
             var isCreated = await _doctorService.CreateDoctorAsync(doctor, token);
 

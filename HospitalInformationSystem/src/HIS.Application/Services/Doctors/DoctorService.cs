@@ -112,12 +112,12 @@ namespace HIS.Application.Services.Doctors
             return patients;
         }
 
-        public async Task<Guid> GetUserIdByEmail(string email, CancellationToken token)
+        public async Task<Guid?> GetUserIdByEmail(string email, CancellationToken token)
         {
             var specifiedUser = await _authRepository.GetUserAsync(email, token);
 
             if (specifiedUser == null)
-                throw new InvalidDataException($"No one concurrence with this email: {email}");
+                return null;
 
             return specifiedUser.Id;
         }

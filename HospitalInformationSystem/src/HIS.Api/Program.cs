@@ -19,16 +19,18 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var conf = builder.Configuration;
+var token = conf["Jwt:Key"]!;
 builder.WebHost.UseUrls(new[] { "http://localhost:5000", "https://localhost:5050" }!);
 builder.Services.AddAuthentication(x =>
 {
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(x =>
 {
     x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(conf["Jwt:Key"]!)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["Jwt:Key"]!)),
         ValidateIssuerSigningKey = true,
         ValidateLifetime = true,
         ValidateAudience = false,

@@ -30,8 +30,8 @@ namespace HIS.Api.Tests.Integration.Helpers
 
             var userClaims = new Dictionary<string, object>()
             {
-                { "admin", true },
-                { "trusted_member", true },
+                //{ "admin", true },
+                //{ "trusted_member", true },
             };
             
             var tokenSecret = "ForTheLoveOfGodStoreAndLoadThisSecurely";
