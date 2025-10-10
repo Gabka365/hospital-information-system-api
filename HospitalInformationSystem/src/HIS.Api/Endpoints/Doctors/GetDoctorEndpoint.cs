@@ -31,6 +31,7 @@ namespace HIS.Api.Endpoints.Doctors
                 .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
                 .HasApiVersion(1.0)
+                .ReportApiVersions()
                 .RequireAuthorization()
                 .WithMetadata(new ResponseCacheAttribute
                 {

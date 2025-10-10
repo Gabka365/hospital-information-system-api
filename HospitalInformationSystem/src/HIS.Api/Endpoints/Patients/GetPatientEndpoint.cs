@@ -17,20 +17,22 @@ namespace HIS.Api.Endpoints.Patients
                 async (Guid id, IPatientService patientService,
                 HttpContext context, CancellationToken token) =>
                 {
-                    var doctor = await patientService.GetPatientAsync(id, token);
+                    var patient = await patientService.GetPatientAsync(id, token);
 
-                    if (doctor is null)
+                    if (patient is null)
                     {
                         return Results.NotFound();
                     }
 
-                    return TypedResults.Ok(doctor.MapToResponse());
+                    return TypedResults.Ok(patient.MapToResponse());
                 })
                 .Produces<PatientResponse>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
                 .HasApiVersion(1.0)
+                .ReportApiVersions()
+                //.RequireAuthorization()
                 .WithMetadata(new ResponseCacheAttribute
                 {
                     Duration = 30,

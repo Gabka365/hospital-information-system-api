@@ -22,7 +22,12 @@ namespace HIS.Api.Endpoints.Doctors
                 {
                     var specifiedUserId = await doctorService.GetUserIdByEmail(request.Email, token);
 
-                    var doctor = request.MapToDoctor(specifiedUserId);
+                    if (specifiedUserId is null)
+                    {
+                        return Results.BadRequest();
+                    }
+
+                    var doctor = request.MapToDoctor((Guid)specifiedUserId);
 
                     var isCreated = await doctorService.CreateDoctorAsync(doctor, token);
 
@@ -41,6 +46,7 @@ namespace HIS.Api.Endpoints.Doctors
                 .WithName($"{Name}V1")
                 .WithApiVersionSet(ApiVersioning.VersionSet)
                 .HasApiVersion(1.0)
+                .RequireAuthorization()
                 .WithMetadata(new ResponseCacheAttribute
                 {
                     Duration = 30,
