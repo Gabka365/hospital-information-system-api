@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HIS.Api.Tests.Integration.Helpers;
+using HIS.Api.Tests.Integration.States;
 using HIS.Contracts.Enums;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;

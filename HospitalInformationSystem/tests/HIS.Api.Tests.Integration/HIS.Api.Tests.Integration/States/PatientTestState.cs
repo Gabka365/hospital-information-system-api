@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIS.Api.Tests.Integration
+namespace HIS.Api.Tests.Integration.States
 {
-    public class DoctorTestState
+    public class PatientTestState
     {
         public Guid Id { get; set; }
     }
