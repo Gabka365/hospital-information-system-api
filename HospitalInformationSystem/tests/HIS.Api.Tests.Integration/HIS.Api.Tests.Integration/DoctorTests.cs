@@ -186,6 +186,80 @@ namespace HIS.Api.Tests.Integration
         }
 
 
+        // Доделать seed-метод
+        [Fact]
+        public async Task A9_AddPatientForCurrentUser_ReturnsBadRequest_WhenRecordDoesNotPrimary()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest); 
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A10_AddPatientForCurrentUser_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A11_AddPatientForDoctor_ReturnsBadRequest_WhenRecordDoesNotPrimary()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}/doctor/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A12_AddPatientForDoctor_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}/doctor/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        
+        [Fact]
+        public async Task A13_GetDoctorsPatients_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/{}/patients");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+
         public static IEnumerable<object[]> NotExistGuids { get; } = new[]
         {
             new[] { Guid.NewGuid().ToString() },

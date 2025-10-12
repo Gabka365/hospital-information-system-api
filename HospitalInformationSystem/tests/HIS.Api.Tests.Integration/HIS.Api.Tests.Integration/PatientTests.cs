@@ -183,6 +183,80 @@ namespace HIS.Api.Tests.Integration
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A9_AddDoctorForCurrentUser_ReturnsBadRequest_WhenRecordDoesNotPrimary()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/patients/add/doctor/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A10_AddPatientForCurrentUser_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/patients/add/doctor/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A11_AddDoctorForPatient_ReturnsBadRequest_WhenRecordDoesNotPrimary()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/patients/add/doctor/{}/patient/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A12_AddDoctorForPatient_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/patients/add/doctor/{}/patient/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A13_GetPatientsDoctors_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/patients/{}/doctors");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 
 
