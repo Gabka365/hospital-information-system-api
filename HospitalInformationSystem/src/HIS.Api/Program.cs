@@ -7,6 +7,8 @@ using HIS.Api.Mappers;
 using HIS.Api.Swagger;
 using HIS.Application;
 using HIS.Application.Database;
+using HIS.Application.Repositories.Auth;
+using HIS.Application.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.OutputCaching;
@@ -74,6 +76,9 @@ builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddScoped<ApiKeyAuthFilter>();
+
+builder.Services.AddScoped<AuthRepository>();
+
 builder.Services.AddOutputCache(c =>
 {
     c.AddBasePolicy(p => p.Cache());
@@ -82,6 +87,9 @@ builder.Services.AddOutputCache(c =>
 
 
 var app = builder.Build();
+
+var seed = new Seed();
+await seed.FillAsync(app.Services, conf);
 
 app.CreateApiVersionSet();
 

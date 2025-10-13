@@ -9,13 +9,13 @@ namespace HIS.Application.DTOs
 {
     public class DoctorDTO
     {
-        public required Guid Id { get; init; }
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string Surname { get; set; }
-        public required string Specialties { get; init; }
-        public required string Category { get; init; }
-        public required int Experience { get; set; }
+        public Guid Id { get; init; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Surname { get; set; }
+        public string Specialties { get; init; }
+        public string Category { get; init; }
+        public int Experience { get; set; }
         public float? Rating { get; set; }
         public int UserRating { get; set; }
     }

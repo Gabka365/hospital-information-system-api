@@ -18,25 +18,25 @@ namespace HIS.Application.Repositories.Auth
             _connector = connector;
         }
 
-        public async Task<UserDTO> CreateUserAsync(UserDTO userDto, CancellationToken token)
+        public async Task<UserDTO> CreateUserAsync(UserDTO userDto, CancellationToken token = default)
         {
             var connection = await _connector.CreateConnectionAsync(token);
 
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`users` 
+                insert ignore into `HospitalInformationSystemDB`.`users` 
                 (Id, UserName, HashedPassword, Email) values 
                 (@Id, @UserName, @HashedPassword, @Email)
                 """, userDto, cancellationToken: token));
 
             if (result != 1)
             {
-                throw new Exception("Error with executing mysql query");
+                return null;
             }
 
             return userDto;
         }
 
-        public async Task<UserDTO?> GetUserAsync(string email, CancellationToken token)
+        public async Task<UserDTO?> GetUserAsync(string email, CancellationToken token = default)
         {
             var connection = await _connector.CreateConnectionAsync(token);
 
