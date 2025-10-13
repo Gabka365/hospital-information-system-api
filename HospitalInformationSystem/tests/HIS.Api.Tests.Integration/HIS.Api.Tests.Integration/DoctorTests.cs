@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
 using HIS.Api.Tests.Integration.Helpers;
+using HIS.Api.Tests.Integration.States;
 using HIS.Contracts.Enums;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Responses.Doctors;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,19 +20,21 @@ using System.Threading.Tasks;
 
 namespace HIS.Api.Tests.Integration
 {
-    public class DoctorTests : IClassFixture<MockAuthApiFactory>
+    [TestCaseOrderer("HIS.Api.Tests.Integration.Priority.AlphabeticalOrderer", "HIS.Api.Tests.Integration")]
+    public class DoctorTests : IClassFixture<MockAuthApiFactory>, IClassFixture<DoctorTestState>
     {
         private readonly MockAuthApiFactory _mockAuthApiFactory;
-        private Guid createdDoctorGuid = Guid.Empty;
+        private readonly DoctorTestState _doctorTestState;
 
-        public DoctorTests(MockAuthApiFactory mockAuthApiFactory) 
+        public DoctorTests(MockAuthApiFactory mockAuthApiFactory, DoctorTestState doctorTestState) 
         { 
             _mockAuthApiFactory = mockAuthApiFactory;
+            _doctorTestState = doctorTestState;
         }
 
         [Theory]
         [MemberData(nameof(NotExistGuids))]
-        public async Task Get_ReturnsNotFound_WhenDoctorDoesNotExist(string id)
+        public async Task A1_Get_ReturnsNotFound_WhenDoctorDoesNotExist(string id)
         {
             // Prepare
             var client = _mockAuthApiFactory.GetAuthorizedClient();
@@ -44,7 +48,7 @@ namespace HIS.Api.Tests.Integration
 
         [Theory]
         [MemberData(nameof(ExistGuids))]
-        public async Task Get_ReturnsOK_WhenDoctorDoesExist(string id)
+        public async Task A2_Get_ReturnsOK_WhenDoctorDoesExist(string id)
         {
             // Prepare
             var client = _mockAuthApiFactory.GetAuthorizedClient();
@@ -58,7 +62,7 @@ namespace HIS.Api.Tests.Integration
 
 
         [Fact]
-        public async Task Create_ReturnsBadRequest_WhenNotCorrectEmail()
+        public async Task A3_Create_ReturnsBadRequest_WhenNotCorrectEmail()
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAdminClient();
@@ -83,7 +87,7 @@ namespace HIS.Api.Tests.Integration
         }
 
         [Fact]
-        public async Task Create_ReturnsCreated()
+        public async Task A4_Create_ReturnsCreated()
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAdminClient();
@@ -109,13 +113,14 @@ namespace HIS.Api.Tests.Integration
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var resp = JsonSerializer.Deserialize<TestResponse>(responseContent);
+                dynamic obj = JObject.Parse(responseContent);
+                _doctorTestState.Id = obj.id;
             }
         }
 
 
         [Fact]
-        public async Task Update_ReturnsOk()
+        public async Task A5_Update_ReturnsOk()
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAdminClient();
@@ -132,12 +137,127 @@ namespace HIS.Api.Tests.Integration
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Act
-            var response = await client.PutAsync($"/api/v1/doctors/{createdDoctorGuid}", content);
+            var response = await client.PutAsync($"/api/v1/doctors/{_doctorTestState.Id}", content);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
+
+        [Theory]
+        [MemberData(nameof(NotExistGuids))]
+        public async Task A6_Delete_ReturnsNotFound_WhenUserDoesNotExist(Guid Id)
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAdminClient();
+
+            //Act
+            var response = await client.DeleteAsync($"/api/v1/doctors/{Id}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+
+        [Fact]
+        public async Task A7_Delete_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAdminClient();
+
+            //Act
+            var response = await client.DeleteAsync($"/api/v1/doctors/{_doctorTestState.Id}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task A8_GetAll_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAdminClient();
+
+            //Act
+            var response = await client.GetAsync($"/api/v1/doctors");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A9_AddPatientForCurrentUser_ReturnsBadRequest_WhenRecordDoesNotPrimary()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest); 
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A10_AddPatientForCurrentUser_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A11_AddPatientForDoctor_ReturnsBadRequest_WhenRecordDoesNotPrimary()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}/doctor/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        // Доделать seed-метод
+        [Fact]
+        public async Task A12_AddPatientForDoctor_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}/doctor/{}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        
+        [Fact]
+        public async Task A13_GetDoctorsPatients_ReturnsOk()
+        {
+            //Prepare
+            var client = _mockAuthApiFactory.GetAuthorizedClient();
+
+            //Act
+            var response = await client.GetAsync("/api/v1/doctors/{}/patients");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
 
         public static IEnumerable<object[]> NotExistGuids { get; } = new[]
