@@ -19,7 +19,7 @@ namespace HIS.Application.Repositories.Ratings
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token)
+        public async Task<bool> DeleteRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -31,7 +31,7 @@ namespace HIS.Application.Repositories.Ratings
             return deletedRows == 1;
         }
 
-        public async Task<float?> GetRatingAsync(Guid doctorId, CancellationToken token)
+        public async Task<float?> GetRatingAsync(Guid doctorId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -45,7 +45,7 @@ namespace HIS.Application.Repositories.Ratings
             return result.Value;
         }
 
-        public async Task<(float? Rating, int? UserRating)> GetRatingAsync(Guid doctorId, Guid userId, CancellationToken token)
+        public async Task<(float? Rating, int? UserRating)> GetRatingAsync(Guid doctorId, Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -64,7 +64,7 @@ namespace HIS.Application.Repositories.Ratings
             return (result.Item1, result.Item2);
         }
 
-        public async Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken token)
+        public async Task<IEnumerable<DoctorRating>> GetRatingsForUserAsync(Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -78,12 +78,12 @@ namespace HIS.Application.Repositories.Ratings
             return ratings;
         }
 
-        public async Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token)
+        public async Task<bool> RateDoctorAsync(Guid doctorId, int rating, Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var updatedRows = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`ratings` (UserId, DoctorId, Rating)
+                insert ignore into `HospitalInformationSystemDB`.`ratings` (UserId, DoctorId, Rating)
                 values (@userId, @doctorId, @rating)
                 on duplicate key update
                     UserId = @userId,

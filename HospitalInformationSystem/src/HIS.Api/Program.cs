@@ -7,6 +7,12 @@ using HIS.Api.Mappers;
 using HIS.Api.Swagger;
 using HIS.Application;
 using HIS.Application.Database;
+using HIS.Application.Repositories;
+using HIS.Application.Repositories.Auth;
+using HIS.Application.Repositories.Doctors;
+using HIS.Application.Repositories.Patients;
+using HIS.Application.Repositories.Ratings;
+using HIS.Application.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.OutputCaching;
@@ -74,6 +80,12 @@ builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 builder.Services.AddApplication();
 builder.Services.AddDatabase(conf["ConnectionStrings:MySqlConnectionString"]!);
 builder.Services.AddScoped<ApiKeyAuthFilter>();
+
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IRatingsRepository, RatingsRepository>();    
+
 builder.Services.AddOutputCache(c =>
 {
     c.AddBasePolicy(p => p.Cache());
@@ -82,6 +94,8 @@ builder.Services.AddOutputCache(c =>
 
 
 var app = builder.Build();
+
+await Seed.FillAsync(app.Services, conf);
 
 app.CreateApiVersionSet();
 

@@ -21,7 +21,7 @@ namespace HIS.Application.Repositories.Patients
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task<PatientDTO?> GetPatientAsync(Guid id, CancellationToken token)
+        public async Task<PatientDTO?> GetPatientAsync(Guid id, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -33,7 +33,7 @@ namespace HIS.Application.Repositories.Patients
             return result;
         }
 
-        public async Task<List<PatientDTO>?> GetAllPatientsAsync(GetAllPatientsOptions options, CancellationToken token)
+        public async Task<List<PatientDTO>?> GetAllPatientsAsync(GetAllPatientsOptions options, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -63,24 +63,24 @@ namespace HIS.Application.Repositories.Patients
             return result.ToList();
         }
 
-        public async Task<PatientDTO> CreatePatientAsync(PatientDTO patientDto, CancellationToken token)
+        public async Task<PatientDTO?> CreatePatientAsync(PatientDTO patientDto, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
             
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`patients` (Id, FirstName, LastName, Surname, Age, DiseaseList)
+                insert ignore into `HospitalInformationSystemDB`.`patients` (Id, FirstName, LastName, Surname, Age, DiseaseList)
                 values (@Id, @FirstName, @LastName, @Surname, @Age, @DiseaseList)
                 """, patientDto, cancellationToken: token));
 
             if (result != 1)
             {
-                throw new InvalidDataException("Your data is invalid.");
+                return null;
             }
 
             return patientDto;
         }
 
-        public async Task<PatientDTO> UpdatePatientAsync(PatientDTO patientDto, CancellationToken token)
+        public async Task<PatientDTO> UpdatePatientAsync(PatientDTO patientDto, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -98,7 +98,7 @@ namespace HIS.Application.Repositories.Patients
             return patientDto;
         }
 
-        public async Task<bool> DeletePatientAsync(Guid id, CancellationToken token)
+        public async Task<bool> DeletePatientAsync(Guid id, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -109,7 +109,7 @@ namespace HIS.Application.Repositories.Patients
             return result == 1 ? true : false;  
         }
 
-        public async Task<List<DoctorDTO>> GetPatientsDoctors(Guid id, CancellationToken token)
+        public async Task<List<DoctorDTO>> GetPatientsDoctors(Guid id, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -124,7 +124,7 @@ namespace HIS.Application.Repositories.Patients
             return result.ToList();
         }
 
-        public async Task<bool> IsPatientExistAsync(Guid id, CancellationToken token)
+        public async Task<bool> IsPatientExistAsync(Guid id, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -137,7 +137,7 @@ namespace HIS.Application.Repositories.Patients
             return result.Count() == 1;
         }
 
-        public async Task<bool> AddDoctorForPatientAsync(Guid DoctorId, Guid PatientId, CancellationToken token)
+        public async Task<bool> AddDoctorForPatientAsync(Guid DoctorId, Guid PatientId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -149,7 +149,7 @@ namespace HIS.Application.Repositories.Patients
             return result == 1;
         }
 
-        public async Task<int> GetPatientsCountAsync(GetAllPatientsOptions options, CancellationToken token)
+        public async Task<int> GetPatientsCountAsync(GetAllPatientsOptions options, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 

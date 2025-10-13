@@ -10,7 +10,7 @@ namespace HIS.Api.Endpoints.Patients
 
         public static IEndpointRouteBuilder MapAddDoctorForPatient(this IEndpointRouteBuilder builder)
         {
-            builder.MapGet(ApiEndpoints.Patients.AddDoctorForPatient, async (Guid DoctorId, Guid PatientId, 
+            builder.MapGet(ApiEndpoints.Patients.AddDoctorForPatient, async (Guid DoctorId, Guid PatientId,
                 IPatientService patientService, CancellationToken token) =>
             {
                 var result = await patientService.AddDoctorForPatientAsync(DoctorId, PatientId, token);
@@ -21,7 +21,7 @@ namespace HIS.Api.Endpoints.Patients
             .RequireAuthorization(AuthConstants.AdminPolicy)
             .WithName($"{Name}V2")
             .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(2.0);
+            .HasApiVersion(1.0);
 
             return builder;
         }

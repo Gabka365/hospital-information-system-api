@@ -23,14 +23,14 @@ namespace HIS.Application.Repositories.Doctors
             _mySqlConnectionFactory = mySqlConnectionFactory;
         }
 
-        public async Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token)
+        public async Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             
             var count = await connection.ExecuteAsync(new CommandDefinition(
                 """
-                insert into `HospitalInformationSystemDB`.`doctors` 
+                insert ignore into `HospitalInformationSystemDB`.`doctors` 
                 (id, FirstName, LastName, Surname, Category, Specialties, Experience) values (@id, 
                 @FirstName, @LastName, @Surname, @Category, @Specialties, @Experience)
                 """, DoctorDTO, cancellationToken: token));
@@ -38,7 +38,7 @@ namespace HIS.Application.Repositories.Doctors
             return count > 0;
         }
 
-        public async Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token)
+        public async Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -62,7 +62,7 @@ namespace HIS.Application.Repositories.Doctors
             return count == 1;
         }
 
-        public async Task<List<DoctorDTO>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token)
+        public async Task<List<DoctorDTO>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -91,7 +91,7 @@ namespace HIS.Application.Repositories.Doctors
             return result.ToList();
         }
 
-        public async Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token)
+        public async Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -109,7 +109,7 @@ namespace HIS.Application.Repositories.Doctors
             return count;
         }
 
-        public async Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token)
+        public async Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -126,7 +126,7 @@ namespace HIS.Application.Repositories.Doctors
             return DoctorDTO.SingleOrDefault();
         }
 
-        public async Task<DoctorDTO> UpdateDoctorAsync(DoctorDTO DoctorDTO, Guid userId, CancellationToken token)
+        public async Task<DoctorDTO> UpdateDoctorAsync(DoctorDTO DoctorDTO, Guid userId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -149,7 +149,7 @@ namespace HIS.Application.Repositories.Doctors
             return result.Single();
         }
 
-        public async Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token)
+        public async Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -165,7 +165,7 @@ namespace HIS.Application.Repositories.Doctors
         }
 
 
-        public async Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token)
+        public async Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
@@ -178,12 +178,12 @@ namespace HIS.Application.Repositories.Doctors
             return result.Count() == 1;
         }
 
-        public async Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token)
+        public async Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`patientsdoctors` (PatientId, DoctorId)
+                insert ignore into `HospitalInformationSystemDB`.`patientsdoctors` (PatientId, DoctorId)
                 values (@PatientId, @DoctorId)
                 """, new { PatientId, DoctorId }, cancellationToken: token));
 

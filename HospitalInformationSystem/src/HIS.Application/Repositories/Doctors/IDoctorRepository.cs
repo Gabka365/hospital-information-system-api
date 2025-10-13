@@ -10,14 +10,14 @@ namespace HIS.Application.Repositories
 {
     public interface IDoctorRepository
     {
-        Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token);
-        Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token);
-        Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token);
-        Task<DoctorDTO> UpdateDoctorAsync(DoctorDTO doctor, Guid userId, CancellationToken token);
-        Task<List<DoctorDTO>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token);
-        Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token);
-        Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token);
-        Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token);
-        Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token);
+        Task<DoctorDTO?> GetDoctorByIdAsync(Guid id, Guid userId, CancellationToken token = default);
+        Task<bool> DeleteDoctorAsync(Guid id, Guid userId, CancellationToken token = default);
+        Task<bool> CreateDoctorAsync(DoctorDTO DoctorDTO, CancellationToken token = default);
+        Task<DoctorDTO> UpdateDoctorAsync(DoctorDTO doctor, Guid userId, CancellationToken token = default);
+        Task<List<DoctorDTO>> GetAllDoctorsAsync(GetAllDoctorsOptions options, CancellationToken token = default);
+        Task<List<PatientDTO>> GetDoctorsPatientsAsync(Guid id, CancellationToken token = default);
+        Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token = default);
+        Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token = default);
+        Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token = default);
     }
 }
