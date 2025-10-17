@@ -2,11 +2,13 @@
 using HIS.Api.Endpoints.Patients;
 using HIS.Api.Tests.Integration.Helpers;
 using HIS.Api.Tests.Integration.States;
+using HIS.Application.DTOs;
 using HIS.Contracts.Enums;
 using HIS.Contracts.Requests;
 using HIS.Contracts.Requests.Doctors;
 using HIS.Contracts.Requests.Patients;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -26,6 +28,7 @@ namespace HIS.Api.Tests.Integration
     {
         private readonly MockAuthApiFactory _mockAuthApiFactory;
         private readonly PatientTestState _patientTestState;
+
 
         public PatientTests(MockAuthApiFactory mockAuthApiFactory, PatientTestState patientTestState)
         {
@@ -99,7 +102,7 @@ namespace HIS.Api.Tests.Integration
                 Surname = "TestSurname",
                 Age = 30,
                 DiseaseList = $"{DiseaseList.Asthma.ToString()}",
-                Email = "test@mail.by"
+                Email = "testadmin@mail.by"
             };
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -193,7 +196,7 @@ namespace HIS.Api.Tests.Integration
             var client = _mockAuthApiFactory.GetAuthorizedClient();
 
             //Act
-            var response = await client.GetAsync("/api/patients/add/doctor/{}");
+            var response = await client.GetAsync("/api/add/doctor/");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -208,14 +211,13 @@ namespace HIS.Api.Tests.Integration
             var client = _mockAuthApiFactory.GetAuthorizedClient();
 
             //Act
-            var response = await client.GetAsync("/api/patients/add/doctor/{}");
+            var response = await client.GetAsync("/api/add/doctor/");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
 
-        // Доделать seed-метод
         [Fact]
         public async Task A11_AddDoctorForPatient_ReturnsBadRequest_WhenRecordDoesNotPrimary()
         {
@@ -223,28 +225,28 @@ namespace HIS.Api.Tests.Integration
             var client = _mockAuthApiFactory.GetAuthorizedClient();
 
             //Act
-            var response = await client.GetAsync("/api/patients/add/doctor/{}/patient/{}");
+            var response = await client.GetAsync("/api/patients/add/doctor/adb40620-909f-4609-9781-8a353140c452/" +
+                "patient/6f88194d-a6de-41c3-9e17-890e66e248d6");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 
-        // Доделать seed-метод
         [Fact]
         public async Task A12_AddDoctorForPatient_ReturnsOk()
         {
             //Prepare
-            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            var client = _mockAuthApiFactory.GetAdminClient();
 
             //Act
-            var response = await client.GetAsync("/api/patients/add/doctor/{}/patient/{}");
+            var response = await client.GetAsync("/api/patients/add/doctor/adb40620-909f-4609-9781-8a353140c452/" +
+                "patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        // Доделать seed-метод
         [Fact]
         public async Task A13_GetPatientsDoctors_ReturnsOk()
         {
@@ -284,9 +286,8 @@ namespace HIS.Api.Tests.Integration
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { Guid.NewGuid().ToString() };
-            yield return new object[] { Guid.NewGuid().ToString() };
-            yield return new object[] { Guid.NewGuid().ToString() };
+            yield return new object[] { "ad0eebe6-64e3-45f0-a326-b3c040c0792e" };
+            yield return new object[] { "6f88194d-a6de-41c3-9e17-890e66e248d6" };
         }
 
         IEnumerator<object[]> IEnumerable<object[]>.GetEnumerator()

@@ -30,7 +30,7 @@ namespace HIS.Application.Repositories.Doctors
             
             var count = await connection.ExecuteAsync(new CommandDefinition(
                 """
-                insert into `HospitalInformationSystemDB`.`doctors` 
+                insert ignore into `HospitalInformationSystemDB`.`doctors` 
                 (id, FirstName, LastName, Surname, Category, Specialties, Experience) values (@id, 
                 @FirstName, @LastName, @Surname, @Category, @Specialties, @Experience)
                 """, DoctorDTO, cancellationToken: token));
@@ -183,7 +183,7 @@ namespace HIS.Application.Repositories.Doctors
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`patientsdoctors` (PatientId, DoctorId)
+                insert ignore into `HospitalInformationSystemDB`.`patientsdoctors` (PatientId, DoctorId)
                 values (@PatientId, @DoctorId)
                 """, new { PatientId, DoctorId }, cancellationToken: token));
 

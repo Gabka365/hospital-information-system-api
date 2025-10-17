@@ -18,24 +18,20 @@ namespace HIS.Application.Seed
     public class Seed
     {
 
-        public async Task FillAsync(IServiceProvider serviceProvider, IConfiguration configuration)
+        public static async Task FillAsync(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             using var serviceScope = serviceProvider.CreateScope();
-            
-            Task.WaitAll(new Task[]
-            {
-                FillUsersAsync(serviceScope, configuration),
-                FillDoctorsAsync(serviceScope, configuration),
-                FillPatientsAsync(serviceScope, configuration),
-                FillPatientsAsync(serviceScope, configuration),
-                FillRatingsAsync(serviceScope, configuration),
-                FillPatientsDoctorsAsync(serviceScope, configuration)
-            });
+
+            await FillUsersAsync(serviceScope, configuration);
+            await FillDoctorsAsync(serviceScope, configuration);
+            await FillPatientsAsync(serviceScope, configuration);
+            await FillRatingsAsync(serviceScope, configuration);
+            await FillPatientsDoctorsAsync(serviceScope, configuration);
         }
 
-        private async Task FillUsersAsync(IServiceScope serviceScope, IConfiguration configuration)
+        private static async Task FillUsersAsync(IServiceScope serviceScope, IConfiguration configuration)
         {
-            var authRepository = serviceScope.ServiceProvider.GetService<AuthRepository>();
+            var authRepository = serviceScope.ServiceProvider.GetRequiredService<IAuthRepository>();
             var usersData = configuration.GetSection("Seed:Auth");
 
             foreach (var userData in usersData.GetChildren())
@@ -47,9 +43,9 @@ namespace HIS.Application.Seed
             }
         }
 
-        private async Task FillDoctorsAsync(IServiceScope serviceScope, IConfiguration configuration)
+        private static async Task FillDoctorsAsync(IServiceScope serviceScope, IConfiguration configuration)
         {
-            var doctorRepository = serviceScope.ServiceProvider.GetService<DoctorRepository>();
+            var doctorRepository = serviceScope.ServiceProvider.GetService<IDoctorRepository>();
             var doctorsData = configuration.GetSection("Seed:Doctors");
 
             foreach (var userData in doctorsData.GetChildren())
@@ -60,9 +56,9 @@ namespace HIS.Application.Seed
             }
         }
 
-        private async Task FillPatientsAsync(IServiceScope serviceScope, IConfiguration configuration)
+        private static async Task FillPatientsAsync(IServiceScope serviceScope, IConfiguration configuration)
         {
-            var patientRepository = serviceScope.ServiceProvider.GetService<PatientRepository>();
+            var patientRepository = serviceScope.ServiceProvider.GetService<IPatientRepository>();
             var patientsData = configuration.GetSection("Seed:Patients");
 
             foreach (var userData in patientsData.GetChildren())
@@ -74,9 +70,9 @@ namespace HIS.Application.Seed
             }
         }
 
-        private async Task FillRatingsAsync(IServiceScope serviceScope, IConfiguration configuration)
+        private static async Task FillRatingsAsync(IServiceScope serviceScope, IConfiguration configuration)
         {
-            var ratingsRepository = serviceScope.ServiceProvider.GetService<RatingsRepository>();
+            var ratingsRepository = serviceScope.ServiceProvider.GetService<IRatingsRepository>();
             var usersData = configuration.GetSection("Seed:Auth").GetChildren();
             var doctorsData = configuration.GetSection("Seed:Doctors").GetChildren();
 
@@ -91,9 +87,9 @@ namespace HIS.Application.Seed
             }
         }
 
-        private async Task FillPatientsDoctorsAsync(IServiceScope serviceScope, IConfiguration configuration)
+        private static async Task FillPatientsDoctorsAsync(IServiceScope serviceScope, IConfiguration configuration)
         {
-            var doctorRepository = serviceScope.ServiceProvider.GetService<DoctorRepository>();
+            var doctorRepository = serviceScope.ServiceProvider.GetService<IDoctorRepository>();
             var patientsData = configuration.GetSection("Seed:Patients").GetChildren();
             var doctorsData = configuration.GetSection("Seed:Doctors").GetChildren();
 

@@ -83,7 +83,7 @@ namespace HIS.Application.Repositories.Ratings
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var updatedRows = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`ratings` (UserId, DoctorId, Rating)
+                insert ignore into `HospitalInformationSystemDB`.`ratings` (UserId, DoctorId, Rating)
                 values (@userId, @doctorId, @rating)
                 on duplicate key update
                     UserId = @userId,

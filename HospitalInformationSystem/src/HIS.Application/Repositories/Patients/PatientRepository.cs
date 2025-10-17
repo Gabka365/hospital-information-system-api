@@ -63,18 +63,18 @@ namespace HIS.Application.Repositories.Patients
             return result.ToList();
         }
 
-        public async Task<PatientDTO> CreatePatientAsync(PatientDTO patientDto, CancellationToken token = default)
+        public async Task<PatientDTO?> CreatePatientAsync(PatientDTO patientDto, CancellationToken token = default)
         {
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
             
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`patients` (Id, FirstName, LastName, Surname, Age, DiseaseList)
+                insert ignore into `HospitalInformationSystemDB`.`patients` (Id, FirstName, LastName, Surname, Age, DiseaseList)
                 values (@Id, @FirstName, @LastName, @Surname, @Age, @DiseaseList)
                 """, patientDto, cancellationToken: token));
 
             if (result != 1)
             {
-                throw new InvalidDataException("Your data is invalid.");
+                return null;
             }
 
             return patientDto;
