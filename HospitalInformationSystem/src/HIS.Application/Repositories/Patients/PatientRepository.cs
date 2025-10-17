@@ -142,7 +142,7 @@ namespace HIS.Application.Repositories.Patients
             var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
 
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into `HospitalInformationSystemDB`.`patientsdoctors` (DoctorId, PatientId)
+                insert ignore into `HospitalInformationSystemDB`.`patientsdoctors` (DoctorId, PatientId)
                 values (@DoctorId, @PatientId)
                 """, new { DoctorId, PatientId }, cancellationToken: token));
 
@@ -163,6 +163,19 @@ namespace HIS.Application.Repositories.Patients
                 """, options, cancellationToken: token));
 
             return count;
+        }
+
+        public async Task<bool> DeletePatientDoctorAsync(Guid DoctorId, Guid PatientId, CancellationToken token = default)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.ExecuteAsync(new CommandDefinition("""
+                delete from `HospitalInformationSystemDB`.`patientsdoctors` 
+                where PatientId=@PatientId
+                and DoctorId=@DoctorId
+                """, new { DoctorId, PatientId }, cancellationToken: token));
+
+            return result == 1 ? true : false;
         }
     }
 }

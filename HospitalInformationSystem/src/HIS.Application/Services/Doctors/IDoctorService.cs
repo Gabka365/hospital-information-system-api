@@ -18,5 +18,6 @@ namespace HIS.Application.Services.Doctors
         Task<Guid?> GetUserIdByEmail(string email, CancellationToken token);
         Task<bool> AddPatientForDoctorAsync(Guid patientId, Guid doctorId, CancellationToken token);
         Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token);
+        Task<bool> DeleteDoctorPatientAsync(Guid doctorId, Guid patientId, CancellationToken token);
     }
 }

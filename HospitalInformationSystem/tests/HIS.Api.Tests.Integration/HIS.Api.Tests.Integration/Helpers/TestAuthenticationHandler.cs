@@ -29,12 +29,24 @@ namespace HIS.Api.Tests.Integration.Helpers
         {
             var claims = new List<Claim>();
 
-            if(Context.Request.Headers.TryGetValue("role", out var roles))
+            if(Context.Request.Headers.TryGetValue(AuthConstants.TrustedMemberPolicy, out var isTrustedMember))
             {
-                claims.Add(new Claim(ClaimTypes.Role, roles[0]!));
+                claims.Add(new Claim(AuthConstants.TrustedClaimType, isTrustedMember!));
             }
 
-            claims.Add(new("UserId", Guid.NewGuid().ToString()));
+            if(Context.Request.Headers.TryGetValue("IsDoctor", out var isDoctor))
+            {
+                claims.Add(new("UserId", "403ea9d0-b273-451a-bc50-a3494e2c0345"));
+            }
+            else if(Context.Request.Headers.TryGetValue("IsPatient", out var isPatient))
+            {
+                claims.Add(new("UserId", "ad0eebe6-64e3-45f0-a326-b3c040c0792e"));
+            }
+            else
+            {
+                claims.Add(new("UserId", Guid.NewGuid().ToString()));
+            }
+
             claims.Add(new("UserName", "Test"));
             claims.Add(new("Email", "test@mail.by"));
             

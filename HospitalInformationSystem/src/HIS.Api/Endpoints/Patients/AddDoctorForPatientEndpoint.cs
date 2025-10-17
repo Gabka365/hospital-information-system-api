@@ -15,13 +15,18 @@ namespace HIS.Api.Endpoints.Patients
             {
                 var result = await patientService.AddDoctorForPatientAsync(DoctorId, PatientId, token);
 
+                if (result == false)
+                {
+                    return Results.BadRequest();
+                }
+
                 return TypedResults.Ok(result);
             })
             .Produces<PatientsResponseWithoutPagination>(StatusCodes.Status200OK)
             .RequireAuthorization(AuthConstants.AdminPolicy)
             .WithName($"{Name}V2")
             .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(1.0);
+            .HasApiVersion(2.0);
 
             return builder;
         }

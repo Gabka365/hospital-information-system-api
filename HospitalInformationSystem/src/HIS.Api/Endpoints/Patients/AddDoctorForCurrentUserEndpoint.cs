@@ -28,7 +28,7 @@ namespace HIS.Api.Endpoints.Patients
             .Produces(StatusCodes.Status404NotFound)
             .WithName($"{Name}V2")
             .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(1.0);
+            .HasApiVersion(2.0);
 
             return builder;
         }

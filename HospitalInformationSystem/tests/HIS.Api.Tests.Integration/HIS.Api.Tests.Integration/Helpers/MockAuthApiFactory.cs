@@ -67,6 +67,7 @@ namespace HIS.Api.Tests.Integration.Helpers
                 new AuthenticationHeaderValue(TestAuthenticationSchemeProvider.Name);
 
             client.DefaultRequestHeaders.Add(AuthConstants.ApiKeyHeaderName, "123");
+            client.DefaultRequestHeaders.Add(AuthConstants.TrustedMemberPolicy, "true");
 
             return client;
         }

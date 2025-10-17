@@ -99,7 +99,7 @@ namespace HIS.Api.Tests.Integration
                 Specialties = new List<Speciality> { Speciality.Cardiologist },
                 Category = Category.First,
                 Experience = 10,
-                Email = "test@mail.by",
+                Email = "testadmin@mail.by",
             };
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -185,64 +185,75 @@ namespace HIS.Api.Tests.Integration
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-
-        // Доделать seed-метод
         [Fact]
         public async Task A9_AddPatientForCurrentUser_ReturnsBadRequest_WhenRecordDoesNotPrimary()
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAuthorizedClient();
-            
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
+            client.DefaultRequestHeaders.Add("IsDoctor", "true");
+
             //Act
-            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}");
+            var response = await client.GetAsync("/api/v2/doctors/add/patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest); 
         }
 
 
-        // Доделать seed-метод
         [Fact]
         public async Task A10_AddPatientForCurrentUser_ReturnsOk()
         {
             //Prepare
-            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            var client = _mockAuthApiFactory.GetAdminClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
+            client.DefaultRequestHeaders.Add("IsDoctor", "true");
 
             //Act
-            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}");
+            var response = await client.GetAsync("/api/v2/doctors/add/patient/6f88194d-a6de-41c3-9e17-890e66e248d6");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Cleanup
+            await client.DeleteAsync("/api/patients/delete/doctor/403ea9d0-b273-451a-bc50-a3494e2c0345/" +
+                "patient/6f88194d-a6de-41c3-9e17-890e66e248d6");
         }
 
 
-        // Доделать seed-метод
         [Fact]
         public async Task A11_AddPatientForDoctor_ReturnsBadRequest_WhenRecordDoesNotPrimary()
         {
             //Prepare
-            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            var client = _mockAuthApiFactory.GetAdminClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
 
             //Act
-            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}/doctor/{}");
+            var response = await client.GetAsync("/api/v2/doctors/add/patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e/" +
+                "doctor/403ea9d0-b273-451a-bc50-a3494e2c0345");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 
-        // Доделать seed-метод
         [Fact]
         public async Task A12_AddPatientForDoctor_ReturnsOk()
         {
             //Prepare
-            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            var client = _mockAuthApiFactory.GetAdminClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
 
             //Act
-            var response = await client.GetAsync("/api/v1/doctors/add/patient/{}/doctor/{}");
+            var response = await client.GetAsync("/api/v2/doctors/add/patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e/" +
+                "doctor/adb40620-909f-4609-9781-8a353140c452");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Cleanup
+            await client.DeleteAsync("/api/v2/doctors/delete/patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e/" +
+                "doctor/adb40620-909f-4609-9781-8a353140c452");
         }
 
         
@@ -251,9 +262,10 @@ namespace HIS.Api.Tests.Integration
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAuthorizedClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
 
             //Act
-            var response = await client.GetAsync("/api/v1/doctors/{}/patients");
+            var response = await client.GetAsync("/api/v2/doctors/403ea9d0-b273-451a-bc50-a3494e2c0345/patients");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -269,9 +281,8 @@ namespace HIS.Api.Tests.Integration
 
         public static IEnumerable<object[]> ExistGuids { get; } = new[]
         {
-            new[] { "0715a0b3-85e8-4d6d-b502-0aae4fb6ca37" },
-            new[] { "17ab799c-514a-485d-97d9-3363e2e62db3" },
-            new[] { "c0f10d02-66d2-4cc9-baef-631d6b73fcac" }
+            new[] { "403ea9d0-b273-451a-bc50-a3494e2c0345" },
+            new[] { "adb40620-909f-4609-9781-8a353140c452" }
         };
 
     }

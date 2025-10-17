@@ -190,5 +190,18 @@ namespace HIS.Application.Repositories.Doctors
             return result == 1;
 
         }
+
+        public async Task<bool> DeleteDoctorPatientAsync(Guid doctorId, Guid patientId, CancellationToken token)
+        {
+            var connection = await _mySqlConnectionFactory.CreateConnectionAsync(token);
+
+            var result = await connection.ExecuteAsync(new CommandDefinition("""
+                delete from `HospitalInformationSystemDB`.`patientsdoctors` 
+                where PatientId=@patientId
+                and DoctorId=@doctorId
+                """, new { doctorId, patientId }, cancellationToken: token));
+
+            return result == 1 ? true : false;
+        }
     }
 }

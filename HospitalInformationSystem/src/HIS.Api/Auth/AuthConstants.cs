@@ -13,7 +13,7 @@
 
         public const string AdminUserName = "admin";
 
-        public const string AdminId = "b17340d0-cb7d-49a1-b48a-ec535d83eb0b";
+        public const string AdminId = "99c2c385-4e8b-46a2-abba-74f2c1f62344";
 
         public const string ApiKeyHeaderName = "x-api-key";
     }

@@ -37,6 +37,7 @@ namespace HIS.Api
                 public const string GetDoctorsPatients = $"{Base}/{{id:guid}}/patients";
                 public const string AddPatientForDoctor = $"{Base}/add/patient/{{PatientId:guid}}/doctor/{{DoctorId:guid}}";
                 public const string AddPatientForCurrentUser = $"{Base}/add/patient/{{patientId:guid}}";
+                public const string DeleteDoctorPatient = $"{Base}/delete/patient/{{PatientId:guid}}/doctor/{{DoctorId:guid}}";
             }
         }
 
@@ -55,6 +56,7 @@ namespace HIS.Api
             public const string GetPatientsDoctors = $"{Base}/{{id:guid}}/doctors";
             public const string AddDoctorForPatient = $"{Base}/add/doctor/{{DoctorId:guid}}/patient/{{PatientId:guid}}";
             public const string AddDoctorForCurrentUser = $"{Base}/add/doctor/{{doctorId:guid}}";
+            public const string DeletePatientDoctor = $"{Base}/delete/doctor/{{DoctorId:guid}}/patient/{{PatientId:guid}}";
         }
 
         public static class Auth

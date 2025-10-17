@@ -134,5 +134,26 @@ namespace HIS.Application.Services.Patients
 
             return result;
         }
+
+        public async Task<bool> DeletePatientDoctorAsync(Guid DoctorId, Guid PatientId, CancellationToken token)
+        {
+            var specifiedDoctor = await _doctorRepository.IsDoctorExistAsync(DoctorId, token);
+
+            if (!specifiedDoctor)
+            {
+                throw new InvalidDataException($"Not correct doctorID: {DoctorId}");
+            }
+
+            var specifiedPatient = await _patientRepository.IsPatientExistAsync(PatientId, token);
+
+            if (!specifiedPatient)
+            {
+                throw new InvalidDataException($"Not correct patientID: {PatientId}");
+            }
+
+            var result = await _patientRepository.DeletePatientDoctorAsync(DoctorId, PatientId, token);
+
+            return result;
+        }
     }
 }

@@ -188,33 +188,39 @@ namespace HIS.Api.Tests.Integration
         }
 
 
-        // Доделать seed-метод
         [Fact]
         public async Task A9_AddDoctorForCurrentUser_ReturnsBadRequest_WhenRecordDoesNotPrimary()
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAuthorizedClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
+            client.DefaultRequestHeaders.Add("IsPatient", "true");
 
             //Act
-            var response = await client.GetAsync("/api/add/doctor/");
+            var response = await client.GetAsync("/api/patients/add/doctor/403ea9d0-b273-451a-bc50-a3494e2c0345");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 
-        // Доделать seed-метод
         [Fact]
-        public async Task A10_AddPatientForCurrentUser_ReturnsOk()
+        public async Task A10_AddDoctorForCurrentUser_ReturnsOk()
         {
             //Prepare
-            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            var client = _mockAuthApiFactory.GetAdminClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
+            client.DefaultRequestHeaders.Add("IsPatient", "true");
 
             //Act
-            var response = await client.GetAsync("/api/add/doctor/");
+            var response = await client.GetAsync("/api/patients/add/doctor/adb40620-909f-4609-9781-8a353140c452");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Cleanup
+            await client.DeleteAsync("/api/patients/delete/doctor/adb40620-909f-4609-9781-8a353140c452/" +
+                "patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e");
         }
 
 
@@ -222,7 +228,8 @@ namespace HIS.Api.Tests.Integration
         public async Task A11_AddDoctorForPatient_ReturnsBadRequest_WhenRecordDoesNotPrimary()
         {
             //Prepare
-            var client = _mockAuthApiFactory.GetAuthorizedClient();
+            var client = _mockAuthApiFactory.GetAdminClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
 
             //Act
             var response = await client.GetAsync("/api/patients/add/doctor/adb40620-909f-4609-9781-8a353140c452/" +
@@ -238,6 +245,7 @@ namespace HIS.Api.Tests.Integration
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAdminClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
 
             //Act
             var response = await client.GetAsync("/api/patients/add/doctor/adb40620-909f-4609-9781-8a353140c452/" +
@@ -245,6 +253,10 @@ namespace HIS.Api.Tests.Integration
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            //Cleanup
+            await client.DeleteAsync("/api/patients/delete/doctor/adb40620-909f-4609-9781-8a353140c452/" +
+                "patient/ad0eebe6-64e3-45f0-a326-b3c040c0792e"); 
         }
 
         [Fact]
@@ -252,9 +264,10 @@ namespace HIS.Api.Tests.Integration
         {
             //Prepare
             var client = _mockAuthApiFactory.GetAuthorizedClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json;api-version=2.0");
 
             //Act
-            var response = await client.GetAsync("/api/patients/{}/doctors");
+            var response = await client.GetAsync("/api/patients/ad0eebe6-64e3-45f0-a326-b3c040c0792e/doctors");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

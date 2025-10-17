@@ -19,5 +19,6 @@ namespace HIS.Application.Repositories
         Task<bool> IsDoctorExistAsync(Guid id, CancellationToken token = default);
         Task<bool> AddPatientForDoctorAsync(Guid PatientId, Guid DoctorId, CancellationToken token = default);
         Task<int> GetDoctorsCountAsync(GetAllDoctorsOptions options, CancellationToken token = default);
+        Task<bool> DeleteDoctorPatientAsync(Guid doctorId, Guid patientId, CancellationToken token);
     }
 }
